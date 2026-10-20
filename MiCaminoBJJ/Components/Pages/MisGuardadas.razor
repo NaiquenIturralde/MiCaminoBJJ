@@ -1,0 +1,138 @@
+@page "/mis-guardadas"
+@inject ISessionService SessionService
+@inject ISavedTechniqueService SavedTechniqueService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando tus favoritas..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadData" />
+}
+else
+{
+    <div class="saved-techniques-page">
+        @* Header *@
+        <div class="saved-header">
+            <div class="saved-header-top">
+                <a href="/tecnicas" class="btn btn-ghost btn-small">← Técnicas</a>
+            </div>
+            <h1>Mis Favoritas ★</h1>
+            <p class="text-muted">@_savedTechniques.Count técnica@( _savedTechniques.Count != 1 ? "s" : "") favorita@( _savedTechniques.Count != 1 ? "s" : "")</p>
+        </div>
+
+        @* Listado *@
+        @if (_savedTechniques.Count == 0)
+        {
+            <EmptyState
+                Icon="☆"
+                Title="Sin técnicas favoritas"
+                Description="Guardá tus técnicas favoritas desde su detalle para encontrarlas acá." />
+        }
+        else
+        {
+            <div class="techniques-grid">
+                @foreach (var saved in _savedTechniques)
+                {
+                    <div class="technique-card">
+                        <a href="/tecnicas/@saved.Technique.Id" class="technique-card-link">
+                            <div class="technique-card-image">
+                                <span class="technique-card-image-placeholder">🥋</span>
+                            </div>
+                            <div class="technique-card-content">
+                                <h3 class="technique-card-name">@saved.Technique.Name</h3>
+                                <p class="technique-card-description">@saved.Technique.Description</p>
+                                <div class="technique-card-meta">
+                                    <span class="badge badge-gold">@saved.Technique.Belt.Name</span>
+                                    <span class="badge badge-surface">@saved.Technique.Category.Name</span>
+                                    <span class="badge badge-surface">@saved.Technique.Position.Name</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="technique-card-actions">
+                            <button class="btn btn-ghost btn-small btn-danger-text"
+                                    @onclick="() => RemoveSavedAsync(saved)"
+                                    disabled="@_isRemoving">
+                                ✕ Quitar
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<SavedTechnique> _savedTechniques = new();
+    private bool _isLoading = true;
+    private bool _hasError = false;
+    private string _errorMessage = string.Empty;
+    private bool _isRemoving = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _hasError = false;
+        StateHasChanged();
+
+        try
+        {
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            if (!userId.HasValue)
+            {
+                Navigation.NavigateTo("/login");
+                return;
+            }
+
+            _savedTechniques = await SavedTechniqueService.GetByUserAsync(userId.Value);
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudieron cargar tus técnicas favoritas.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task RemoveSavedAsync(SavedTechnique saved)
+    {
+        if (_isRemoving) return;
+
+        _isRemoving = true;
+        StateHasChanged();
+
+        try
+        {
+            await SavedTechniqueService.RemoveAsync(saved.Id);
+            _savedTechniques.Remove(saved);
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudo quitar la técnica de favoritas.";
+        }
+        finally
+        {
+            _isRemoving = false;
+            StateHasChanged();
+        }
+    }
+}

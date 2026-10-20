@@ -1,0 +1,282 @@
+@page "/admin/tecnicas/nueva"
+@page "/admin/tecnicas/editar/{Id:int}"
+@inject ISessionService SessionService
+@inject ITechniqueService TechniqueService
+@inject IBeltService BeltService
+@inject ICategoryService CategoryService
+@inject IPositionService PositionService
+@inject NavigationManager Navigation
+
+@if (_isCheckingRole)
+{
+    <LoadingSpinner Message="Verificando permisos..." />
+}
+else if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando formulario..." />
+}
+else
+{
+    <div class="admin-page">
+        <div class="admin-header">
+            <div class="admin-header-top">
+                <a href="/admin/tecnicas" class="btn btn-ghost btn-small">← Técnicas</a>
+            </div>
+            <h1>@(Id.HasValue ? "Editar técnica ✏️" : "Nueva técnica ➕")</h1>
+        </div>
+
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <div class="alert alert-danger">@_errorMessage</div>
+        }
+
+        <EditForm Model="_model" OnValidSubmit="HandleSave">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <InputText class="form-control" @bind-Value="_model.Name" />
+                <ValidationMessage For="() => _model.Name" />
+            </div>
+
+            <div class="form-group">
+                <label>Descripción</label>
+                <InputTextArea class="form-control" @bind-Value="_model.Description" />
+                <ValidationMessage For="() => _model.Description" />
+            </div>
+
+            <div class="form-group">
+                <label>Objetivo</label>
+                <InputTextArea class="form-control" @bind-Value="_model.Objective" />
+                <ValidationMessage For="() => _model.Objective" />
+            </div>
+
+            <div class="form-group">
+                <label>Cinturón</label>
+                <InputSelect class="form-control" @bind-Value="_model.BeltId">
+                    <option value="0">Selecciona un cinturón</option>
+                    @foreach (var belt in _belts)
+                    {
+                        <option value="@belt.Id">@belt.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => _model.BeltId" />
+            </div>
+
+            <div class="form-group">
+                <label>Categoría</label>
+                <InputSelect class="form-control" @bind-Value="_model.CategoryId">
+                    <option value="0">Selecciona una categoría</option>
+                    @foreach (var category in _categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => _model.CategoryId" />
+            </div>
+
+            <div class="form-group">
+                <label>Posición</label>
+                <InputSelect class="form-control" @bind-Value="_model.PositionId">
+                    <option value="0">Selecciona una posición</option>
+                    @foreach (var position in _positions)
+                    {
+                        <option value="@position.Id">@position.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => _model.PositionId" />
+            </div>
+
+            <div class="form-group">
+                <label>Pasos (un paso por línea)</label>
+                <textarea class="form-control" rows="5" @bind="_stepsText" placeholder="Paso 1&#10;Paso 2&#10;Paso 3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Consejos (un consejo por línea)</label>
+                <textarea class="form-control" rows="4" @bind="_tipsText" placeholder="Consejo 1&#10;Consejo 2"></textarea>
+            </div>
+
+            <div class="admin-form-actions">
+                <button class="btn btn-primary btn-block" type="submit" disabled="@_isSaving">
+                    @if (_isSaving)
+                    {
+                        <span>Guardando...</span>
+                    }
+                    else
+                    {
+                        <span>Guardar técnica</span>
+                    }
+                </button>
+            </div>
+        </EditForm>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private AdminTecnicaModel _model = new();
+    private List<Belt> _belts = new();
+    private List<TechniqueCategory> _categories = new();
+    private List<Position> _positions = new();
+    private string _stepsText = string.Empty;
+    private string _tipsText = string.Empty;
+    private bool _isCheckingRole = true;
+    private bool _isLoading = true;
+    private bool _isSaving = false;
+    private string? _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userId = await SessionService.GetCurrentUserIdAsync();
+        if (!userId.HasValue)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        var role = await SessionService.GetUserRoleAsync();
+        if (role != UserRole.Administrador)
+        {
+            Navigation.NavigateTo("/inicio");
+            return;
+        }
+
+        _isCheckingRole = false;
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            _belts = await BeltService.GetAllAsync();
+            _categories = await CategoryService.GetAllAsync();
+            _positions = await PositionService.GetAllAsync();
+
+            if (Id.HasValue)
+            {
+                var technique = await TechniqueService.GetByIdAsync(Id.Value);
+                if (technique != null)
+                {
+                    _model = new AdminTecnicaModel
+                    {
+                        Name = technique.Name,
+                        Description = technique.Description,
+                        Objective = technique.Objective,
+                        BeltId = technique.BeltId,
+                        CategoryId = technique.CategoryId,
+                        PositionId = technique.PositionId
+                    };
+
+                    _stepsText = JsonArrayToLines(technique.Steps);
+                    _tipsText = JsonArrayToLines(technique.Tips);
+                }
+            }
+        }
+        catch
+        {
+            _errorMessage = "No se pudieron cargar los datos del formulario.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleSave()
+    {
+        _isSaving = true;
+        _errorMessage = null;
+        StateHasChanged();
+
+        var stepsJson = LinesToJsonArray(_stepsText);
+        var tipsJson = LinesToJsonArray(_tipsText);
+
+        try
+        {
+            if (Id.HasValue)
+            {
+                await TechniqueService.UpdateAsync(
+                    Id.Value,
+                    _model.Name, _model.Description, _model.Objective,
+                    stepsJson, tipsJson,
+                    _model.BeltId, _model.CategoryId, _model.PositionId);
+
+                Navigation.NavigateTo($"/admin/tecnicas/{Id.Value}/media");
+            }
+            else
+            {
+                var created = await TechniqueService.CreateAsync(
+                    _model.Name, _model.Description, _model.Objective,
+                    stepsJson, tipsJson,
+                    _model.BeltId, _model.CategoryId, _model.PositionId);
+
+                Navigation.NavigateTo($"/admin/tecnicas/{created.Id}/media");
+            }
+        }
+        catch
+        {
+            _errorMessage = "No se pudo guardar la técnica. Verificá los campos e intentá de nuevo.";
+        }
+        finally
+        {
+            _isSaving = false;
+            StateHasChanged();
+        }
+    }
+
+    private string JsonArrayToLines(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return string.Empty;
+
+        try
+        {
+            var items = System.Text.Json.JsonSerializer.Deserialize<List<string>>(json);
+            return items == null ? string.Empty : string.Join("\n", items);
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+
+    private string LinesToJsonArray(string text)
+    {
+        var lines = text
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(l => l.Trim())
+            .Where(l => !string.IsNullOrWhiteSpace(l))
+            .ToList();
+
+        return System.Text.Json.JsonSerializer.Serialize(lines);
+    }
+
+    private class AdminTecnicaModel
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El nombre es obligatorio.")]
+        public string Name { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "La descripción es obligatoria.")]
+        public string Description { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El objetivo es obligatorio.")]
+        public string Objective { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Range(1, int.MaxValue, ErrorMessage = "Debés seleccionar un cinturón.")]
+        public int BeltId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Range(1, int.MaxValue, ErrorMessage = "Debés seleccionar una categoría.")]
+        public int CategoryId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Range(1, int.MaxValue, ErrorMessage = "Debés seleccionar una posición.")]
+        public int PositionId { get; set; }
+    }
+}

@@ -1,0 +1,12 @@
+<div class="loading-container">
+    <div class="loading-spinner"></div>
+    @if (!string.IsNullOrEmpty(Message))
+    {
+        <p style="color: var(--text-muted); font-size: var(--font-size-sm);">@Message</p>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? Message { get; set; }
+}

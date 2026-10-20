@@ -1,0 +1,147 @@
+@page "/admin/tecnicas"
+@inject ISessionService SessionService
+@inject ITechniqueService TechniqueService
+@inject NavigationManager Navigation
+
+@if (_isCheckingRole)
+{
+    <LoadingSpinner Message="Verificando permisos..." />
+}
+else if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando técnicas..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadData" />
+}
+else
+{
+    <div class="admin-page">
+        <div class="admin-header">
+            <div class="admin-header-top">
+                <a href="/inicio" class="btn btn-ghost btn-small">← Inicio</a>
+            </div>
+            <h1>Administrar técnicas ⚙️</h1>
+            <p class="text-muted">@_techniques.Count técnicas en total</p>
+        </div>
+
+        <div class="admin-actions">
+            <a href="/admin/tecnicas/nueva" class="btn btn-primary btn-block">
+                + Agregar técnica
+            </a>
+        </div>
+
+        @if (_techniques.Count == 0)
+        {
+            <EmptyState Icon="📚" Title="Sin técnicas" Description="No hay técnicas aún. Agregá la primera." />
+        }
+        else
+        {
+            <div class="admin-techniques-list">
+                @foreach (var technique in _techniques)
+                {
+                    <div class="admin-technique-card @(technique.IsActive ? "" : "inactive")">
+                        <div class="admin-technique-card-header">
+                            <div>
+                                <h3 class="admin-technique-name">@technique.Name</h3>
+                                <div class="admin-technique-meta">
+                                    <span class="badge badge-gold">@technique.Belt.Name</span>
+                                    <span class="badge badge-surface">@technique.Category.Name</span>
+                                    <span class="badge badge-surface">@technique.Position.Name</span>
+                                </div>
+                            </div>
+                            @if (technique.IsActive)
+                            {
+                                <span class="badge badge-active">Activa</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-inactive">Inactiva</span>
+                            }
+                        </div>
+
+                        <p class="admin-technique-desc">@technique.Description</p>
+
+                        <div class="admin-technique-actions">
+                            <a href="/admin/tecnicas/editar/@technique.Id" class="btn btn-ghost btn-small">Editar</a>
+                            <a href="/admin/tecnicas/@technique.Id/media" class="btn btn-ghost btn-small">Multimedia</a>
+                            @if (technique.IsActive)
+                            {
+                                <button class="btn btn-ghost btn-small btn-danger-text" @onclick="() => ToggleActiveAsync(technique)">Ocultar</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-ghost btn-small btn-success-text" @onclick="() => ToggleActiveAsync(technique)">Restaurar</button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<Technique> _techniques = new();
+    private bool _isCheckingRole = true;
+    private bool _isLoading = true;
+    private bool _hasError = false;
+    private string _errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckRoleAsync();
+        if (!_isCheckingRole)
+            await LoadData();
+    }
+
+    private async Task CheckRoleAsync()
+    {
+        _isCheckingRole = true;
+        var userId = await SessionService.GetCurrentUserIdAsync();
+        if (!userId.HasValue)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        var role = await SessionService.GetUserRoleAsync();
+        if (role != UserRole.Administrador)
+        {
+            Navigation.NavigateTo("/inicio");
+            return;
+        }
+
+        _isCheckingRole = false;
+        StateHasChanged();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _hasError = false;
+        StateHasChanged();
+
+        try
+        {
+            _techniques = await TechniqueService.GetAllForAdminAsync();
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudieron cargar las técnicas.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleActiveAsync(Technique technique)
+    {
+        await TechniqueService.SetActiveAsync(technique.Id, !technique.IsActive);
+        await LoadData();
+    }
+}

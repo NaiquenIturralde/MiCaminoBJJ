@@ -1,0 +1,107 @@
+@page "/login"
+@inject ISessionService SessionService
+@inject IUserService UserService
+@inject NavigationManager Navigation
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Iniciar Sesión</h2>
+
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <div class="alert alert-danger">@_errorMessage</div>
+        }
+
+        <EditForm Model="_model" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="_model.Email" />
+                <ValidationMessage For="() => _model.Email" />
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <InputText class="form-control" type="password" @bind-Value="_model.Password" />
+                <ValidationMessage For="() => _model.Password" />
+            </div>
+
+            <button class="btn btn-primary btn-block" type="submit" disabled="@_isLoading">
+                @if (_isLoading)
+                {
+                    <span class="spinner"></span>
+                }
+                else
+                {
+                    <span>Ingresar</span>
+                }
+            </button>
+        </EditForm>
+
+        <div class="auth-footer">
+            ¿No tienes cuenta? <a href="/registro">Regístrate</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel _model = new();
+    private bool _isLoading = false;
+    private string? _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/inicio");
+        }
+    }
+
+    private async Task HandleLogin()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            var isValid = await UserService.ValidateCredentialsAsync(_model.Email, _model.Password);
+            if (!isValid)
+            {
+                _errorMessage = "Email o contraseña incorrectos.";
+                return;
+            }
+
+            var user = await UserService.GetByEmailAsync(_model.Email);
+            if (user == null)
+            {
+                _errorMessage = "Error al obtener los datos del usuario.";
+                return;
+            }
+
+            await SessionService.SetCurrentUserIdAsync(user.Id);
+            Navigation.NavigateTo("/inicio");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "Ha ocurrido un error inesperado. Por favor, intenta de nuevo.";
+            // Optionally log ex
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    public class LoginModel
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El email es obligatorio.")]
+        [System.ComponentModel.DataAnnotations.EmailAddress(ErrorMessage = "El formato del email no es válido.")]
+        public string Email { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "La contraseña es obligatoria.")]
+        public string Password { get; set; } = string.Empty;
+    }
+}

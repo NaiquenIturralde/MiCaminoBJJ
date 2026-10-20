@@ -1,0 +1,19 @@
+﻿@page "/not-found"
+@layout MainLayout
+@inject NavigationManager Navigation
+
+<div class="page-not-found">
+
+@code {
+    private void GoHome()
+    {
+        Navigation.NavigateTo("/");
+    }
+}
+<div class="not-found-icon">404</div>
+<h2 class="not-found-title">Pagina no encontrada</h2>
+<p class="not-found-text">La pagina que estas buscando no existe o ha sido movida.</p>
+<button class="btn btn-primary" @onclick="GoHome">
+    Volver al inicio
+</button>
+</div>

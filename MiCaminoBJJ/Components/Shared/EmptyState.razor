@@ -1,0 +1,29 @@
+<div class="empty-state">
+    <div class="empty-state-icon">@Icon</div>
+    <h3 class="empty-state-title">@Title</h3>
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <p class="empty-state-text">@Description</p>
+    }
+    @if (!string.IsNullOrEmpty(ActionText))
+    {
+        <button class="btn btn-primary" @onclick="Action">@ActionText</button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Icon { get; set; } = "📭";
+
+    [Parameter]
+    public string Title { get; set; } = "Sin datos";
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public string? ActionText { get; set; }
+
+    [Parameter]
+    public EventCallback Action { get; set; }
+}

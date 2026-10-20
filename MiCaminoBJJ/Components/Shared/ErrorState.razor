@@ -1,0 +1,26 @@
+<div class="error-state">
+    <div class="error-state-icon">⚠</div>
+    <h3 class="empty-state-title">@Title</h3>
+    @if (!string.IsNullOrEmpty(Message))
+    {
+        <p class="empty-state-text">@Message</p>
+    }
+    @if (ShowRetry)
+    {
+        <button class="btn btn-primary" @onclick="Retry">Intentar de nuevo</button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Algo salió mal";
+
+    [Parameter]
+    public string? Message { get; set; }
+
+    [Parameter]
+    public bool ShowRetry { get; set; } = true;
+
+    [Parameter]
+    public EventCallback Retry { get; set; }
+}

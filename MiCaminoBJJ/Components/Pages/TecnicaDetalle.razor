@@ -1,0 +1,271 @@
+@page "/tecnicas/{Id:int}"
+@inject ISessionService SessionService
+@inject ITechniqueService TechniqueService
+@inject ISavedTechniqueService SavedTechniqueService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando técnica..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadData" />
+}
+else if (_technique == null)
+{
+    <div class="technique-detail-page">
+        <EmptyState Icon="❓" Title="Técnica no encontrada" Description="La técnica que buscás no existe o fue eliminada." />
+        <div class="technique-detail-back">
+            <a href="/tecnicas" class="btn btn-outline">← Volver a técnicas</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="technique-detail-page">
+        @* Header con imagen *@
+        <div class="technique-detail-hero">
+            <div class="technique-detail-image">
+                <span class="technique-detail-image-placeholder">🥋</span>
+            </div>
+        </div>
+
+        @* Multimedia *@
+        @if (_technique.OfficialMedia.Any())
+        {
+            <div class="technique-media">
+                @foreach (var media in _technique.OfficialMedia.OrderByDescending(m => m.IsCover))
+                {
+                    @if (media.MediaAsset.MediaType == MediaType.Image)
+                    {
+                        <div class="technique-media-item">
+                            <img src="@GetMediaSource(media.MediaAsset)" alt="@media.MediaAsset.Title ?? media.MediaAsset.OriginalFileName ?? """
+                                 class="technique-media-image @(media.IsCover ? "is-cover" : "")" />
+                        </div>
+                    }
+                    else if (media.MediaAsset.MediaType == MediaType.Video && media.MediaAsset.SourceType == MediaSourceType.ExternalLink)
+                    {
+                        <div class="technique-media-item technique-media-video">
+                            <a href="@media.MediaAsset.ExternalUrl" target="_blank" class="btn btn-ghost btn-small">
+                                ▶ @(media.MediaAsset.ExternalProvider == ExternalMediaProvider.YouTube ? "Ver en YouTube" : "Ver en Vimeo")
+                            </a>
+                        </div>
+                    }
+                    else if (media.MediaAsset.MediaType == MediaType.Document)
+                    {
+                        <div class="technique-media-item">
+                            <a href="@GetMediaSource(media.MediaAsset)" target="_blank" class="btn btn-ghost btn-small">
+                                📄 Ver archivo (@(media.MediaAsset.OriginalFileName ?? "documento"))
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+        @* Botón volver + Guardar *@
+        <div class="technique-detail-actions">
+            <a href="/tecnicas" class="btn btn-ghost btn-small">← Volver</a>
+            <button class="btn btn-ghost btn-small @(IsSaved ? "save-active" : "")"
+                    @onclick="ToggleSaveAsync" disabled="@_isSaving">
+                @if (_isSaving)
+                {
+                    <span class="save-icon-loading">⏳</span>
+                }
+                else if (IsSaved)
+                {
+                    <span class="save-icon">★</span>
+                }
+                else
+                {
+                    <span class="save-icon">☆</span>
+                }
+                <span>@(IsSaved ? "Favorita" : "Favorito")</span>
+            </button>
+        </div>
+
+        @* Título y badges *@
+        <div class="technique-detail-header">
+            <h1>@_technique.Name</h1>
+            <div class="technique-detail-badges">
+                <span class="badge badge-gold">@_technique.Belt.Name</span>
+                <span class="badge badge-surface">@_technique.Category.Name</span>
+                <span class="badge badge-surface">@_technique.Position.Name</span>
+            </div>
+        </div>
+
+        @* Descripción *@
+        <section class="technique-detail-section">
+            <h3>Descripción</h3>
+            <p>@_technique.Description</p>
+        </section>
+
+        @* Objetivo *@
+        <section class="technique-detail-section">
+            <h3>Objetivo</h3>
+            <p>@_technique.Objective</p>
+        </section>
+
+        @* Pasos *@
+        @if (_steps.Count > 0)
+        {
+            <section class="technique-detail-section">
+                <h3>Pasos</h3>
+                <ol class="technique-steps-list">
+                    @foreach (var step in _steps)
+                    {
+                        <li>@step</li>
+                    }
+                </ol>
+            </section>
+        }
+
+        @* Consejos *@
+        @if (_tips.Count > 0)
+        {
+            <section class="technique-detail-section">
+                <h3>Consejos</h3>
+                <ul class="technique-tips-list">
+                    @foreach (var tip in _tips)
+                    {
+                        <li>@tip</li>
+                    }
+                </ul>
+            </section>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Technique? _technique;
+    private List<string> _steps = new();
+    private List<string> _tips = new();
+
+    private bool _isLoading = true;
+    private bool _hasError = false;
+    private string _errorMessage = string.Empty;
+
+    private bool IsSaved => _savedEntry != null;
+    private SavedTechnique? _savedEntry;
+    private bool _isSaving = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _hasError = false;
+        _technique = null;
+        _steps = new();
+        _tips = new();
+        _savedEntry = null;
+        StateHasChanged();
+
+        try
+        {
+            _technique = await TechniqueService.GetByIdAsync(Id);
+
+            if (_technique != null)
+            {
+                _steps = ParseJsonArray(_technique.Steps);
+                _tips = ParseJsonArray(_technique.Tips);
+
+                var userId = await SessionService.GetCurrentUserIdAsync();
+                if (userId.HasValue)
+                {
+                    _savedEntry = await SavedTechniqueService.GetSavedAsync(userId.Value, Id);
+                }
+            }
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudo cargar la técnica.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleSaveAsync()
+    {
+        if (_isSaving) return;
+
+        var userId = await SessionService.GetCurrentUserIdAsync();
+        if (!userId.HasValue)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        _isSaving = true;
+        StateHasChanged();
+
+        try
+        {
+            if (IsSaved && _savedEntry != null)
+            {
+                await SavedTechniqueService.RemoveAsync(_savedEntry.Id);
+                _savedEntry = null;
+            }
+            else
+            {
+                _savedEntry = await SavedTechniqueService.SaveAsync(userId.Value, Id, SavedType.Favorite);
+            }
+        }
+        catch (Exception)
+        {
+            // Silently ignore - state remains unchanged
+        }
+        finally
+        {
+            _isSaving = false;
+            StateHasChanged();
+        }
+    }
+
+    private List<string> ParseJsonArray(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return new();
+
+        try
+        {
+            var result = System.Text.Json.JsonSerializer.Deserialize<List<string>>(json);
+            return result ?? new();
+        }
+        catch
+        {
+            return new();
+        }
+    }
+
+    private string GetMediaSource(MediaAsset media)
+    {
+        if (!string.IsNullOrEmpty(media.ExternalUrl))
+            return media.ExternalUrl;
+
+        if (!string.IsNullOrEmpty(media.RemoteUrl))
+            return media.RemoteUrl;
+
+        if (!string.IsNullOrEmpty(media.LocalPath))
+            return media.LocalPath;
+
+        return string.Empty;
+    }
+}

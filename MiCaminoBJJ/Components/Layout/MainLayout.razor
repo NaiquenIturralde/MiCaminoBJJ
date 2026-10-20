@@ -1,0 +1,62 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+@inject ISessionService SessionService
+
+<div class="app-container">
+    @* Only show header and bottom nav on main pages, not on landing *@
+    @if (!IsPublicPage())
+    {
+        <header class="app-header">
+            <button class="btn btn-ghost btn-icon no-select" @onclick="ToggleMenu" aria-label="Menú">
+                <span class="nav-icon">☰</span>
+            </button>
+            <span class="app-header-title">Mi Camino BJJ</span>
+            <div class="header-actions">
+                <button class="btn btn-ghost btn-icon no-select" @onclick="HandleLogout" aria-label="Cerrar Sesión">
+                    <svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+                    </svg>
+                </button>
+                <div class="avatar-container" @onclick="NavigateToProfile" role="button" tabindex="0" aria-label="Perfil">
+                    <img src="media/default-avatar.svg" alt="Avatar" />
+                </div>
+            </div>
+        </header>
+    }
+
+    <main style="padding-bottom: calc(var(--nav-height, 60px) + var(--safe-bottom, 0px) + 1rem); min-height: 100dvh;">
+        @Body
+    </main>
+
+    @if (!IsPublicPage())
+    {
+        <NavMenu />
+    }
+</div>
+
+@code {
+    private void ToggleMenu()
+    {
+        // TODO: Implement sidebar menu
+    }
+
+    private void NavigateToProfile()
+    {
+        Navigation.NavigateTo("/perfil");
+    }
+
+    private async Task HandleLogout()
+    {
+        await SessionService.ClearSessionAsync();
+        Navigation.NavigateTo("/");
+    }
+
+    private bool IsPublicPage()
+    {
+        var uri = Navigation.Uri;
+        return uri == Navigation.BaseUri
+            || uri.Contains("/login", StringComparison.OrdinalIgnoreCase)
+            || uri.Contains("/registro", StringComparison.OrdinalIgnoreCase)
+            || uri.Contains("/admin", StringComparison.OrdinalIgnoreCase);
+    }
+}

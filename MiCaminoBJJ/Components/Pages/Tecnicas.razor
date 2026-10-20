@@ -1,0 +1,270 @@
+@page "/tecnicas"
+@inject ISessionService SessionService
+@inject ITechniqueService TechniqueService
+@inject ITechniqueSearchService SearchService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando técnicas..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadData" />
+}
+else
+{
+    <div class="techniques-page">
+        @* Header *@
+        <div class="techniques-header">
+            <div class="techniques-header-top">
+                <h1>Técnicas 📚</h1>
+                <a href="/mis-guardadas" class="btn btn-ghost btn-small save-link">
+                    ★ Mis Favoritas
+                </a>
+            </div>
+            <p class="text-muted">@_filteredTechniques.Count técnicas disponibles</p>
+        </div>
+
+        @* Búsqueda *@
+        <div class="techniques-search">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Buscar técnica..."
+                @bind="_searchTerm"
+                @bind:event="oninput"
+                @onkeydown="OnSearchKeyDown" />
+        </div>
+
+        @* Filtros *@
+        <div class="techniques-filters">
+            <select class="form-control filter-select" @onchange="OnBeltFilterChanged">
+                <option value="">Todos los cinturones</option>
+                @foreach (var belt in _belts)
+                {
+                    <option value="@belt.Id">@belt.Name</option>
+                }
+            </select>
+
+            <select class="form-control filter-select" @onchange="OnCategoryFilterChanged">
+                <option value="">Todas las categorías</option>
+                @foreach (var cat in _categories)
+                {
+                    <option value="@cat.Id">@cat.Name</option>
+                }
+            </select>
+
+            <select class="form-control filter-select" @onchange="OnPositionFilterChanged">
+                <option value="">Todas las posiciones</option>
+                @foreach (var pos in _positions)
+                {
+                    <option value="@pos.Id">@pos.Name</option>
+                }
+            </select>
+        </div>
+
+        @* Botón limpiar filtros *@
+        @if (_hasActiveFilters)
+        {
+            <div class="techniques-clear">
+                <button class="btn btn-ghost btn-small" @onclick="ClearFilters">
+                    ✕ Limpiar filtros
+                </button>
+            </div>
+        }
+
+        @* Listado *@
+        @if (_filteredTechniques.Count == 0)
+        {
+            @if (_hasActiveFilters)
+            {
+                <EmptyState
+                    Icon="🔍"
+                    Title="Sin resultados"
+                    Description="No se encontraron técnicas con esos filtros." />
+            }
+            else
+            {
+                <EmptyState
+                    Icon="📚"
+                    Title="Sin técnicas"
+                    Description="Aún no hay técnicas disponibles en la biblioteca." />
+            }
+        }
+        else
+        {
+            <div class="techniques-grid">
+                @foreach (var technique in _filteredTechniques)
+                {
+                    <a href="/tecnicas/@technique.Id" class="technique-card">
+                        <div class="technique-card-image">
+                            <span class="technique-card-image-placeholder">🥋</span>
+                        </div>
+                        <div class="technique-card-content">
+                            <h3 class="technique-card-name">@technique.Name</h3>
+                            <p class="technique-card-description">@technique.Description</p>
+                            <div class="technique-card-meta">
+                                <span class="badge badge-gold">@technique.Belt.Name</span>
+                                <span class="badge badge-surface">@technique.Category.Name</span>
+                                <span class="badge badge-surface">@technique.Position.Name</span>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<Technique> _allTechniques = new();
+    private List<Technique> _filteredTechniques = new();
+    private List<Belt> _belts = new();
+    private List<TechniqueCategory> _categories = new();
+    private List<Position> _positions = new();
+
+    private string _searchTerm = string.Empty;
+    private int? _selectedBeltId;
+    private int? _selectedCategoryId;
+    private int? _selectedPositionId;
+
+    private bool _isLoading = true;
+    private bool _hasError = false;
+    private string _errorMessage = string.Empty;
+
+    private bool _hasActiveFilters =>
+        !string.IsNullOrWhiteSpace(_searchTerm) ||
+        _selectedBeltId.HasValue ||
+        _selectedCategoryId.HasValue ||
+        _selectedPositionId.HasValue;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _hasError = false;
+        StateHasChanged();
+
+        try
+        {
+            // Load complete list for filter options
+            _allTechniques = await TechniqueService.GetAllAsync();
+
+            // Extract unique filter values from the complete list
+            _belts = _allTechniques
+                .Select(t => t.Belt)
+                .GroupBy(b => b.Id)
+                .Select(g => g.First())
+                .OrderBy(b => b.DisplayOrder)
+                .ToList();
+
+            _categories = _allTechniques
+                .Select(t => t.Category)
+                .GroupBy(c => c.Id)
+                .Select(g => g.First())
+                .OrderBy(c => c.DisplayOrder)
+                .ToList();
+
+            _positions = _allTechniques
+                .Select(t => t.Position)
+                .GroupBy(p => p.Id)
+                .Select(g => g.First())
+                .OrderBy(p => p.DisplayOrder)
+                .ToList();
+
+            // Show all techniques initially
+            _filteredTechniques = _allTechniques;
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudieron cargar las técnicas.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ApplyFilters()
+    {
+        try
+        {
+            var filter = new TechniqueSearchFilter
+            {
+                SearchTerm = string.IsNullOrWhiteSpace(_searchTerm) ? null : _searchTerm.Trim(),
+                BeltId = _selectedBeltId,
+                CategoryId = _selectedCategoryId,
+                PositionId = _selectedPositionId
+            };
+
+            // If no filters active, show full list
+            if (filter.SearchTerm == null && !filter.BeltId.HasValue && !filter.CategoryId.HasValue && !filter.PositionId.HasValue)
+            {
+                _filteredTechniques = _allTechniques;
+            }
+            else
+            {
+                _filteredTechniques = await SearchService.SearchAsync(filter);
+            }
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "Error al filtrar las técnicas.";
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task OnSearchKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await ApplyFilters();
+        }
+    }
+
+    private async Task OnBeltFilterChanged(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        _selectedBeltId = string.IsNullOrEmpty(value) ? null : int.Parse(value);
+        await ApplyFilters();
+    }
+
+    private async Task OnCategoryFilterChanged(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        _selectedCategoryId = string.IsNullOrEmpty(value) ? null : int.Parse(value);
+        await ApplyFilters();
+    }
+
+    private async Task OnPositionFilterChanged(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        _selectedPositionId = string.IsNullOrEmpty(value) ? null : int.Parse(value);
+        await ApplyFilters();
+    }
+
+    private async Task ClearFilters()
+    {
+        _searchTerm = string.Empty;
+        _selectedBeltId = null;
+        _selectedCategoryId = null;
+        _selectedPositionId = null;
+        _filteredTechniques = _allTechniques;
+        StateHasChanged();
+    }
+}

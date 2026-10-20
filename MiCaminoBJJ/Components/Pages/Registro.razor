@@ -1,0 +1,156 @@
+@page "/registro"
+@inject ISessionService SessionService
+@inject IUserService UserService
+@inject NavigationManager Navigation
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Crear Cuenta</h2>
+
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <div class="alert alert-danger">@_errorMessage</div>
+        }
+
+        <EditForm Model="_model" OnValidSubmit="HandleRegister">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <InputText class="form-control" @bind-Value="_model.Name" />
+                <ValidationMessage For="() => _model.Name" />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="_model.Email" />
+                <ValidationMessage For="() => _model.Email" />
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <InputText class="form-control" type="password" @bind-Value="_model.Password" />
+                <ValidationMessage For="() => _model.Password" />
+            </div>
+
+            <div class="form-group">
+                <label>Confirmar Contraseña</label>
+                <InputText class="form-control" type="password" @bind-Value="_model.ConfirmPassword" />
+                <ValidationMessage For="() => _model.ConfirmPassword" />
+            </div>
+
+            <div class="form-group">
+                <label>Cinturón</label>
+                <InputSelect class="form-control" @bind-Value="_model.BeltRank">
+                    <option value="">Selecciona tu cinturón</option>
+                    <option value="Blanco">Blanco</option>
+                    <option value="Azul">Azul</option>
+                    <option value="Violeta">Violeta</option>
+                    <option value="Marrón">Marrón</option>
+                    <option value="Negro">Negro</option>
+                </InputSelect>
+                <ValidationMessage For="() => _model.BeltRank" />
+            </div>
+
+            <div class="form-group">
+                <label>Academia (Opcional)</label>
+                <InputText class="form-control" @bind-Value="_model.Academy" />
+            </div>
+
+            <button class="btn btn-primary btn-block" type="submit" disabled="@_isLoading">
+                @if (_isLoading)
+                {
+                    <span class="spinner"></span>
+                }
+                else
+                {
+                    <span>Registrarse</span>
+                }
+            </button>
+        </EditForm>
+
+        <div class="auth-footer">
+            ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterModel _model = new();
+    private bool _isLoading = false;
+    private string? _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/inicio");
+        }
+    }
+
+    private async Task HandleRegister()
+    {
+        if (_model.Password != _model.ConfirmPassword)
+        {
+            _errorMessage = "Las contraseñas no coinciden.";
+            return;
+        }
+
+        _isLoading = true;
+        _errorMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            var emailExists = await UserService.EmailExistsAsync(_model.Email);
+            if (emailExists)
+            {
+                _errorMessage = "Este email ya está registrado.";
+                return;
+            }
+
+            var user = await UserService.CreateAsync(
+                _model.Name,
+                _model.Email,
+                _model.Password,
+                _model.BeltRank,
+                _model.Academy);
+
+            await SessionService.SetCurrentUserIdAsync(user.Id);
+            Navigation.NavigateTo("/inicio");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "Ha ocurrido un error al crear la cuenta. Por favor, intenta de nuevo.";
+            // Optionally log ex
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    public class RegisterModel
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El nombre es obligatorio.")]
+        public string Name { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El email es obligatorio.")]
+        [System.ComponentModel.DataAnnotations.EmailAddress(ErrorMessage = "El formato del email no es válido.")]
+        public string Email { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "La contraseña es obligatoria.")]
+        [System.ComponentModel.DataAnnotations.MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
+        public string Password { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Debes confirmar la contraseña.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Debes seleccionar un cinturón.")]
+        public string BeltRank { get; set; } = string.Empty;
+
+        public string? Academy { get; set; }
+    }
+}

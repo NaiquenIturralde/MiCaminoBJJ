@@ -1,0 +1,68 @@
+﻿@page "/"
+@inject NavigationManager Navigation
+
+<div class="landing-container">
+
+    <div class="landing-logo">
+        BJJ
+    </div>
+
+    <h1 class="landing-title">
+        Mi Camino BJJ
+    </h1>
+
+    <p class="landing-subtitle">
+        Registra tus entrenamientos, segui tu progreso y construi tu camino en el Jiu-Jitsu.
+    </p>
+
+    <div class="landing-actions">
+        <button class="btn btn-primary btn-large btn-block" @onclick="StartJourney">
+            Comenzar
+        </button>
+        <button class="btn btn-secondary btn-block" @onclick="GoToRegister">
+            Crear cuenta
+        </button>
+        <button class="btn btn-outline btn-block" @onclick="GoToLogin">
+            Iniciar sesion
+        </button>
+    </div>
+
+    <p class="landing-version">
+        Mi Camino BJJ v1.0
+    </p>
+</div>
+
+@code {
+    [Inject] private ISessionService SessionService { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // If already logged in, redirect to dashboard
+        if (await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/inicio");
+        }
+    }
+
+    private async Task StartJourney()
+    {
+        if (await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/inicio");
+        }
+        else
+        {
+            Navigation.NavigateTo("/registro");
+        }
+    }
+
+    private void GoToRegister()
+    {
+        Navigation.NavigateTo("/registro");
+    }
+
+    private void GoToLogin()
+    {
+        Navigation.NavigateTo("/login");
+    }
+}

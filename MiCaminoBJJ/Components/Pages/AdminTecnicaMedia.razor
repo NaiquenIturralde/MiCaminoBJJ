@@ -1,0 +1,353 @@
+@page "/admin/tecnicas/{Id:int}/media"
+@inject ISessionService SessionService
+@inject ITechniqueService TechniqueService
+@inject IMediaService MediaService
+@inject IMediaStorageService MediaStorageService
+@inject IMediaSelectionService MediaSelectionService
+@inject IExternalMediaParser ExternalMediaParser
+@inject NavigationManager Navigation
+
+@if (_isCheckingRole)
+{
+    <LoadingSpinner Message="Verificando permisos..." />
+}
+else if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando multimedia..." />
+}
+else if (_technique == null)
+{
+    <div class="admin-page">
+        <EmptyState Icon="❓" Title="Técnica no encontrada" Description="No se encontró la técnica." />
+        <a href="/admin/tecnicas" class="btn btn-outline btn-block">← Volver a técnicas</a>
+    </div>
+}
+else
+{
+    <div class="admin-page">
+        <div class="admin-header">
+            <div class="admin-header-top">
+                <a href="/admin/tecnicas" class="btn btn-ghost btn-small">← Técnicas</a>
+                <a href="/admin/tecnicas/editar/@_technique.Id" class="btn btn-ghost btn-small">✏️ Editar</a>
+            </div>
+            <h1>@_technique.Name</h1>
+            <p class="text-muted">Multimedia</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(_message))
+        {
+            <div class="alert alert-success">@_message</div>
+        }
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <div class="alert alert-danger">@_errorMessage</div>
+        }
+
+        <div class="admin-media-actions">
+            <button class="btn btn-ghost btn-block" @onclick="() => AddImageAsync()">📷 Agregar imagen</button>
+            <button class="btn btn-ghost btn-block" @onclick="() => AddVideoAsync()">🎬 Agregar video</button>
+            <button class="btn btn-ghost btn-block" @onclick="() => AddDocumentAsync()">📄 Agregar archivo</button>
+            <button class="btn btn-ghost btn-block" @onclick="() => _showLinkForm = !_showLinkForm">🔗 Agregar enlace</button>
+        </div>
+
+        @if (_showLinkForm)
+        {
+            <div class="admin-link-form">
+                <input type="text" class="form-control" placeholder="Pegá una URL de YouTube o Vimeo" @bind="_linkUrl" />
+                <div class="admin-link-actions">
+                    <button class="btn btn-primary" @onclick="AddLinkAsync">Agregar enlace</button>
+                    <button class="btn btn-ghost" @onclick="() => _showLinkForm = false">Cancelar</button>
+                </div>
+            </div>
+        }
+
+        @if (_mediaEntries.Count == 0)
+        {
+            <EmptyState Icon="🖼️" Title="Sin contenido multimedia" Description="Agregá imágenes, videos, archivos o enlaces a esta técnica." />
+        }
+        else
+        {
+            <div class="admin-media-grid">
+                @foreach (var entry in _mediaEntries)
+                {
+                    <div class="admin-media-card @(entry.IsCover ? "cover" : "")">
+                        <div class="admin-media-type">
+                            @GetMediaTypeIcon(entry.MediaAsset)
+                            <span>@GetMediaTypeLabel(entry.MediaAsset)</span>
+                        </div>
+                        @if (entry.IsCover)
+                        {
+                            <span class="badge badge-cover">⭐ Portada</span>
+                        }
+                        <div class="admin-media-info">
+                            <p class="admin-media-title">@(string.IsNullOrEmpty(entry.MediaAsset.Title) ? entry.MediaAsset.OriginalFileName ?? "Sin título" : entry.MediaAsset.Title)</p>
+                            @if (!string.IsNullOrEmpty(entry.MediaAsset.ExternalUrl))
+                            {
+                                <p class="admin-media-url">@entry.MediaAsset.ExternalUrl</p>
+                            }
+                        </div>
+                        <div class="admin-media-actions-row">
+                            @if (entry.MediaAsset.MediaType == MediaType.Image)
+                            {
+                                <button class="btn btn-ghost btn-small" @onclick="() => MarkCoverAsync(entry)">⭐ Portada</button>
+                            }
+                            <button class="btn btn-ghost btn-small btn-danger-text" @onclick="() => RemoveMediaAsync(entry)">Quitar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="admin-form-actions">
+            <a href="/tecnicas/@_technique.Id" class="btn btn-outline btn-block">Ver en Biblioteca</a>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Technique? _technique;
+    private List<TechniqueMedia> _mediaEntries = new();
+    private bool _isCheckingRole = true;
+    private bool _isLoading = true;
+    private bool _showLinkForm = false;
+    private string _linkUrl = string.Empty;
+    private string? _message;
+    private string? _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userId = await SessionService.GetCurrentUserIdAsync();
+        if (!userId.HasValue)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        var role = await SessionService.GetUserRoleAsync();
+        if (role != UserRole.Administrador)
+        {
+            Navigation.NavigateTo("/inicio");
+            return;
+        }
+
+        _isCheckingRole = false;
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _message = null;
+        _errorMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            _technique = await TechniqueService.GetByIdAsync(Id);
+            _mediaEntries = await MediaService.GetOfficialMediaEntriesAsync(Id);
+        }
+        catch
+        {
+            _errorMessage = "No se pudieron cargar los datos.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task AddImageAsync()
+    {
+        var result = await MediaSelectionService.PickPhotoAsync();
+        if (result == null || result.IsCancelled || result.FileStream == null)
+            return;
+
+        await SaveLocalMediaAsync(result.FileStream, result.FileName, MediaType.Image);
+    }
+
+    private async Task AddVideoAsync()
+    {
+        var result = await MediaSelectionService.PickVideoAsync();
+        if (result == null || result.IsCancelled || result.FileStream == null)
+            return;
+
+        await SaveLocalMediaAsync(result.FileStream, result.FileName, MediaType.Video);
+    }
+
+    private async Task AddDocumentAsync()
+    {
+        var result = await MediaSelectionService.PickFileAsync();
+        if (result == null || result.IsCancelled || result.FileStream == null)
+            return;
+
+        await SaveLocalMediaAsync(result.FileStream, result.FileName, MediaType.Document);
+    }
+
+    private async Task SaveLocalMediaAsync(Stream stream, string fileName, MediaType mediaType)
+    {
+        try
+        {
+            var validation = MediaStorageService.ValidateFile(fileName, stream.Length, stream);
+            if (!validation.IsValid)
+            {
+                _errorMessage = validation.ErrorMessage;
+                StateHasChanged();
+                return;
+            }
+
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            if (!userId.HasValue)
+                return;
+
+            var localPath = await MediaStorageService.SaveFileAsync(
+                stream, fileName, mediaType, MediaSourceType.PackagedResource, userId.Value, Id);
+
+            var mediaAsset = new MediaAsset
+            {
+                UploadedByUserId = userId.Value,
+                MediaType = mediaType,
+                SourceType = MediaSourceType.PackagedResource,
+                LocalPath = localPath,
+                OriginalFileName = fileName,
+                MimeType = validation.MimeType,
+                FileSizeBytes = validation.FileSizeBytes,
+                Title = fileName,
+                SyncStatus = SyncStatus.LocalOnly
+            };
+
+            await MediaService.CreateAsync(mediaAsset);
+            var isCover = mediaType == MediaType.Image && !_mediaEntries.Any(m => m.IsCover);
+            await MediaService.AddOfficialMediaAsync(Id, mediaAsset.Id, isCover, _mediaEntries.Count + 1);
+
+            _message = mediaType switch
+            {
+                MediaType.Image => "Imagen agregada correctamente.",
+                MediaType.Video => "Video agregado correctamente.",
+                _ => "Archivo agregado correctamente."
+            };
+
+            await LoadData();
+        }
+        catch
+        {
+            _errorMessage = "No se pudo guardar el archivo.";
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+    private async Task AddLinkAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_linkUrl))
+            return;
+
+        var parsed = ExternalMediaParser.ParseUrl(_linkUrl);
+        if (!parsed.IsValid)
+        {
+            _errorMessage = parsed.ErrorMessage ?? "La URL no es válida.";
+            StateHasChanged();
+            return;
+        }
+
+        try
+        {
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            if (!userId.HasValue)
+                return;
+
+            var mediaAsset = new MediaAsset
+            {
+                UploadedByUserId = userId.Value,
+                MediaType = MediaType.Video,
+                SourceType = MediaSourceType.ExternalLink,
+                ExternalUrl = parsed.OriginalUrl,
+                ExternalProvider = parsed.Provider,
+                ExternalVideoId = parsed.VideoId,
+                Title = parsed.Provider == ExternalMediaProvider.YouTube ? "Video de YouTube" : "Video de Vimeo",
+                SyncStatus = SyncStatus.LocalOnly
+            };
+
+            await MediaService.CreateAsync(mediaAsset);
+            await MediaService.AddOfficialMediaAsync(Id, mediaAsset.Id, false, _mediaEntries.Count + 1);
+
+            _linkUrl = string.Empty;
+            _showLinkForm = false;
+            _message = "Enlace agregado correctamente.";
+            await LoadData();
+        }
+        catch
+        {
+            _errorMessage = "No se pudo agregar el enlace.";
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+    private async Task RemoveMediaAsync(TechniqueMedia entry)
+    {
+        try
+        {
+            await MediaService.RemoveOfficialMediaAsync(Id, entry.MediaAssetId);
+            await MediaService.SoftDeleteAsync(entry.MediaAssetId);
+
+            if (!string.IsNullOrEmpty(entry.MediaAsset.LocalPath))
+                await MediaStorageService.DeleteFileAsync(entry.MediaAsset.LocalPath);
+
+            _message = "Contenido eliminado.";
+            await LoadData();
+        }
+        catch
+        {
+            _errorMessage = "No se pudo eliminar el contenido.";
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+    private async Task MarkCoverAsync(TechniqueMedia entry)
+    {
+        if (entry.MediaAsset.MediaType != MediaType.Image)
+            return;
+
+        try
+        {
+            await MediaService.SetCoverAsync(Id, entry.MediaAssetId);
+            _message = "Portada actualizada.";
+            await LoadData();
+        }
+        catch
+        {
+            _errorMessage = "No se pudo actualizar la portada.";
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+    private string GetMediaTypeLabel(MediaAsset media) => media.MediaType switch
+    {
+        MediaType.Image => "Imagen",
+        MediaType.Video => media.SourceType == MediaSourceType.ExternalLink ? "Video externo" : "Video",
+        MediaType.Document => "Documento",
+        _ => media.SourceType.ToString()
+    };
+
+    private string GetMediaTypeIcon(MediaAsset media) => media.MediaType switch
+    {
+        MediaType.Image => "🖼️",
+        MediaType.Video => media.SourceType == MediaSourceType.ExternalLink ? "🔗" : "🎬",
+        MediaType.Document => "📄",
+        _ => "❓"
+    };
+}

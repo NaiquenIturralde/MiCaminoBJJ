@@ -1,0 +1,191 @@
+@page "/inicio"
+@inject ISessionService SessionService
+@inject IUserService UserService
+@inject IStatisticsService StatisticsService
+@inject ITrainingService TrainingService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando tu progreso..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadData" />
+}
+else if (_user != null)
+{
+    <div class="dashboard">
+        @* Sección 1: Bienvenida *@
+        <section class="dashboard-welcome">
+            <h1>Hola, @_user.Name 👋</h1>
+            <div class="dashboard-welcome-details">
+                <span class="badge badge-gold">@_user.BeltRank</span>
+                @if (!string.IsNullOrEmpty(_user.Academy))
+                {
+                    <span class="text-muted">@_user.Academy</span>
+                }
+            </div>
+        </section>
+
+        @* Sección 2: Métricas *@
+        <section class="dashboard-stats">
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalTrainings</span>
+                <span class="stat-label">Entrenamientos</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalSavedTechniques</span>
+                <span class="stat-label">Favoritas</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalPracticedTechniques</span>
+                <span class="stat-label">Practicadas</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalAchievements</span>
+                <span class="stat-label">Logros</span>
+            </div>
+        </section>
+
+        @* Sección 3: Último entrenamiento *@
+        <section class="dashboard-section">
+            <h3>Último entrenamiento</h3>
+            @if (_lastTraining != null)
+            {
+                <div class="training-card">
+                    <div class="training-card-header">
+                        <span class="badge badge-gold">@GetTrainingTypeLabel(_lastTraining.TrainingType)</span>
+                        <span class="text-muted">@_lastTraining.Date.ToString("dd/MM/yyyy")</span>
+                    </div>
+                    <div class="training-card-body">
+                        <div class="training-detail">
+                            <span class="training-detail-label">Duración</span>
+                            <span>@_lastTraining.DurationMinutes min</span>
+                        </div>
+                        <div class="training-detail">
+                            <span class="training-detail-label">Sensación</span>
+                            <span>@GetFeelingLabel(_lastTraining.Feeling)</span>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(_lastTraining.Notes))
+                    {
+                        <div class="training-card-notes">
+                            <p>@_lastTraining.Notes</p>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <EmptyState Icon="🥋" Title="Sin entrenamientos"
+                            Description="Registrá tu primer entrenamiento para ver tu progreso aquí." />
+            }
+        </section>
+
+        @* Sección 4: Accesos rápidos *@
+        <section class="dashboard-section">
+            <h3>Accesos rápidos</h3>
+            <div class="quick-access-grid">
+                <a href="/tecnicas" class="quick-access-card">
+                    <span class="quick-access-icon">📚</span>
+                    <span class="quick-access-label">Técnicas</span>
+                </a>
+                <a href="/mis-guardadas" class="quick-access-card">
+                    <span class="quick-access-icon">★</span>
+                    <span class="quick-access-label">Favoritas</span>
+                </a>
+                <a href="/entrenamientos/nuevo" class="quick-access-card">
+                    <span class="quick-access-icon">➕</span>
+                    <span class="quick-access-label">Registrar Entreno</span>
+                </a>
+                <a href="/estadisticas" class="quick-access-card">
+                    <span class="quick-access-icon">📊</span>
+                    <span class="quick-access-label">Estadísticas</span>
+                </a>
+                <a href="/perfil" class="quick-access-card">
+                    <span class="quick-access-icon">👤</span>
+                    <span class="quick-access-label">Mi Perfil</span>
+                </a>
+                @if (_isAdmin)
+                {
+                    <a href="/admin/tecnicas" class="quick-access-card">
+                        <span class="quick-access-icon">⚙️</span>
+                        <span class="quick-access-label">Admin Técnicas</span>
+                    </a>
+                }
+            </div>
+        </section>
+    </div>
+}
+
+@code {
+    private User? _user;
+    private UserStatistics _stats = new();
+    private TrainingSession? _lastTraining;
+    private bool _isLoading = true;
+    private bool _hasError = false;
+    private string _errorMessage = string.Empty;
+    private bool _isAdmin = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _hasError = false;
+        StateHasChanged();
+
+        try
+        {
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            if (!userId.HasValue)
+            {
+                Navigation.NavigateTo("/login");
+                return;
+            }
+
+            _user = await UserService.GetByIdAsync(userId.Value);
+            _stats = await StatisticsService.GetByUserAsync(userId.Value);
+            _lastTraining = await TrainingService.GetLastAsync(userId.Value);
+
+            var role = await SessionService.GetUserRoleAsync();
+            _isAdmin = role == UserRole.Administrador;
+        }
+        catch (Exception ex)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudieron cargar los datos del dashboard.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private string GetTrainingTypeLabel(TrainingType type) => type switch
+    {
+        TrainingType.Gi => "Gi",
+        TrainingType.NoGi => "No-Gi",
+        TrainingType.OpenMat => "Open Mat",
+        _ => type.ToString()
+    };
+
+    private string GetFeelingLabel(Feeling feeling) => feeling switch
+    {
+        Feeling.Buena => "😊 Buena",
+        Feeling.Media => "😐 Media",
+        Feeling.Dificil => "😓 Difícil",
+        _ => feeling.ToString()
+    };
+}
