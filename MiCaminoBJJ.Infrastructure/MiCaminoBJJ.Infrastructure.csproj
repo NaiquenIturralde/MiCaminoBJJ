@@ -10,6 +10,10 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
+
+    <!-- Seguridad: sobreescribe la 2.1.11 (transitiva de EF Core Sqlite) que empaqueta SQLite vulnerable a CVE-2025-6965 (GHSA-2m69-gcr7-jv3q).
+         2.1.12+ incluye SQLite 3.50.2+ (2.1.14 incluye 3.53.3). Se mantiene la rama 2.1.x por compatibilidad con EF Core 10. -->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.14" />
   </ItemGroup>
 
   <PropertyGroup>
