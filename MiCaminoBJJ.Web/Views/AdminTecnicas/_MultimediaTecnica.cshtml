@@ -1,0 +1,168 @@
+@using MiCaminoBJJ.Web.ViewModels.Admin
+@model AdminTecnicaMediaViewModel
+@*
+    Sección «Multimedia de la técnica» (fuera del <form> principal: HTML no
+    permite formularios anidados). Cada recurso tiene su propio formulario que
+    publica en AdminTecnicasMediaController (autorización Administrador +
+    antiforgery en el servidor). El reproductor reutiliza el markup
+    mccjrc-video + recorrido-video.js (miniatura 16:9 e iframe construido recién
+    al pulsar Play: sin autoplay ni descargas en el servidor).
+*@
+<div class="mccj-card mccj-admin-form mccj-admin-media mt-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+        <div>
+            <h2 class="mccj-card-heading mb-1">@L["Admin.Media.Titulo"]</h2>
+            <p class="mccj-card-text mb-0">
+                @L["Admin.Media.Descripcion"]
+            </p>
+        </div>
+        <span class="mccj-badge">@(Model.Recursos.Count == 1 ? L["Admin.Media.Recursos", Model.Recursos.Count] :
+                        L["Admin.Media.RecursosPlural", Model.Recursos.Count])</span>
+        </div>
+
+        @* ── Estado vacío claro cuando no hay videos ────────────────────────── *@
+        @if (Model.Vacio)
+        {
+            <div class="mccj-admin-media-vacio" role="status">
+                <span class="mccj-admin-media-vacio-icono" aria-hidden="true">🎬</span>
+                <p class="mb-1"><strong>@L["Admin.Media.Vacio.Titulo"]</strong></p>
+                <p class="mb-0">@L["Admin.Media.Vacio.Texto"]</p>
+            </div>
+        }
+        else
+        {
+            foreach (var recurso in Model.Recursos)
+            {
+                <div class="mccj-admin-media-item @(recurso.EsPortada ? "es-portada" : null)">
+                    <div class="row g-3">
+                        @* ── Vista previa 16:9 + reproductor integrado ────────── *@
+                        <div class="col-12 col-md-4">
+                            @if (recurso.EsVideoIntegrado)
+                            {
+                                <div class="mccjrc-video" data-mccjrc-video data-embed="@recurso.EmbedUrl" data-title="@recurso.Titulo">
+                                    <div class="mccjrc-video-frame">
+                                        @if (recurso.MiniaturaUrl is not null)
+                                        {
+                                            <img class="mccjrc-video-poster" src="@recurso.MiniaturaUrl"
+                                                 alt="@L["Tecnicas.Detalle.VistaPrevia", recurso.Titulo]" loading="lazy" width="480"
+                                                 height="270" />
+                                        }
+                                        <button type="button" class="mccjrc-video-play" data-mccjrc-play
+                                                aria-label="@L["Tecnicas.Detalle.ReproducirVideo", recurso.Titulo]">
+                                            <span class="mccjrc-video-play-icon" aria-hidden="true">▶</span>
+                                            <span>@L["Common.Rejecutar"]</span>
+                                        </button>
+                                    </div>
+                                    <div class="mccjrc-video-bar">
+                                        <a href="@recurso.UrlCanonica" target="_blank" rel="noopener noreferrer">
+                                            @L["Admin.Media.AbrirEn", recurso.Proveedor]
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                            else if (!recurso.EsArchivoLocal)
+                            {
+                                <a class="mccj-admin-media-enlace" href="@recurso.Url" target="_blank" rel="noopener noreferrer">
+                                    @L["Admin.Media.Enlace", recurso.Proveedor]
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="mccj-admin-media-archivo">
+                                    <span aria-hidden="true">📄</span>
+                                    <span>@(recurso.NombreArchivo ?? L["Admin.Media.ArchivoLocal"])</span>
+                                </div>
+                            }
+                        </div>
+
+                        @* ── Edición del recurso + portada + quitar ────────────── *@
+                        <div class="col-12 col-md-8">
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span class="mccj-badge">@recurso.Proveedor</span>
+                                @if (recurso.EsPortada)
+                                {
+                                    <span class="mccj-badge mccj-admin-media-portada">@L["Admin.Media.Portada"]</span>
+                                }
+                            </div>
+
+                            <form method="post" asp-controller="AdminTecnicasMedia" asp-action="Editar"
+                                  asp-route-id="@Model.TecnicaId" asp-route-mediaId="@recurso.MediaId" class="mccj-admin-media-form"
+                                  novalidate>
+                                <input type="hidden" name="buscar" value="@Model.FiltroBuscar" />
+                                <input type="hidden" name="estado" value="@Model.FiltroEstadoTexto" />
+                                <input type="hidden" name="cinturon" value="@Model.FiltroCinturon" />
+
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label class="form-label" for="url-@recurso.MediaId">@L["Admin.Media.Url"]</label>
+                                        <input class="form-control" type="url" id="url-@recurso.MediaId" name="Url"
+                                               value="@recurso.Url" maxlength="2000" placeholder="https://www.youtube.com/watch?v=…" />
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label"
+                                               for="titulo-@recurso.MediaId">@L["Admin.Media.TituloRecurso"]</label>
+                                        <input class="form-control" type="text" id="titulo-@recurso.MediaId" name="Titulo"
+                                               value="@recurso.Titulo" maxlength="300" />
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label"
+                                               for="descripcion-@recurso.MediaId">@L["Admin.Media.DescripcionRecurso"]</label>
+                                        <input class="form-control" type="text" id="descripcion-@recurso.MediaId" name="Descripcion"
+                                               value="@recurso.Descripcion" maxlength="1000"
+                                               placeholder="@L["Admin.Media.DescripcionPlaceholder"]" />
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    <button type="submit" class="btn btn-gold btn-sm">@L["Cuenta.Perfil.GuardarCambios"]</button>
+
+                                    @if (!recurso.EsPortada)
+                                    {
+                                        <button type="submit" class="btn btn-outline-light btn-sm"
+                                                formaction="@Url.Action("MarcarPortada", "AdminTecnicasMedia", new { id = Model.TecnicaId, mediaId = recurso.MediaId })">
+                                            @L["Admin.Media.MarcarPortada"]
+                                        </button>
+                                    }
+
+                                    <button type="submit" class="btn btn-outline-light btn-sm mccj-admin-media-quitar"
+                                            formaction="@Url.Action("Quitar", "AdminTecnicasMedia", new { id = Model.TecnicaId, mediaId = recurso.MediaId })"
+                                            onclick="return confirm('@L["Admin.Media.ConfirmarQuitar"]');">
+                                        @L["Admin.Media.Quitar"]
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        @* ── Alta de nuevo recurso ────────────────────────────────────────────── *@
+        <form method="post" asp-controller="AdminTecnicasMedia" asp-action="Agregar" asp-route-id="@Model.TecnicaId"
+              class="mccj-admin-media-alta mt-4" novalidate>
+            <input type="hidden" name="buscar" value="@Model.FiltroBuscar" />
+            <input type="hidden" name="estado" value="@Model.FiltroEstadoTexto" />
+            <input type="hidden" name="cinturon" value="@Model.FiltroCinturon" />
+
+            <h3 class="mccj-card-heading mb-3">@L["Admin.Media.Agregar"]</h3>
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="alta-url">@L["Admin.Media.Alta.Url"]</label>
+                    <input class="form-control" type="url" id="alta-url" name="Url" value="@Model.Alta.Url" maxlength="2000"
+                           required placeholder="@L["Admin.Media.Alta.UrlPlaceholder"]" />
+                </div>
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="alta-titulo">@L["Admin.Media.Alta.Titulo"]</label>
+                    <input class="form-control" type="text" id="alta-titulo" name="Titulo" value="@Model.Alta.Titulo"
+                           maxlength="300" placeholder="@L["Admin.Media.Alta.TituloPlaceholder"]" />
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="alta-descripcion">@L["Admin.Media.Alta.Descripcion"]</label>
+                    <input class="form-control" type="text" id="alta-descripcion" name="Descripcion"
+                           value="@Model.Alta.Descripcion" maxlength="1000"
+                           placeholder="Nota breve visible en la ficha pública (opcional)" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-gold mt-3">Agregar recurso</button>
+        </form>
+    </div>

@@ -117,3 +117,87 @@ appsettings.*.Local.json
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# ---------- Fotografías de perfil (Mi perfil) ----------
+# Se guardan FUERA de wwwroot (App_Data) y se sirven por el controlador con control de acceso.
+MiCaminoBJJ.Web/App_Data/
+
+# ---------- App_Data genérico (cualquier nivel) ----------
+# Datos de ejecución: fotos de perfil, archivos subidos, temporales de runtime.
+# NUNCA deben versionarse: contienen datos personales de los practicantes.
+App_Data/
+**/App_Data/
+
+# ---------- Configuración sensible por entorno ----------
+# Los archivos de appsettings por entorno pueden llevar cadenas de conexión
+# reales. Se versionan SOLO appsettings.json y appsettings.Development.json
+# (que no contienen credenciales); el resto se inyecta por variable de entorno.
+appsettings.Production.json
+appsettings.Staging.json
+appsettings.*.Local.json
+appsettings.*.Secrets.json
+appsettings.Local.json
+
+# ---------- Perfiles de publicación (pueden contener credenciales) ----------
+*.pubxml.user
+**/Properties/PublishProfiles/*.pubxml
+**/PublishProfiles/*.pubxml
+
+# ---------- SQL Server: archivos de base y respaldos ----------
+# (*.bak ya está cubierto en la sección de temporales; se refuerza aquí por contexto.)
+*.mdf
+*.ldf
+*.ndf
+doc/backups/
+
+# ---------- Fotografías personales (Elementos/img) ----------
+# Imágenes de la autora y de terceros tomadas en clases: material PRIVADO,
+# sin uso por la aplicación. Se conservan en el disco, pero no se publican.
+Elementos/img/*.jpeg
+Elementos/img/*.jpg
+Elementos/img/*.heic
+
+# ---------- Artefactos locales de trabajo (no publicar) ----------
+# Scripts auxiliares de verificación y parches de respaldo del proyecto.
+_tmp_*
+*.patch
+*.diff
+*.orig
+*.rej
+
+# ---------- Cobertura y resultados de pruebas ----------
+TestResults/
+*.coverage
+coverage*.json
+coverage*.xml
+*.trx
+*.coveragexml
+
+# ---------- Empaquetado MAUI (Windows / iOS / Android) ----------
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+*.app
+*.ipa
+*.aab
+*.apk
+*.dSYM
+
+# ---------- Otros editores / IDE ----------
+.idea/
+.vscode/launch.json.user
+*.userprefs
+*.sublime-workspace
+*.swp
+*.swo
+
+# ---------- Sistema operativo ----------
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+

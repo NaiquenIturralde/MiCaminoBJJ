@@ -32,6 +32,15 @@ else
             </a>
         </div>
 
+        @if (!string.IsNullOrEmpty(_feedbackMessage))
+        {
+            <div class="alert alert-success" role="status" aria-live="polite">@_feedbackMessage</div>
+        }
+        @if (!string.IsNullOrEmpty(_feedbackError))
+        {
+            <div class="alert alert-danger" role="alert" aria-live="assertive">@_feedbackError</div>
+        }
+
         @if (_techniques.Count == 0)
         {
             <EmptyState Icon="📚" Title="Sin técnicas" Description="No hay técnicas aún. Agregá la primera." />
@@ -68,11 +77,13 @@ else
                             <a href="/admin/tecnicas/@technique.Id/media" class="btn btn-ghost btn-small">Multimedia</a>
                             @if (technique.IsActive)
                             {
-                                <button class="btn btn-ghost btn-small btn-danger-text" @onclick="() => ToggleActiveAsync(technique)">Ocultar</button>
+                                <button class="btn btn-ghost btn-small btn-danger-text"
+                                        @onclick="() => ToggleActiveAsync(technique)">Ocultar</button>
                             }
                             else
                             {
-                                <button class="btn btn-ghost btn-small btn-success-text" @onclick="() => ToggleActiveAsync(technique)">Restaurar</button>
+                                <button class="btn btn-ghost btn-small btn-success-text"
+                                        @onclick="() => ToggleActiveAsync(technique)">Restaurar</button>
                             }
                         </div>
                     </div>
@@ -88,6 +99,8 @@ else
     private bool _isLoading = true;
     private bool _hasError = false;
     private string _errorMessage = string.Empty;
+    private string _feedbackMessage = string.Empty;
+    private string _feedbackError = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -141,7 +154,35 @@ else
 
     private async Task ToggleActiveAsync(Technique technique)
     {
-        await TechniqueService.SetActiveAsync(technique.Id, !technique.IsActive);
+        _feedbackMessage = string.Empty;
+        _feedbackError = string.Empty;
+
+        var wasActive = technique.IsActive;
+
+        try
+        {
+            await TechniqueService.SetActiveAsync(technique.Id, !technique.IsActive);
+            _feedbackMessage = wasActive
+                ? $"'{technique.Name}' se ocultó correctamente."
+                : $"'{technique.Name}' se restauró correctamente.";
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // Sesión expirada o rol insuficiente: la operación fue rechazada
+            // (y auditada) por el servicio; no se modifica nada.
+            _feedbackError = "No tenés permisos para modificar técnicas. Iniciá sesión como administrador.";
+        }
+        catch (Exception)
+        {
+            _feedbackError = "No se pudo cambiar el estado de la técnica. Intentá nuevamente.";
+        }
+
+        if (!string.IsNullOrEmpty(_feedbackError))
+        {
+            StateHasChanged();
+            return;
+        }
+
         await LoadData();
     }
 }

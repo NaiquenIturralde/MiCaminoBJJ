@@ -1,0 +1,1420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Layout.Nav.Inicio" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Layout.Nav.Biblioteca" xml:space="preserve">
+    <value>Technique library</value>
+  </data>
+  <data name="Layout.Nav.Guia" xml:space="preserve">
+    <value>Practitioner's Guide</value>
+  </data>
+  <data name="Layout.Nav.IniciarSesion" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Layout.Nav.Registrarse" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Layout.Nav.MiPerfil" xml:space="preserve">
+    <value>My profile</value>
+  </data>
+  <data name="Layout.Nav.Configuracion" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Layout.Nav.Ayuda" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Layout.Nav.Administracion" xml:space="preserve">
+    <value>Admin panel</value>
+  </data>
+  <data name="Layout.Nav.CerrarSesion" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Layout.Nav.Bienvenido" xml:space="preserve">
+    <value>Welcome back,</value>
+  </data>
+  <data name="Layout.Nav.Rol" xml:space="preserve">
+    <value>Role: {0}</value>
+  </data>
+  <data name="Layout.Nav.Hola" xml:space="preserve">
+    <value>Hi, {0}</value>
+  </data>
+  <data name="Layout.Nav.MenuCuenta" xml:space="preserve">
+    <value>Account menu for {0}</value>
+  </data>
+  <data name="Layout.Nav.AlternarNavegacion" xml:space="preserve">
+    <value>Toggle navigation</value>
+  </data>
+  <data name="Layout.Nav.Proximamente" xml:space="preserve">
+    <value>Coming soon</value>
+  </data>
+  <data name="Layout.Nav.CerrarAviso" xml:space="preserve">
+    <value>Close notice</value>
+  </data>
+  <data name="Layout.Nav.Privacidad" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Layout.Nav.Slogan" xml:space="preserve">
+    <value>On and off the mat</value>
+  </data>
+  <data name="Layout.Nav.Idioma" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Layout.Pie.Copyright" xml:space="preserve">
+    <value>© 2026 Mi Camino BJJ — Brazilian Jiu-Jitsu</value>
+  </data>
+  <data name="Common.Buscar" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Common.LimpiarFiltros" xml:space="preserve">
+    <value>Clear filters</value>
+  </data>
+  <data name="Common.Todos" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Common.Todas" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Common.Cerrar" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Common.Cancelar" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common.SinResultados" xml:space="preserve">
+    <value>No results</value>
+  </data>
+  <data name="Common.VerTodasTecnicas" xml:space="preserve">
+    <value>View all techniques</value>
+  </data>
+  <data name="Common.NoEncontramosTecnicas" xml:space="preserve">
+    <value>We could not find any technique matching those criteria. Try a different name (you can also use synonyms) or clear the filters.</value>
+  </data>
+  <data name="Common.Cinturon" xml:space="preserve">
+    <value>Belt</value>
+  </data>
+  <data name="Common.Categoria" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Common.Posicion" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Common.Nombre" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Common.Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Common.Rol" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Common.BuscarNombre" xml:space="preserve">
+    <value>Search by name or synonym</value>
+  </data>
+  <data name="Common.BuscarPlaceholder" xml:space="preserve">
+    <value>e.g. kimura, mata león, RNC</value>
+  </data>
+  <data name="Common.DatosDemostracion" xml:space="preserve">
+    <value>Demo data</value>
+  </data>
+  <data name="Common.VolverInicio" xml:space="preserve">
+    <value>Back to home</value>
+  </data>
+  <data name="Common.IrBiblioteca" xml:space="preserve">
+    <value>Go to the library</value>
+  </data>
+  <data name="Common.Rejecutar" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Common.VolverBiblioteca" xml:space="preserve">
+    <value>Back to the library</value>
+  </data>
+  <data name="Common.Resultados.Tecnica" xml:space="preserve">
+    <value>technique</value>
+  </data>
+  <data name="Common.Resultados.Tecnicas" xml:space="preserve">
+    <value>techniques</value>
+  </data>
+  <data name="Cuenta.Configuracion.Titulo" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Cuenta.Configuracion.Subtitulo" xml:space="preserve">
+    <value>Your account preferences.</value>
+  </data>
+  <data name="Cuenta.Configuracion.IdiomaSeccion" xml:space="preserve">
+    <value>Application language</value>
+  </data>
+  <data name="Cuenta.Configuracion.IdiomaAyuda" xml:space="preserve">
+    <value>Choose the interface language. It applies to navigation, forms, titles and messages across the whole site.</value>
+  </data>
+  <data name="Cuenta.Configuracion.Actual" xml:space="preserve">
+    <value>Current language: {0}</value>
+  </data>
+  <data name="Cuenta.Configuracion.Guardar" xml:space="preserve">
+    <value>Save preferences</value>
+  </data>
+  <data name="Cuenta.Configuracion.Exito" xml:space="preserve">
+    <value>Preferences saved successfully.</value>
+  </data>
+  <data name="Cuenta.Configuracion.Error" xml:space="preserve">
+    <value>The language preference could not be saved.</value>
+  </data>
+  <data name="Cuenta.Configuracion.ErrorIdiomaInvalido" xml:space="preserve">
+    <value>The selected language is not valid.</value>
+  </data>
+  <data name="Cuenta.Configuracion.PerfilAviso" xml:space="preserve">
+    <value>Your name, email, role and belt are managed from «My profile».</value>
+  </data>
+  <data name="Cuenta.Configuracion.MiPerfil" xml:space="preserve">
+    <value>My profile</value>
+  </data>
+  <data name="Cuenta.Configuracion.Ayuda" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Cuenta.Idioma.Es" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Cuenta.Idioma.En" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Cuenta.Idioma.Pt" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="Cuenta.Login.Titulo" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Cuenta.Login.Subtitulo" xml:space="preserve">
+    <value>Sign in with your email and password.</value>
+  </data>
+  <data name="Cuenta.Login.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Cuenta.Login.PasswordPlaceholder" xml:space="preserve">
+    <value>Your password</value>
+  </data>
+  <data name="Cuenta.Login.MostrarPassword" xml:space="preserve">
+    <value>Show password</value>
+  </data>
+  <data name="Cuenta.Login.MostrarOcultarPassword" xml:space="preserve">
+    <value>Show or hide password</value>
+  </data>
+  <data name="Cuenta.Login.CrearCuenta" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="Cuenta.Registro.Titulo" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="Cuenta.Registro.Subtitulo" xml:space="preserve">
+    <value>Register as a practitioner and start tracking your progress.</value>
+  </data>
+  <data name="Cuenta.Registro.NombrePlaceholder" xml:space="preserve">
+    <value>How should we address you</value>
+  </data>
+  <data name="Cuenta.Registro.Cinturon" xml:space="preserve">
+    <value>Belt</value>
+  </data>
+  <data name="Cuenta.Registro.CinturonAyuda" xml:space="preserve">
+    <value>Your current belt. It personalises your journey and the library; it grants no permissions.</value>
+  </data>
+  <data name="Cuenta.Registro.PasswordPlaceholder" xml:space="preserve">
+    <value>At least 8 characters</value>
+  </data>
+  <data name="Cuenta.Registro.ConfirmarPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Cuenta.Registro.ConfirmarPasswordPlaceholder" xml:space="preserve">
+    <value>Repeat the password</value>
+  </data>
+  <data name="Cuenta.Registro.YaTengoCuenta" xml:space="preserve">
+    <value>I already have an account</value>
+  </data>
+  <data name="Cuenta.Perfil.Titulo" xml:space="preserve">
+    <value>My profile</value>
+  </data>
+  <data name="Cuenta.Perfil.Subtitulo" xml:space="preserve">
+    <value>Update your photo, your name and your Brazilian Jiu-Jitsu belt.</value>
+  </data>
+  <data name="Cuenta.Perfil.Foto" xml:space="preserve">
+    <value>Profile photo</value>
+  </data>
+  <data name="Cuenta.Perfil.FotoAyuda" xml:space="preserve">
+    <value>JPG, PNG or WEBP, up to 2 MB. If you upload no image the current one is kept.</value>
+  </data>
+  <data name="Cuenta.Perfil.AvatarIniciales" xml:space="preserve">
+    <value>Avatar with your initials</value>
+  </data>
+  <data name="Cuenta.Perfil.TuFoto" xml:space="preserve">
+    <value>Your profile photo</value>
+  </data>
+  <data name="Cuenta.Perfil.NombrePlaceholder" xml:space="preserve">
+    <value>Your name</value>
+  </data>
+  <data name="Cuenta.Perfil.CinturonActual" xml:space="preserve">
+    <value>Current belt</value>
+  </data>
+  <data name="Cuenta.Perfil.MiembroDesde" xml:space="preserve">
+    <value>Member since</value>
+  </data>
+  <data name="Cuenta.Perfil.Nota" xml:space="preserve">
+    <value>Your belt is used to personalise your experience and suggest techniques at your level. It grants no permissions inside the app. The system manages your email and role.</value>
+  </data>
+  <data name="Cuenta.Perfil.GuardarCambios" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="Cuenta.Denegado.Titulo" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="Cuenta.Denegado.Subtitulo" xml:space="preserve">
+    <value>Your session is valid, but it lacks the permissions required for this module.</value>
+  </data>
+  <data name="Cuenta.Denegado.Nota" xml:space="preserve">
+    <value>If you need administrative access, ask the system administrator to enable your account with the corresponding role.</value>
+  </data>
+  <data name="Cuenta.Mensaje.CredencialesInvalidas" xml:space="preserve">
+    <value>Email or password are incorrect.</value>
+  </data>
+  <data name="Cuenta.Mensaje.CuentaCreada" xml:space="preserve">
+    <value>Account created. Sign in to continue.</value>
+  </data>
+  <data name="Cuenta.Mensaje.ErrorCrearCuenta" xml:space="preserve">
+    <value>The account could not be created. Try again in a few minutes.</value>
+  </data>
+  <data name="Cuenta.Mensaje.EmailExistente" xml:space="preserve">
+    <value>An account with that email already exists.</value>
+  </data>
+  <data name="Cuenta.Mensaje.PasswordInvalida" xml:space="preserve">
+    <value>The password does not meet the requirements: at least 8 characters, an uppercase letter, a lowercase letter, a number and a special character.</value>
+  </data>
+  <data name="Cuenta.Mensaje.EmailInvalido" xml:space="preserve">
+    <value>The email is not valid.</value>
+  </data>
+  <data name="Cuenta.Mensaje.ErrorDatos" xml:space="preserve">
+    <value>The account could not be created with those details.</value>
+  </data>
+  <data name="Cuenta.Mensaje.Bloqueada" xml:space="preserve">
+    <value>Account temporarily locked after failed attempts. Try again in a few minutes.</value>
+  </data>
+  <data name="Cuenta.Mensaje.Bienvenida" xml:space="preserve">
+    <value>Successful sign-in</value>
+  </data>
+  <data name="Cuenta.Mensaje.PerfilActualizado" xml:space="preserve">
+    <value>Profile updated successfully.</value>
+  </data>
+  <data name="Cuenta.Mensaje.CambiosGuardados" xml:space="preserve">
+    <value>Changes saved successfully.</value>
+  </data>
+  <data name="Cuenta.Mensaje.CambiosGuardadosSinFoto" xml:space="preserve">
+    <value>Name and belt updated. The photo could not be changed.</value>
+  </data>
+  <data name="Cuenta.Mensaje.FotoInvalida" xml:space="preserve">
+    <value>The photo is not valid.</value>
+  </data>
+  <data name="Validacion.Nombre.Requerido" xml:space="preserve">
+    <value>Enter your name.</value>
+  </data>
+  <data name="Validacion.Nombre.Largo" xml:space="preserve">
+    <value>The name cannot exceed 100 characters.</value>
+  </data>
+  <data name="Validacion.Email.Requerido" xml:space="preserve">
+    <value>Enter your email.</value>
+  </data>
+  <data name="Validacion.Email.Formato" xml:space="preserve">
+    <value>The email does not have a valid format.</value>
+  </data>
+  <data name="Validacion.Email.Largo" xml:space="preserve">
+    <value>The email cannot exceed 200 characters.</value>
+  </data>
+  <data name="Validacion.Password.Requerido" xml:space="preserve">
+    <value>Enter your password.</value>
+  </data>
+  <data name="Validacion.Password.Largo" xml:space="preserve">
+    <value>The password cannot exceed 100 characters.</value>
+  </data>
+  <data name="Validacion.Password.Compleja" xml:space="preserve">
+    <value>It must have at least 8 characters, an uppercase letter, a lowercase letter, a number and a special character.</value>
+  </data>
+  <data name="Validacion.ConfirmarPassword.Requerido" xml:space="preserve">
+    <value>Confirm the password.</value>
+  </data>
+  <data name="Validacion.ConfirmarPassword.NoCoincide" xml:space="preserve">
+    <value>The passwords do not match.</value>
+  </data>
+  <data name="Validacion.Cinturon.Requerido" xml:space="preserve">
+    <value>Select your belt.</value>
+  </data>
+  <data name="Validacion.Cinturon.Lista" xml:space="preserve">
+    <value>Choose one of the available belts: White, Blue, Purple, Brown or Black.</value>
+  </data>
+  <data name="Validacion.Cinturon.Seleccion" xml:space="preserve">
+    <value>Select a belt from the list.</value>
+  </data>
+  <data name="Validacion.Admin.Password.Requerido" xml:space="preserve">
+    <value>Enter the development credential.</value>
+  </data>
+  <data name="Validacion.Idioma.Requerido" xml:space="preserve">
+    <value>Select a language.</value>
+  </data>
+  <data name="Validacion.Idioma.Soportado" xml:space="preserve">
+    <value>The selected language is not valid.</value>
+  </data>
+  <data name="Home.Eyebrow" xml:space="preserve">
+    <value>Brazilian Jiu-Jitsu · Learning · Progress · Respect</value>
+  </data>
+  <data name="Home.Title" xml:space="preserve">
+    <value>Progress on your Brazilian Jiu-Jitsu journey</value>
+  </data>
+  <data name="Home.Description" xml:space="preserve">
+    <value>Your progress starts with every training session. Learn new techniques, record your advances and strengthen your knowledge with a smart guide that follows you on and off the mat.</value>
+  </data>
+  <data name="Home.Cta.Guia" xml:space="preserve">
+    <value>Go to my guide</value>
+  </data>
+  <data name="Home.Cta.Registrarme" xml:space="preserve">
+    <value>Sign up now!</value>
+  </data>
+  <data name="Home.Cta.Explorar" xml:space="preserve">
+    <value>Explore techniques</value>
+  </data>
+  <data name="Home.Section.Titulo" xml:space="preserve">
+    <value>Everything you need to progress</value>
+  </data>
+  <data name="Home.Section.Subtitulo" xml:space="preserve">
+    <value>Practical tools to learn, review and follow your progress.</value>
+  </data>
+  <data name="Home.Pilar.Titulo" xml:space="preserve">
+    <value>Your learning continues off the mat</value>
+  </data>
+  <data name="Home.Pilar.Descripcion" xml:space="preserve">
+    <value>A space designed to turn every training session into a chance to learn, practise and evolve.</value>
+  </data>
+  <data name="Home.Tarjeta1.Titulo" xml:space="preserve">
+    <value>Learn with clarity</value>
+  </data>
+  <data name="Home.Tarjeta1.Descripcion" xml:space="preserve">
+    <value>Access content organised by level, with simple explanations and videos to reinforce what you learned.</value>
+  </data>
+  <data name="Home.Tarjeta2.Titulo" xml:space="preserve">
+    <value>Train with purpose</value>
+  </data>
+  <data name="Home.Tarjeta2.Descripcion" xml:space="preserve">
+    <value>Understand every movement, recognise your difficulties and get better prepared for your next class.</value>
+  </data>
+  <data name="Home.Tarjeta3.Titulo" xml:space="preserve">
+    <value>Evolve at your own pace</value>
+  </data>
+  <data name="Home.Tarjeta3.Descripcion" xml:space="preserve">
+    <value>Build your own learning path, consolidating knowledge and moving forward step by step.</value>
+  </data>
+  <data name="Home.Card1.Titulo" xml:space="preserve">
+    <value>Technique library</value>
+  </data>
+  <data name="Home.Card1.Descripcion" xml:space="preserve">
+    <value>Explore techniques organised by belt, position and category, with videos and clear explanations to learn step by step.</value>
+  </data>
+  <data name="Home.Card2.Titulo" xml:space="preserve">
+    <value>Training log</value>
+  </data>
+  <data name="Home.Card2.Descripcion" xml:space="preserve">
+    <value>Record your sessions, the techniques you drilled and your notes to keep a history of your training.</value>
+  </data>
+  <data name="Home.Card3.Titulo" xml:space="preserve">
+    <value>Progress tracking</value>
+  </data>
+  <data name="Home.Card3.Descripcion" xml:space="preserve">
+    <value>Visualise your progress, spot the techniques you drill most and discover where you need to improve.</value>
+  </data>
+  <data name="Home.Card4.Titulo" xml:space="preserve">
+    <value>Saved techniques</value>
+  </data>
+  <data name="Home.Card4.Descripcion" xml:space="preserve">
+    <value>Save your favourite techniques and get to them easily whenever you want to review them.</value>
+  </data>
+  <data name="Home.Card5.Titulo" xml:space="preserve">
+    <value>Quick search</value>
+  </data>
+  <data name="Home.Card5.Descripcion" xml:space="preserve">
+    <value>Find techniques by name, position or belt and jump straight to the content you need.</value>
+  </data>
+  <data name="Home.Card6.Titulo" xml:space="preserve">
+    <value>Personalised guidance</value>
+  </data>
+  <data name="Home.Card6.Descripcion" xml:space="preserve">
+    <value>Resolve your doubts, understand the BJJ fundamentals and reinforce your learning with an interactive guide.</value>
+  </data>
+  <data name="Home.Pillar1.Titulo" xml:space="preserve">
+    <value>Mobile app</value>
+  </data>
+  <data name="Home.Pillar1.Descripcion" xml:space="preserve">
+    <value>Access your library and your progress from anywhere, with an experience designed for everyday use.</value>
+  </data>
+  <data name="Home.Pillar2.Titulo" xml:space="preserve">
+    <value>Unified web</value>
+  </data>
+  <data name="Home.Pillar2.Descripcion" xml:space="preserve">
+    <value>Manage and review your progress from the browser with a clean, agile and professional interface.</value>
+  </data>
+  <data name="Home.Pillar3.Titulo" xml:space="preserve">
+    <value>Coherent experience</value>
+  </data>
+  <data name="Home.Pillar3.Descripcion" xml:space="preserve">
+    <value>Everything in one place to learn, review and follow your progress without distractions.</value>
+  </data>
+  <data name="Home.Privacy.Titulo" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Home.Privacy.Texto1" xml:space="preserve">
+    <value>This page details the privacy policy of Mi Camino BJJ.</value>
+  </data>
+  <data name="Home.Privacy.Texto2" xml:space="preserve">
+    <value>Training and progress information is stored locally on your device. This stage does not include authentication or external services yet.</value>
+  </data>
+  <data name="Common.Disponible" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="Common.Proximamente" xml:space="preserve">
+    <value>Coming soon</value>
+  </data>
+  <data name="Tecnicas.Eyebrow" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="Tecnicas.Titulo" xml:space="preserve">
+    <value>Technique library</value>
+  </data>
+  <data name="Tecnicas.Descripcion" xml:space="preserve">
+    <value>Brazilian Jiu-Jitsu techniques organised by belt, category and position. Search by name or synonym and filter according to what you train today.</value>
+  </data>
+  <data name="Tecnicas.Filtro.Titulo" xml:space="preserve">
+    <value>Filter by belt</value>
+  </data>
+  <data name="Tecnicas.Filtro.Ayuda" xml:space="preserve">
+    <value>Pick a belt with a single click or go back to «All». It combines with the search and the other filters.</value>
+  </data>
+  <data name="Tecnicas.Intro.Blanco" xml:space="preserve">
+    <value>You work on the fundamentals: posture, basic escapes and survival positions. Prioritise safe technique and understanding each concept over speed.</value>
+  </data>
+  <data name="Tecnicas.Intro.Azul" xml:space="preserve">
+    <value>You consolidate the base and start chaining attacks and defences. Prioritise transitions between positions and control of the opponent.</value>
+  </data>
+  <data name="Tecnicas.Intro.Violeta" xml:space="preserve">
+    <value>You develop a more offensive game with attacks from guard and submissions. Prioritise the precision of the locks and the timing.</value>
+  </data>
+  <data name="Tecnicas.Intro.Marrón" xml:space="preserve">
+    <value>You refine your technique and start reading the opponent's game. Prioritise efficiency, detail and decision making.</value>
+  </data>
+  <data name="Tecnicas.Intro.Negro" xml:space="preserve">
+    <value>You master the fine details and adapt your game to every opponent. Prioritise fluidity, your own game and fixing root mistakes.</value>
+  </data>
+  <data name="Tecnicas.Intro.Etiqueta" xml:space="preserve">
+    <value>Belt {0}</value>
+  </data>
+  <data name="Tecnicas.Recorrido.Eyebrow" xml:space="preserve">
+    <value>Guided journey</value>
+  </data>
+  <data name="Tecnicas.Recorrido.Titulo" xml:space="preserve">
+    <value>Just starting on the mat?</value>
+  </data>
+  <data name="Tecnicas.Recorrido.Descripcion" xml:space="preserve">
+    <value>Follow the white belt journey: five ordered modules to progress from the fundamentals to your first techniques.</value>
+  </data>
+  <data name="Tecnicas.Recorrido.Cta" xml:space="preserve">
+    <value>See the white belt journey</value>
+  </data>
+  <data name="Tecnicas.Resultados.Para" xml:space="preserve">
+    <value>for «{0}»</value>
+  </data>
+  <data name="Tecnicas.Resultados.Cinturon" xml:space="preserve">
+    <value>· belt {0}</value>
+  </data>
+  <data name="Tecnicas.Resultados.Filtros" xml:space="preserve">
+    <value>· filters applied</value>
+  </data>
+  <data name="Tecnicas.Resultados.Limpiar" xml:space="preserve">
+    <value>Clear filters ✕</value>
+  </data>
+  <data name="Tecnicas.VerDetalle" xml:space="preserve">
+    <value>View details</value>
+  </data>
+  <data name="Tecnicas.Detalle.Descripcion" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Tecnicas.Detalle.Objetivo" xml:space="preserve">
+    <value>Objective</value>
+  </data>
+  <data name="Tecnicas.Detalle.Pasos" xml:space="preserve">
+    <value>Steps</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinPasos" xml:space="preserve">
+    <value>This technique has no steps loaded yet.</value>
+  </data>
+  <data name="Tecnicas.Detalle.Consejos" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinConsejos" xml:space="preserve">
+    <value>This technique has no tips loaded yet.</value>
+  </data>
+  <data name="Tecnicas.Detalle.Aliases" xml:space="preserve">
+    <value>Also known as</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinAlias" xml:space="preserve">
+    <value>No synonyms registered.</value>
+  </data>
+  <data name="Tecnicas.Detalle.Multimedia" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinRecursos" xml:space="preserve">
+    <value>No media resources available at the moment.</value>
+  </data>
+  <data name="Tecnicas.Detalle.AbrirYouTube" xml:space="preserve">
+    <value>Open on YouTube ↗</value>
+  </data>
+  <data name="Tecnicas.Detalle.VistaPrevia" xml:space="preserve">
+    <value>Video preview: {0}</value>
+  </data>
+  <data name="Tecnicas.Detalle.ReproducirVideo" xml:space="preserve">
+    <value>Play the video: {0}</value>
+  </data>
+  <data name="Tecnicas.Detalle.Galeria" xml:space="preserve">
+    <value>Other videos of this technique</value>
+  </data>
+  <data name="Tecnicas.Detalle.ElegirVideo" xml:space="preserve">
+    <value>Choose the video: {0}</value>
+  </data>
+  <data name="Tecnicas.Detalle.Miniatura" xml:space="preserve">
+    <value>Video thumbnail: {0}</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinVideo" xml:space="preserve">
+    <value>No video available</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinVideoTexto" xml:space="preserve">
+    <value>This technique has no video demonstration yet. Meanwhile you can study the description, the objective and the steps below.</value>
+  </data>
+  <data name="Tecnicas.Detalle.EnlacesExternos" xml:space="preserve">
+    <value>External links</value>
+  </data>
+  <data name="Tecnicas.Detalle.VolverFiltros" xml:space="preserve">
+    <value>Back with the filters applied</value>
+  </data>
+  <data name="Guia.Eyebrow" xml:space="preserve">
+    <value>Guidance</value>
+  </data>
+  <data name="Guia.Titulo" xml:space="preserve">
+    <value>Practitioner's Guide</value>
+  </data>
+  <data name="Guia.Descripcion" xml:space="preserve">
+    <value>Browse the techniques in the library, ask for step-by-step explanations, search by name or by the alternative name you know it by in your academy, and get study suggestions for your level. All of it based on the techniques registered in Mi Camino BJJ.</value>
+  </data>
+  <data name="Guia.Conversacion" xml:space="preserve">
+    <value>Conversation</value>
+  </data>
+  <data name="Guia.RolAgente" xml:space="preserve">
+    <value>Guide</value>
+  </data>
+  <data name="Guia.RolUsuario" xml:space="preserve">
+    <value>You</value>
+  </data>
+  <data name="Guia.Sugerencias" xml:space="preserve">
+    <value>Suggested questions:</value>
+  </data>
+  <data name="Guia.TuPregunta" xml:space="preserve">
+    <value>Your question</value>
+  </data>
+  <data name="Guia.Placeholder" xml:space="preserve">
+    <value>Write your question about BJJ… (Enter to send, Shift+Enter for a line break)</value>
+  </data>
+  <data name="Guia.Enviar" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Guia.Pensando" xml:space="preserve">
+    <value>Thinking about your answer…</value>
+  </data>
+  <data name="Guia.Maximo" xml:space="preserve">
+    <value>Maximum 1000 characters</value>
+  </data>
+  <data name="Guia.Bienvenida" xml:space="preserve">
+    <value>Hello! I am the Practitioner's Guide of Mi Camino BJJ. I can explain the techniques in the library, help you find them by name or by the alternative name you know them by, suggest what to study according to your belt and answer general learning questions. How can I help you today?</value>
+  </data>
+  <data name="Guia.Nota.Seguridad" xml:space="preserve">
+    <value>Always practise under your instructor's supervision: learn the movement in person and never force a joint lock on a training partner.</value>
+  </data>
+  <data name="Guia.Sugerencia.Guardia" xml:space="preserve">
+    <value>What is a guard?</value>
+  </data>
+  <data name="Guia.Sugerencia.CinturonBlanco" xml:space="preserve">
+    <value>Show me white belt techniques</value>
+  </data>
+  <data name="Guia.Sugerencia.Mejorar" xml:space="preserve">
+    <value>How can I improve my learning?</value>
+  </data>
+  <data name="Guia.Error.Consulta" xml:space="preserve">
+    <value>I could not query the technique library at this time. Try again in a few minutes.</value>
+  </data>
+  <data name="Guia.Nota.Timeout" xml:space="preserve">
+    <value>The AI service took too long to respond; this answer comes from the catalogue.</value>
+  </data>
+  <data name="Guia.Nota.Fallo" xml:space="preserve">
+    <value>The AI service could not be reached; this answer comes from the catalogue.</value>
+  </data>
+  <data name="Guia.Modo.Ia" xml:space="preserve">
+    <value>AI generative assistant</value>
+  </data>
+  <data name="Guia.Modo.Catalogo" xml:space="preserve">
+    <value>Catalog-based guide (no generative AI)</value>
+  </data>
+  <data name="Recorrido.Eyebrow" xml:space="preserve">
+    <value>Journey by belt</value>
+  </data>
+  <data name="Recorrido.Titulo" xml:space="preserve">
+    <value>White belt — Journey</value>
+  </data>
+  <data name="Recorrido.CinturonBlanco" xml:space="preserve">
+    <value>White belt</value>
+  </data>
+  <data name="Recorrido.Badges.Modulos" xml:space="preserve">
+    <value>5 educational modules</value>
+  </data>
+  <data name="Recorrido.Badges.Principiantes" xml:space="preserve">
+    <value>Guide for beginners</value>
+  </data>
+  <data name="Recorrido.PorDondeArrancar" xml:space="preserve">
+    <value>Where to start</value>
+  </data>
+  <data name="Recorrido.ModulosEducativos" xml:space="preserve">
+    <value>Educational modules</value>
+  </data>
+  <data name="Recorrido.ModulosDescripcion" xml:space="preserve">
+    <value>Walk through the five modules in order: first you understand, then you practise.</value>
+  </data>
+  <data name="Recorrido.Puntos" xml:space="preserve">
+    <value>{0} point</value>
+  </data>
+  <data name="Recorrido.PuntosPlural" xml:space="preserve">
+    <value>{0} points</value>
+  </data>
+  <data name="Recorrido.Fichas" xml:space="preserve">
+    <value>{0} card</value>
+  </data>
+  <data name="Recorrido.FichasPlural" xml:space="preserve">
+    <value>{0} cards</value>
+  </data>
+  <data name="Recorrido.ConVideo" xml:space="preserve">
+    <value>With video</value>
+  </data>
+  <data name="Recorrido.SinVideo" xml:space="preserve">
+    <value>Pending instructor review</value>
+  </data>
+  <data name="Recorrido.Complementario" xml:space="preserve">
+    <value>complementary</value>
+  </data>
+  <data name="Recorrido.CinturonSinAsignar" xml:space="preserve">
+    <value>Belt not assigned</value>
+  </data>
+  <data name="Recorrido.ContenidoModulo" xml:space="preserve">
+    <value>Module content</value>
+  </data>
+  <data name="Recorrido.ConceptoClave" xml:space="preserve">
+    <value>Key concept:</value>
+  </data>
+  <data name="Recorrido.FichasModulo" xml:space="preserve">
+    <value>Module technique cards</value>
+  </data>
+  <data name="Recorrido.FichasModuloDescripcion" xml:space="preserve">
+    <value>Each card includes the embedded video, the step by step and its safety precautions.</value>
+  </data>
+  <data name="Recorrido.FichaRelacionada" xml:space="preserve">
+    <value>Related card</value>
+  </data>
+  <data name="Recorrido.FichaRelacionadaTexto" xml:space="preserve">
+    <value>This module is practised together with the next card of the journey:</value>
+  </data>
+  <data name="Recorrido.IndiceCinturon" xml:space="preserve">
+    <value>White belt index</value>
+  </data>
+  <data name="Recorrido.ModuloAnterior" xml:space="preserve">
+    <value>← Previous module: {0}</value>
+  </data>
+  <data name="Recorrido.ModuloSiguiente" xml:space="preserve">
+    <value>Next module: {0} →</value>
+  </data>
+  <data name="Recorrido.ModuloNumero" xml:space="preserve">
+    <value>Module {0} of 5</value>
+  </data>
+  <data name="Recorrido.FichaModulo" xml:space="preserve">
+    <value>Technique card · Module {0} — {1}</value>
+  </data>
+  <data name="Recorrido.VolverModulo" xml:space="preserve">
+    <value>← Back to module {0}</value>
+  </data>
+  <data name="Recorrido.CinturonPrincipal" xml:space="preserve">
+    <value>Main belt: {0}</value>
+  </data>
+  <data name="Recorrido.CinturonPrincipalSinAsignar" xml:space="preserve">
+    <value>Main belt: not assigned</value>
+  </data>
+  <data name="Recorrido.MaterialComplementario" xml:space="preserve">
+    <value>Supplementary material of the white belt journey</value>
+  </data>
+  <data name="Recorrido.VideoDemostrativo" xml:space="preserve">
+    <value>Demonstrative video</value>
+  </data>
+  <data name="Recorrido.VideoPendiente" xml:space="preserve">
+    <value>Video pending: there is no confirmed demonstration for this card yet.</value>
+  </data>
+  <data name="Recorrido.Introduccion" xml:space="preserve">
+    <value>Introduction</value>
+  </data>
+  <data name="Recorrido.PasoAPaso" xml:space="preserve">
+    <value>Step by step</value>
+  </data>
+  <data name="Recorrido.PrincipiosTecnicos" xml:space="preserve">
+    <value>Technical principles</value>
+  </data>
+  <data name="Recorrido.ErroresFrecuentes" xml:space="preserve">
+    <value>Common mistakes</value>
+  </data>
+  <data name="Recorrido.Precauciones" xml:space="preserve">
+    <value>Safety precautions</value>
+  </data>
+  <data name="Recorrido.PosicionInicial" xml:space="preserve">
+    <value>Starting position</value>
+  </data>
+  <data name="Recorrido.Objetivo" xml:space="preserve">
+    <value>Objective</value>
+  </data>
+  <data name="Recorrido.TecnicaBiblioteca" xml:space="preserve">
+    <value>Technique in the library</value>
+  </data>
+  <data name="Recorrido.SinEquivalente" xml:space="preserve">
+    <value>This card has no equivalent technique loaded in the library.</value>
+  </data>
+  <data name="Recorrido.FichaCompleta" xml:space="preserve">
+    <value>Full card of {0} (main belt: {1}).</value>
+  </data>
+  <data name="Recorrido.SinDatos" xml:space="preserve">
+    <value>no data</value>
+  </data>
+  <data name="Recorrido.VerEnBiblioteca" xml:space="preserve">
+    <value>View in the library →</value>
+  </data>
+  <data name="Recorrido.Oculta" xml:space="preserve">
+    <value>The related technique {0} exists in the library but is hidden administratively (without video publication), so its public card is not available.</value>
+  </data>
+  <data name="Recorrido.NoEnlazada" xml:space="preserve">
+    <value>It could not be linked to the library at this time. Related technique: {0}.</value>
+  </data>
+  <data name="Recorrido.EstadoRevision" xml:space="preserve">
+    <value>Technical review status</value>
+  </data>
+  <data name="Recorrido.Referencia" xml:space="preserve">
+    <value>Bibliographic reference:</value>
+  </data>
+  <data name="Recorrido.MasEnRecorrido" xml:space="preserve">
+    <value>More in this journey</value>
+  </data>
+  <data name="Recorrido.FichaAnterior" xml:space="preserve">
+    <value>← Previous card: {0}</value>
+  </data>
+  <data name="Recorrido.FichaSiguiente" xml:space="preserve">
+    <value>Next card: {0} →</value>
+  </data>
+  <data name="Recorrido.Indice" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Recorrido.FichasTecnicasVideo" xml:space="preserve">
+    <value>Technique cards with video</value>
+  </data>
+  <data name="Recorrido.FichasTecnicasVideoDescripcion" xml:space="preserve">
+    <value>Cards from module 5, with an integrated preview and on-demand playback.</value>
+  </data>
+  <data name="Recorrido.TecnicasParaCinturon" xml:space="preserve">
+    <value>Library techniques for this belt</value>
+  </data>
+  <data name="Recorrido.TecnicasParaCinturonDescripcion" xml:space="preserve">
+    <value>Existing techniques suitable for beginners, with their full card in the library.</value>
+  </data>
+  <data name="Recorrido.VerFichaBiblioteca" xml:space="preserve">
+    <value>View the card in the library →</value>
+  </data>
+  <data name="Recorrido.RevisionInstructor" xml:space="preserve">
+    <value>Pending instructor review</value>
+  </data>
+  <data name="Recorrido.ContenidoRevision" xml:space="preserve">
+    <value>Content pending review. This card was written for this journey and has not been validated by an instructor yet. Do not present it as verified material.</value>
+  </data>
+  <data name="Recorrido.NavegacionModulos" xml:space="preserve">
+    <value>Navigation between modules</value>
+  </data>
+  <data name="Recorrido.NavegacionFichas" xml:space="preserve">
+    <value>Navigation between cards</value>
+  </data>
+  <data name="Shared.Error.Titulo" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Shared.Error.Encabezado" xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
+  <data name="Shared.Error.RequestId" xml:space="preserve">
+    <value>Request ID:</value>
+  </data>
+  <data name="Shared.Error.Desarrollo" xml:space="preserve">
+    <value>Development mode</value>
+  </data>
+  <data name="Shared.Error.DesarrolloTexto" xml:space="preserve">
+    <value>Swapping to the Development environment will display more detailed information about the error that occurred.</value>
+  </data>
+  <data name="Shared.Error.DesarrolloAviso" xml:space="preserve">
+    <value>The Development environment shouldn't be enabled for deployed applications. It can result in displaying sensitive information from exceptions to end users. For local debugging, enable the Development environment by setting the ASPNETCORE_ENVIRONMENT environment variable to Development and restarting the app.</value>
+  </data>
+  <data name="Ayuda.Eyebrow" xml:space="preserve">
+    <value>User manual</value>
+  </data>
+  <data name="Ayuda.Titulo" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Ayuda.Descripcion" xml:space="preserve">
+    <value>A quick guide to Mi Camino BJJ: what the application is, how to register, how to use the technique library, the Practitioner's Guide and your profile. We only describe what is already available.</value>
+  </data>
+  <data name="Ayuda.IndiceEtiqueta" xml:space="preserve">
+    <value>On this page</value>
+  </data>
+  <data name="Ayuda.Indice.QueEs" xml:space="preserve">
+    <value>What Mi Camino BJJ is</value>
+  </data>
+  <data name="Ayuda.Indice.Registro" xml:space="preserve">
+    <value>Registration and sign-in</value>
+  </data>
+  <data name="Ayuda.Indice.Biblioteca" xml:space="preserve">
+    <value>Technique library</value>
+  </data>
+  <data name="Ayuda.Indice.Cinturon" xml:space="preserve">
+    <value>Search by belt</value>
+  </data>
+  <data name="Ayuda.Indice.Videos" xml:space="preserve">
+    <value>Play videos</value>
+  </data>
+  <data name="Ayuda.Indice.Guia" xml:space="preserve">
+    <value>Practitioner's Guide</value>
+  </data>
+  <data name="Ayuda.Indice.Perfil" xml:space="preserve">
+    <value>Manage your profile</value>
+  </data>
+  <data name="Ayuda.Indice.Faq" xml:space="preserve">
+    <value>Frequently asked questions</value>
+  </data>
+  <data name="Ayuda.Indice.Roles" xml:space="preserve">
+    <value>Practitioner and Administrator</value>
+  </data>
+  <data name="Ayuda.QueEs.Titulo" xml:space="preserve">
+    <value>What Mi Camino BJJ is</value>
+  </data>
+  <data name="Ayuda.QueEs.P1" xml:space="preserve">
+    <value>Mi Camino BJJ is a web application to practise Brazilian Jiu-Jitsu: it brings together a technique library with cards, videos and filters, a Practitioner's Guide that answers questions about those techniques, and a personal profile with your name, your belt and your photo.</value>
+  </data>
+  <data name="Ayuda.QueEs.P2" xml:space="preserve">
+    <value>Your belt is a profile detail: it personalises the experience and the Guide's suggestions, but it never defines permissions inside the application.</value>
+  </data>
+  <data name="Ayuda.Registro.Titulo" xml:space="preserve">
+    <value>How to register and sign in</value>
+  </data>
+  <data name="Ayuda.Registro.L1" xml:space="preserve">
+    <value>Go to the home page and press «Sign up now!» (or the «Register» link in the top bar).</value>
+  </data>
+  <data name="Ayuda.Registro.L2" xml:space="preserve">
+    <value>Fill in the form: name, email, current belt and a password of at least 8 characters with an uppercase letter, a lowercase letter, a number and a special character.</value>
+  </data>
+  <data name="Ayuda.Registro.L3" xml:space="preserve">
+    <value>When you register, your account is created with the Practicante role. The system assigns the role: it cannot be chosen from the form.</value>
+  </data>
+  <data name="Ayuda.Registro.L4" xml:space="preserve">
+    <value>Sign in with your email and password from «Sign in». The session belongs to the application: closing the browser closes it too.</value>
+  </data>
+  <data name="Ayuda.Registro.L5" xml:space="preserve">
+    <value>Once you are in, your avatar (top right) opens the account menu with «My profile», «Settings», «Help» and «Sign out».</value>
+  </data>
+  <data name="Ayuda.Biblioteca.Titulo" xml:space="preserve">
+    <value>How to use the technique library</value>
+  </data>
+  <data name="Ayuda.Biblioteca.P1" xml:space="preserve">
+    <value>The library is at «Technique library», in the top bar. It lists the available techniques ordered by belt and, for each one, you can open its card with the step-by-step description, its videos and related techniques.</value>
+  </data>
+  <data name="Ayuda.Biblioteca.L1" xml:space="preserve">
+    <value>Search by name or synonym: type the technique name (for example «kimura» or «RNC») in the search box. The search also recognises the alternative name you know it by in your academy.</value>
+  </data>
+  <data name="Ayuda.Biblioteca.L2" xml:space="preserve">
+    <value>Filter: combine the belt, category and position filters and press «Search».</value>
+  </data>
+  <data name="Ayuda.Biblioteca.L3" xml:space="preserve">
+    <value>White belt journey: when you filter by the white belt, the access to the educational journey appears, with modules and cards ordered to progress step by step.</value>
+  </data>
+  <data name="Ayuda.Cinturon.Titulo" xml:space="preserve">
+    <value>How to search by belt</value>
+  </data>
+  <data name="Ayuda.Cinturon.L1" xml:space="preserve">
+    <value>At the top of the library there is the «Filter by belt» block: pick a belt with a single click or go back to «All».</value>
+  </data>
+  <data name="Ayuda.Cinturon.L2" xml:space="preserve">
+    <value>When you pick one, the list is filtered and a short introduction with the context of that belt is shown.</value>
+  </data>
+  <data name="Ayuda.Cinturon.L3" xml:space="preserve">
+    <value>The filter combines with the text search and with the category and position filters: all criteria apply at once.</value>
+  </data>
+  <data name="Ayuda.Videos.Titulo" xml:space="preserve">
+    <value>How to play the videos</value>
+  </data>
+  <data name="Ayuda.Videos.L1" xml:space="preserve">
+    <value>Open the technique card (for example, from the list or from the Guide).</value>
+  </data>
+  <data name="Ayuda.Videos.L2" xml:space="preserve">
+    <value>In the videos section you will see the thumbnail with the ▶ button: pressing it loads the player and the video starts playing.</value>
+  </data>
+  <data name="Ayuda.Videos.L3" xml:space="preserve">
+    <value>Below you have the «Open on YouTube ↗» link, which opens the video in another tab.</value>
+  </data>
+  <data name="Ayuda.Videos.Nota" xml:space="preserve">
+    <value>Videos are uploaded by the library administrators. If a technique has no video associated yet, its card shows the description without a player.</value>
+  </data>
+  <data name="Ayuda.Guia.Titulo" xml:space="preserve">
+    <value>How to use the AI Practitioner's Guide</value>
+  </data>
+  <data name="Ayuda.Guia.P1" xml:space="preserve">
+    <value>The Practitioner's Guide is in the top bar and requires signing in. It is a conversation: you type your question (up to 1000 characters) and you get an answer about the techniques in the library.</value>
+  </data>
+  <data name="Ayuda.Guia.L1" xml:space="preserve">
+    <value>Real mode on screen: the chat label tells you whether you are using the generative AI assistant or the catalog-based guide (the mode that works when the AI service is unavailable). The answer always states its origin: the catalog is never presented as AI.</value>
+  </data>
+  <data name="Ayuda.Guia.L2" xml:space="preserve">
+    <value>Suggested questions: below the chat there are buttons with frequently asked questions («What is a guard?», «Show me white belt techniques», etc.) that you can tap to send the query.</value>
+  </data>
+  <data name="Ayuda.Guia.L3" xml:space="preserve">
+    <value>Belt level: the Guide uses the belt on your profile to suggest techniques at your level.</value>
+  </data>
+  <data name="Ayuda.Guia.L4" xml:space="preserve">
+    <value>Shortcuts: Enter sends the question and Shift+Enter inserts a line break.</value>
+  </data>
+  <data name="Ayuda.Guia.Nota" xml:space="preserve">
+    <value>The Guide is a study companion: always practise under your instructor's supervision and never force a joint lock on a training partner.</value>
+  </data>
+  <data name="Ayuda.Perfil.Titulo" xml:space="preserve">
+    <value>How to manage your profile</value>
+  </data>
+  <data name="Ayuda.Perfil.P1" xml:space="preserve">
+    <value>Open «My profile» from your avatar menu (top right). On that same screen you can:</value>
+  </data>
+  <data name="Ayuda.Perfil.L1" xml:space="preserve">
+    <value>See your photo at medium size (120 × 120 px, with rounded corners). If you have not uploaded one yet, an avatar with your initials is shown.</value>
+  </data>
+  <data name="Ayuda.Perfil.L2" xml:space="preserve">
+    <value>Upload or change your photo: choose the file and press «Save changes». JPG, PNG or WEBP images up to 2 MB are accepted; the application checks the type and the real content of the file before saving it.</value>
+  </data>
+  <data name="Ayuda.Perfil.L3" xml:space="preserve">
+    <value>Edit your name (it is the name the rest of the application shows).</value>
+  </data>
+  <data name="Ayuda.Perfil.L4" xml:space="preserve">
+    <value>Edit your current belt by picking one of the belts in the catalogue (white, blue, purple, brown or black).</value>
+  </data>
+  <data name="Ayuda.Perfil.L5" xml:space="preserve">
+    <value>Check your email, your role and your registration date: they are read-only.</value>
+  </data>
+  <data name="Ayuda.Perfil.P2" xml:space="preserve">
+    <value>When you finish the changes, press «Save changes»: the screen confirms that the changes were saved.</value>
+  </data>
+  <data name="Ayuda.Perfil.Nota" xml:space="preserve">
+    <value>The email is the key to your account and the role is assigned by the system: that is why they are not editable from the profile.</value>
+  </data>
+  <data name="Ayuda.Faq.Titulo" xml:space="preserve">
+    <value>Frequently asked questions</value>
+  </data>
+  <data name="Ayuda.Faq.D1" xml:space="preserve">
+    <value>Can I change my email or my role?</value>
+  </data>
+  <data name="Ayuda.Faq.R1" xml:space="preserve">
+    <value>No. The email identifies your account and the system assigns the role when you register.</value>
+  </data>
+  <data name="Ayuda.Faq.D2" xml:space="preserve">
+    <value>Does changing my belt give me permissions?</value>
+  </data>
+  <data name="Ayuda.Faq.R2" xml:space="preserve">
+    <value>No. The belt only personalises the experience and the Guide's suggestions.</value>
+  </data>
+  <data name="Ayuda.Faq.D3" xml:space="preserve">
+    <value>What happens if I upload an image that is too heavy or is not an image?</value>
+  </data>
+  <data name="Ayuda.Faq.R3" xml:space="preserve">
+    <value>It is not saved: the application validates the size (2 MB maximum), the extension and the real content of the file, and tells you the reason.</value>
+  </data>
+  <data name="Ayuda.Faq.D4" xml:space="preserve">
+    <value>Can I see someone else's photo?</value>
+  </data>
+  <data name="Ayuda.Faq.R4" xml:space="preserve">
+    <value>No. Every photo is private: only its owner can see it.</value>
+  </data>
+  <data name="Ayuda.Faq.D5" xml:space="preserve">
+    <value>Does the Guide answer any question?</value>
+  </data>
+  <data name="Ayuda.Faq.R5" xml:space="preserve">
+    <value>It focuses on the techniques in the library and on your level. If the AI service is unavailable, it answers in catalog mode and says so.</value>
+  </data>
+  <data name="Ayuda.Faq.D6" xml:space="preserve">
+    <value>I forgot my password, what do I do?</value>
+  </data>
+  <data name="Ayuda.Faq.R6" xml:space="preserve">
+    <value>There is no automatic password recovery today: ask an administrator to reset your credential.</value>
+  </data>
+  <data name="Ayuda.Faq.D7" xml:space="preserve">
+    <value>Where do I see my progress or my saved training sessions?</value>
+  </data>
+  <data name="Ayuda.Faq.R7" xml:space="preserve">
+    <value>The training log and the progress tracking are not available in the web version yet; they are shown as «Coming soon» on the home page.</value>
+  </data>
+  <data name="Ayuda.Roles.Titulo" xml:space="preserve">
+    <value>Differences between Practitioner and Administrator</value>
+  </data>
+  <data name="Ayuda.Roles.Funcion" xml:space="preserve">
+    <value>Feature</value>
+  </data>
+  <data name="Ayuda.Roles.Practicante" xml:space="preserve">
+    <value>Practitioner</value>
+  </data>
+  <data name="Ayuda.Roles.Administrador" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="Ayuda.Roles.Fila1" xml:space="preserve">
+    <value>Browse the technique library</value>
+  </data>
+  <data name="Ayuda.Roles.Fila2" xml:space="preserve">
+    <value>Use the Practitioner's Guide</value>
+  </data>
+  <data name="Ayuda.Roles.Fila3" xml:space="preserve">
+    <value>Manage your own profile (name, belt, photo)</value>
+  </data>
+  <data name="Ayuda.Roles.Fila4" xml:space="preserve">
+    <value>Create, edit and activate or deactivate techniques</value>
+  </data>
+  <data name="Ayuda.Roles.Fila5" xml:space="preserve">
+    <value>Attach and remove videos from the cards</value>
+  </data>
+  <data name="Ayuda.Roles.Fila6" xml:space="preserve">
+    <value>Access to the admin panel</value>
+  </data>
+  <data name="Ayuda.Roles.Si" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Ayuda.Roles.No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Ayuda.Roles.Panel" xml:space="preserve">
+    <value>Yes, with an administrative credential</value>
+  </data>
+  <data name="Ayuda.Roles.Nota" xml:space="preserve">
+    <value>Administrative access is enabled in the application's development environment: outside it, the panel does not exist and responds as a missing page.</value>
+  </data>
+  <data name="Ayuda.Cta.Titulo" xml:space="preserve">
+    <value>Still have questions?</value>
+  </data>
+  <data name="Ayuda.Cta.P1" xml:space="preserve">
+    <value>Check the library and the Practitioner's Guide: the answer is usually there. And remember to always practise with supervision.</value>
+  </data>
+  <data name="Ayuda.Cta.Biblioteca" xml:space="preserve">
+    <value>View the library</value>
+  </data>
+  <data name="Ayuda.Cta.Guia" xml:space="preserve">
+    <value>Go to the Guide</value>
+  </data>
+  <data name="Admin.Eyebrow" xml:space="preserve">
+    <value>Administration · Development only</value>
+  </data>
+  <data name="Admin.Eyebrow.Crear" xml:space="preserve">
+    <value>Administration · Create</value>
+  </data>
+  <data name="Admin.Eyebrow.Editar" xml:space="preserve">
+    <value>Administration · Edit</value>
+  </data>
+  <data name="Admin.Titulo.Tecnicas" xml:space="preserve">
+    <value>Techniques</value>
+  </data>
+  <data name="Admin.Titulo.Nueva" xml:space="preserve">
+    <value>New technique</value>
+  </data>
+  <data name="Admin.Titulo.Editar" xml:space="preserve">
+    <value>Edit technique</value>
+  </data>
+  <data name="Admin.Descripcion.Tecnicas" xml:space="preserve">
+    <value>Create, edit, deactivate and reactivate techniques of the public library. Changes are stored in SQL Server with an audit trail.</value>
+  </data>
+  <data name="Admin.Descripcion.Nueva" xml:space="preserve">
+    <value>Fields marked with * are required. The technique is stored in SQL Server and becomes visible in the public library.</value>
+  </data>
+  <data name="Admin.Descripcion.Editar" xml:space="preserve">
+    <value>Edit the technique data. Changes are audited with your Development administrative user.</value>
+  </data>
+  <data name="Admin.NuevaTecnica" xml:space="preserve">
+    <value>New technique</value>
+  </data>
+  <data name="Admin.CerrarSesion" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Admin.Estado" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Admin.Estado.Activas" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Admin.Estado.Desactivadas" xml:space="preserve">
+    <value>Deactivated</value>
+  </data>
+  <data name="Admin.Resultados.Desactivadas" xml:space="preserve">
+    <value>· deactivated</value>
+  </data>
+  <data name="Admin.Resultados.Activas" xml:space="preserve">
+    <value>· active</value>
+  </data>
+  <data name="Admin.Resultados.Total" xml:space="preserve">
+    <value>· in total (including deactivated)</value>
+  </data>
+  <data name="Admin.Tabla.Tecnica" xml:space="preserve">
+    <value>Technique</value>
+  </data>
+  <data name="Admin.Tabla.Estado" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Admin.Tabla.Modificada" xml:space="preserve">
+    <value>Modified (UTC)</value>
+  </data>
+  <data name="Admin.Tabla.Acciones" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Admin.Estado.Activa" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Admin.Estado.Desactivada" xml:space="preserve">
+    <value>Deactivated</value>
+  </data>
+  <data name="Admin.Fila.Editada" xml:space="preserve">
+    <value>· edited</value>
+  </data>
+  <data name="Admin.Fila.Creada" xml:space="preserve">
+    <value>· created</value>
+  </data>
+  <data name="Admin.Accion.Editar" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Admin.Accion.Desactivar" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Admin.Accion.Reactivar" xml:space="preserve">
+    <value>Reactivate</value>
+  </data>
+  <data name="Admin.Modal.Titulo" xml:space="preserve">
+    <value>Deactivate «{0}»</value>
+  </data>
+  <data name="Admin.Modal.Texto" xml:space="preserve">
+    <value>The technique will stop showing in the public library. You can reactivate it at any time; no data is deleted.</value>
+  </data>
+  <data name="Admin.Modal.Confirmar" xml:space="preserve">
+    <value>Yes, deactivate</value>
+  </data>
+  <data name="Admin.Vacio.Texto" xml:space="preserve">
+    <value>There are no techniques matching those criteria. Try a different name (you can also use synonyms), pick another belt or clear the filters.</value>
+  </data>
+  <data name="Admin.Form.Nombre" xml:space="preserve">
+    <value>Name *</value>
+  </data>
+  <data name="Admin.Form.NombrePlaceholder" xml:space="preserve">
+    <value>e.g. Kimura from closed guard</value>
+  </data>
+  <data name="Admin.Form.Descripcion" xml:space="preserve">
+    <value>Description *</value>
+  </data>
+  <data name="Admin.Form.DescripcionPlaceholder" xml:space="preserve">
+    <value>What it is and when it is used.</value>
+  </data>
+  <data name="Admin.Form.Objetivo" xml:space="preserve">
+    <value>Objective *</value>
+  </data>
+  <data name="Admin.Form.ObjetivoPlaceholder" xml:space="preserve">
+    <value>What this technique is for.</value>
+  </data>
+  <data name="Admin.Form.Cinturon" xml:space="preserve">
+    <value>Belt *</value>
+  </data>
+  <data name="Admin.Form.CinturonPlaceholder" xml:space="preserve">
+    <value>Select a belt</value>
+  </data>
+  <data name="Admin.Form.Posicion" xml:space="preserve">
+    <value>Position *</value>
+  </data>
+  <data name="Admin.Form.PosicionPlaceholder" xml:space="preserve">
+    <value>Select a position</value>
+  </data>
+  <data name="Admin.Form.Categoria" xml:space="preserve">
+    <value>Category *</value>
+  </data>
+  <data name="Admin.Form.CategoriaPlaceholder" xml:space="preserve">
+    <value>Select a category</value>
+  </data>
+  <data name="Admin.Form.Pasos" xml:space="preserve">
+    <value>Steps (one per line)</value>
+  </data>
+  <data name="Admin.Form.PasosPlaceholder" xml:space="preserve">
+    <value>Place the elbows tight to the body…</value>
+  </data>
+  <data name="Admin.Form.Consejos" xml:space="preserve">
+    <value>Tips (one per line)</value>
+  </data>
+  <data name="Admin.Form.ConsejosPlaceholder" xml:space="preserve">
+    <value>The bridge must be explosive…</value>
+  </data>
+  <data name="Admin.Form.Crear" xml:space="preserve">
+    <value>Create technique</value>
+  </data>
+  <data name="Admin.Media.Titulo" xml:space="preserve">
+    <value>Technique media</value>
+  </data>
+  <data name="Admin.Media.Descripcion" xml:space="preserve">
+    <value>YouTube videos (including Shorts) and video links associated with this technique. Removing a resource only unlinks it: the shared file or link is never deleted.</value>
+  </data>
+  <data name="Admin.Media.Recursos" xml:space="preserve">
+    <value>{0} resource</value>
+  </data>
+  <data name="Admin.Media.RecursosPlural" xml:space="preserve">
+    <value>{0} resources</value>
+  </data>
+  <data name="Admin.Media.Vacio.Titulo" xml:space="preserve">
+    <value>This technique has no videos or media links yet.</value>
+  </data>
+  <data name="Admin.Media.Vacio.Texto" xml:space="preserve">
+    <value>Add the first one with the form below: YouTube URLs (watch, Shorts or youtu.be) and Vimeo are accepted.</value>
+  </data>
+  <data name="Admin.Media.AbrirEn" xml:space="preserve">
+    <value>Open on {0} ↗</value>
+  </data>
+  <data name="Admin.Media.Enlace" xml:space="preserve">
+    <value>{0}: open link ↗</value>
+  </data>
+  <data name="Admin.Media.ArchivoLocal" xml:space="preserve">
+    <value>Local file without a web preview</value>
+  </data>
+  <data name="Admin.Media.Portada" xml:space="preserve">
+    <value>★ Cover</value>
+  </data>
+  <data name="Admin.Media.Url" xml:space="preserve">
+    <value>Video URL</value>
+  </data>
+  <data name="Admin.Media.TituloRecurso" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Admin.Media.DescripcionRecurso" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Admin.Media.DescripcionPlaceholder" xml:space="preserve">
+    <value>Note visible on the public card</value>
+  </data>
+  <data name="Admin.Media.MarcarPortada" xml:space="preserve">
+    <value>★ Mark as cover</value>
+  </data>
+  <data name="Admin.Media.Quitar" xml:space="preserve">
+    <value>✕ Remove resource</value>
+  </data>
+  <data name="Admin.Media.ConfirmarQuitar" xml:space="preserve">
+    <value>Remove this resource from the technique? The shared file or link is NOT deleted: it is only unlinked.</value>
+  </data>
+  <data name="Admin.Media.Agregar" xml:space="preserve">
+    <value>Add video or link</value>
+  </data>
+  <data name="Admin.Media.Alta.Url" xml:space="preserve">
+    <value>Video URL *</value>
+  </data>
+  <data name="Admin.Media.Alta.UrlPlaceholder" xml:space="preserve">
+    <value>https://www.youtube.com/watch?v=… or https://youtube.com/shorts/…</value>
+  </data>
+  <data name="Admin.Media.Alta.Titulo" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Admin.Media.Alta.TituloPlaceholder" xml:space="preserve">
+    <value>Video title (optional)</value>
+  </data>
+  <data name="Admin.Media.Alta.Descripcion" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Admin.Mensaje.ErrorOperacion" xml:space="preserve">
+    <value>The operation could not be completed. Review the details and try again.</value>
+  </data>
+  <data name="AdminAcceso.Eyebrow" xml:space="preserve">
+    <value>Administration · Development only</value>
+  </data>
+  <data name="AdminAcceso.Titulo" xml:space="preserve">
+    <value>Administrative access</value>
+  </data>
+  <data name="AdminAcceso.Descripcion" xml:space="preserve">
+    <value>This module only exists in development environments. The credential is validated on the server and is not stored in the repository.</value>
+  </data>
+  <data name="AdminAcceso.Credencial" xml:space="preserve">
+    <value>Development credential</value>
+  </data>
+  <data name="AdminAcceso.Ingresar" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="AdminAcceso.Error.Credencial" xml:space="preserve">
+    <value>Incorrect credential.</value>
+  </data>
+  <data name="AdminAcceso.Error.Inhabilitado" xml:space="preserve">
+    <value>Administrative access is disabled in this environment.</value>
+  </data>
+</root>

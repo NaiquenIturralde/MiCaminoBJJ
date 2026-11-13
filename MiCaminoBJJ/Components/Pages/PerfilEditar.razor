@@ -1,0 +1,159 @@
+@page "/perfil/editar"
+@inject ISessionService SessionService
+@inject IUserService UserService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando tu perfil..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadData" />
+}
+else
+{
+    <div class="dashboard">
+        @* Volver a Mi Perfil (navegación interna, sin salir de la app) *@
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+            <a href="/perfil" class="btn btn-ghost" style="padding:0.5rem 0.6rem;line-height:1;"
+               aria-label="Volver a Mi Perfil" title="Volver a Mi Perfil">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="m12 19-7-7 7-7" />
+                    <path d="M19 12H5" />
+                </svg>
+            </a>
+            <h1 style="margin:0;">Editar perfil</h1>
+        </div>
+
+        <section class="dashboard-section">
+            <h3>Datos básicos</h3>
+            <EditForm Model="_editModel" OnValidSubmit="SaveAsync">
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <InputText class="form-control" @bind-Value="_editModel.Name" maxlength="100" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Academia</label>
+                    <InputText class="form-control" @bind-Value="_editModel.Academy" maxlength="150"
+                               placeholder="Opcional" />
+                </div>
+
+                @if (!string.IsNullOrEmpty(_saveMessage))
+                {
+                    <div class="alert alert-success" role="status" aria-live="polite">@_saveMessage</div>
+                }
+
+                @if (!string.IsNullOrEmpty(_saveError))
+                {
+                    <div class="alert alert-danger" role="alert" aria-live="assertive">@_saveError</div>
+                }
+
+                <button type="submit" class="btn btn-primary btn-block" disabled="@_isSaving">
+                    @(_isSaving ? "Guardando..." : "Guardar cambios")
+                </button>
+            </EditForm>
+        </section>
+    </div>
+}
+
+@code {
+    private User? _user;
+    private bool _isLoading = true;
+    private bool _hasError;
+    private bool _isSaving;
+    private string _errorMessage = string.Empty;
+    private string _saveMessage = string.Empty;
+    private string _saveError = string.Empty;
+    private ProfileEditModel _editModel = new();
+
+    private class ProfileEditModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Academy { get; set; } = string.Empty;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _hasError = false;
+        StateHasChanged();
+
+        try
+        {
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            if (!userId.HasValue)
+            {
+                Navigation.NavigateTo("/login");
+                return;
+            }
+
+            _user = await UserService.GetByIdAsync(userId.Value);
+            if (_user == null)
+            {
+                _hasError = true;
+                _errorMessage = "No se encontró tu usuario.";
+                return;
+            }
+
+            _editModel = new ProfileEditModel
+            {
+                Name = _user.Name,
+                Academy = _user.Academy ?? string.Empty
+            };
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudo cargar el perfil.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        if (_user == null || _isSaving) return;
+
+        _isSaving = true;
+        _saveMessage = string.Empty;
+        _saveError = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            _user.Name = _editModel.Name.Trim();
+            _user.Academy = string.IsNullOrWhiteSpace(_editModel.Academy)
+                ? null
+                : _editModel.Academy.Trim();
+
+            await UserService.UpdateAsync(_user);
+            _saveMessage = "Datos actualizados correctamente.";
+        }
+        catch (Exception)
+        {
+            // Se conservan los valores editados para poder reintentar.
+            _saveError = "No se pudieron guardar los datos. Intentá nuevamente.";
+        }
+        finally
+        {
+            _isSaving = false;
+            StateHasChanged();
+        }
+    }
+}

@@ -29,13 +29,24 @@ public class UserService : IUserService
 
     public async Task<User?> GetByEmailAsync(string email)
     {
+        var normalizedEmail = NormalizeEmail(email);
+        if (normalizedEmail.Length == 0)
+            return null;
+
+        // SQLite compara TEXT de forma sensible a mayúsculas/minúsculas:
+        // se compara en minúsculas para que el login reconozca el correo
+        // registrado con cualquier combinación de mayúsculas.
         return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == email);
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == normalizedEmail);
     }
 
     public async Task<bool> EmailExistsAsync(string email)
     {
-        return await _context.Users.AnyAsync(u => u.Email == email);
+        var normalizedEmail = NormalizeEmail(email);
+        if (normalizedEmail.Length == 0)
+            return false;
+
+        return await _context.Users.AnyAsync(u => u.Email.ToLower() == normalizedEmail);
     }
 
     public async Task<User> CreateAsync(string name, string email, string password, string beltRank, string? academy)
@@ -44,8 +55,10 @@ public class UserService : IUserService
 
         var user = new User
         {
-            Name = name,
-            Email = email,
+            Name = name.Trim(),
+            // Se guarda normalizado (recortado y en minúsculas) para que el
+            // índice único de Users.Email también impida duplicados por casing.
+            Email = NormalizeEmail(email),
             PasswordHash = hash,
             PasswordSalt = salt,
             BeltRank = beltRank,
@@ -79,10 +92,13 @@ public class UserService : IUserService
 
     public async Task<bool> ValidateCredentialsAsync(string email, string password)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        var user = await GetByEmailAsync(email);
         if (user == null)
             return false;
 
         return _passwordHasher.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
     }
+
+    private static string NormalizeEmail(string? email)
+        => (email ?? string.Empty).Trim().ToLowerInvariant();
 }

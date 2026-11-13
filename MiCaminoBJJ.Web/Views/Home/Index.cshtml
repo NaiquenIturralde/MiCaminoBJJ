@@ -1,0 +1,106 @@
+﻿@model HomeIndexViewModel
+@{
+    ViewData["Title"] = L["Layout.Nav.Inicio"];
+    ViewData["BodyClass"] = "mccj-home-bg"; // fondo FondoBJJWeb.png solo en la Home
+}
+
+<!-- Hero con identidad visual de Mi Camino BJJ (fondo de imagen + glass) -->
+<section class="mccj-hero">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-9 text-center">
+                <div class="mccj-glass-panel">
+                    <span class="mccj-eyebrow">@Model.Eyebrow</span>
+                    <h1 class="mccj-hero-title">@Model.Title</h1>
+                    <p class="mccj-hero-description mx-auto">@Model.Description</p>
+                    <!-- Fila única de CTAs: principal (registro/guía) + secundario (biblioteca). -->
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mt-4">
+                        @if (User.Identity?.IsAuthenticated == true
+                            && User.Identity.AuthenticationType == MiCaminoBJJ.Web.Security.IdentitySetup.AuthSchemeName)
+                        {
+                            <a class="btn btn-gold btn-lg mccj-cta" asp-controller="GuiaPracticante" asp-action="Index">
+                                <i data-lucide="compass" class="mccj-cta-icon" aria-hidden="true"></i>
+                                <span>@L["Home.Cta.Guia"]</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-gold btn-lg mccj-cta" asp-controller="Cuenta" asp-action="Registro">
+                                <i data-lucide="user-plus" class="mccj-cta-icon" aria-hidden="true"></i>
+                                <span>@L["Home.Cta.Registrarme"]</span>
+                            </a>
+                        }
+                        <a href="/Tecnicas" class="btn btn-outline-light btn-lg">@L["Home.Cta.Explorar"]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Funcionalidades -->
+<section id="funcionalidades" class="py-5">
+    <div class="container">
+        <div class="mccj-section-heading text-center mb-4">
+            <h2>@L["Home.Section.Titulo"]</h2>
+            <p>@L["Home.Section.Subtitulo"]</p>
+        </div>
+        <div class="row g-4">
+            @foreach (var feature in Model.Features)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <article class="mccj-card mccj-glass-card h-100">
+                        <div class="mccj-card-icon" aria-hidden="true">
+                            <i data-lucide="@feature.Icon"></i>
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(feature.Badge))
+                        {
+                            <span class="mccj-badge">@feature.Badge</span>
+                        }
+                        <h3>@feature.Title</h3>
+                        <p>@feature.Description</p>
+                    </article>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Arquitectura: aprendizaje fuera del tatami (glassmorphism oscuro) -->
+<section id="arquitectura" class="mccj-section-glass py-5">
+    <div class="container">
+        <div class="mccj-section-heading text-center mb-4">
+            <h2>@L["Home.Pilar.Titulo"]</h2>
+            <p>@L["Home.Pilar.Descripcion"]</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4">
+                <article class="mccj-card mccj-card-dark h-100">
+                    <div class="mccj-card-icon" aria-hidden="true">
+                        <i data-lucide="book-open-check"></i>
+                    </div>
+                    <h3>@L["Home.Tarjeta1.Titulo"]</h3>
+                    <p>@L["Home.Tarjeta1.Descripcion"]</p>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <article class="mccj-card mccj-card-dark h-100">
+                    <div class="mccj-card-icon" aria-hidden="true">
+                        <i data-lucide="brain"></i>
+                    </div>
+                    <h3>@L["Home.Tarjeta2.Titulo"]</h3>
+                    <p>@L["Home.Tarjeta2.Descripcion"]</p>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <article class="mccj-card mccj-card-dark h-100">
+                    <div class="mccj-card-icon" aria-hidden="true">
+                        <i data-lucide="chart-no-axes-combined"></i>
+                    </div>
+                    <h3>@L["Home.Tarjeta3.Titulo"]</h3>
+                    <p>@L["Home.Tarjeta3.Descripcion"]</p>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>

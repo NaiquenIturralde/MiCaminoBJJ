@@ -77,8 +77,26 @@ public class MediaStorageService : IMediaStorageService
             Directory.CreateDirectory(directory);
         }
 
-        await using var outputStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
-        await fileStream.CopyToAsync(outputStream);
+        try
+        {
+            await using var outputStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
+            await fileStream.CopyToAsync(outputStream);
+        }
+        catch
+        {
+            // Nunca dejar un archivo a medias en disco si la escritura falla.
+            try
+            {
+                if (File.Exists(fullPath))
+                    File.Delete(fullPath);
+            }
+            catch
+            {
+                // Best effort: el error original es el que se propaga.
+            }
+
+            throw;
+        }
 
         _logger.LogDebug("File saved: {Path}", relativePath);
         return relativePath;

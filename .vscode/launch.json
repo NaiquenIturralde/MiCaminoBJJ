@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // PERFIL 1 (PREDETERMINADO): solo el proyecto Web. No invoca Android,
+            // no abre emuladores y no toca el proyecto MAUI.
+            "name": "Mi Camino BJJ Web",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/MiCaminoBJJ.Web/MiCaminoBJJ.Web.csproj",
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "presentation": {
+                "group": "1-micaminobjj",
+                "order": 1
+            }
+        },
+        {
+            // PERFIL 2: app MAUI en Android. Solo se ejecuta si lo elegís
+            // explícitamente en el desplegable "Run and Debug".
+            "name": "Mi Camino BJJ MAUI Android",
+            "type": "maui",
+            "request": "launch",
+            "project": "${workspaceFolder}/MiCaminoBJJ/MiCaminoBJJ.csproj",
+            "configuration": "Debug",
+            "targetFramework": "net10.0-android",
+            "presentation": {
+                "group": "2-micaminobjj",
+                "order": 2
+            }
+        }
+    ]
+}

@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+#if MAUI_DEVFLOW
+using Microsoft.Maui.DevFlow.Agent;
+using Microsoft.Maui.DevFlow.Blazor;
+#endif
+using Microsoft.Extensions.Logging;
 using MiCaminoBJJ.Core.Interfaces;
 using MiCaminoBJJ.Infrastructure.Data;
 using MiCaminoBJJ.Infrastructure.Data.Seed;
@@ -26,6 +30,11 @@ public static class MauiProgram
 
         builder.Services.AddMauiBlazorWebView();
 
+#if MAUI_DEVFLOW
+        builder.AddMauiDevFlowAgent();
+        builder.AddMauiBlazorDevFlowTools();
+#endif
+
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
@@ -35,6 +44,7 @@ public static class MauiProgram
         var dbPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "MiCaminoBJJ", "micaminobjj.db");
+        Directory.CreateDirectory(Path.GetDirectoryName(dbPath)!);
         builder.Services.AddInfrastructure(dbPath);
 
         // Session - App level with SecureStorage backing

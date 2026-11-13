@@ -26,6 +26,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ITechniqueService, TechniqueService>();
         services.AddScoped<ITechniqueSearchService, TechniqueSearchService>();
+        services.AddScoped<IAliasService, AliasService>();
+        services.AddScoped<IDataNormalizationService, DataNormalizationService>();
         services.AddScoped<ISavedTechniqueService, SavedTechniqueService>();
         services.AddScoped<ITechniquePracticeService, TechniquePracticeService>();
         services.AddScoped<ITechniqueProgressService, TechniqueProgressService>();
@@ -37,6 +39,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPositionService, PositionService>();
         services.AddScoped<IMediaService, MediaService>();
         services.AddScoped<IMediaStorageService, MediaStorageService>();
+        services.AddScoped<IAuditService, AuditService>();
+        // Guardia de autorización de operaciones administrativas (Etapa 1.2).
+        // Depende de ISessionService, registrado en el proyecto App.
+        services.AddScoped<IAdminAuthorizationService, AdminAuthorizationService>();
 
         // Database
         services.AddScoped<SeedDataService>();

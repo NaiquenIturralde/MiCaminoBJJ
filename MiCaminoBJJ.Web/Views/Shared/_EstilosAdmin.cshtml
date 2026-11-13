@@ -1,0 +1,262 @@
+@*
+    Estilos exclusivos del módulo administrativo (Etapa 3).
+    Nuevos y AUTOCONTENIDOS: no modifican site.css ni el diseño aprobado de
+    Home/biblioteca. Usan exactamente la paleta existente:
+    fondo #171717, superficies #222222, dorado #D7B83E y dorado #F0DB6A.
+*@
+<style>
+    .mccj-admin-table {
+        background: var(--mccj-surface);
+        border: 1px solid var(--mccj-border);
+        border-radius: var(--mccj-radius);
+        margin-bottom: 0;
+
+        /* Corrección Etapa 4 (hallazgo de auditoría visual): Bootstrap resuelve
+           --bs-table-bg desde --bs-body-bg (#fff, que el tema oscuro NUNCA
+           sobreescribe) y pintaba TODAS las celdas de blanco, dejando el texto
+           claro casi invisible y la cabecera dorada con contraste 1.94.
+           Celdas en transparente: prevalece el fondo #222 de la tabla y el
+           resaltado de fila al pasar el cursor vuelve a verse. */
+        --bs-table-bg: transparent;
+    }
+
+    .mccj-admin-table thead th {
+        color: var(--mccj-gold);
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        font-weight: 600;
+        border-bottom-color: var(--mccj-border);
+        padding: 0.85rem 1rem;
+        white-space: nowrap;
+    }
+
+    .mccj-admin-table tbody td {
+        color: var(--mccj-text);
+        border-bottom-color: var(--mccj-border);
+        vertical-align: middle;
+        padding: 0.8rem 1rem;
+    }
+
+    .mccj-admin-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .mccj-admin-table tbody tr:hover {
+        background: rgba(215, 184, 62, 0.06);
+    }
+
+    .mccj-admin-name {
+        color: var(--mccj-text);
+        font-weight: 600;
+    }
+
+    .mccj-admin-sub {
+        color: var(--mccj-muted);
+        font-size: 0.82rem;
+    }
+
+    .mccj-badge-off {
+        color: var(--mccj-muted);
+        border-color: var(--mccj-border);
+    }
+
+    .mccj-admin-actions {
+        display: flex;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .mccj-admin-modal .modal-content {
+        background: var(--mccj-surface);
+        color: var(--mccj-text);
+        border: 1px solid var(--mccj-border);
+    }
+
+    .mccj-admin-modal .modal-header,
+    .mccj-admin-modal .modal-footer {
+        border-color: var(--mccj-border);
+    }
+
+    .mccj-admin-modal .modal-title {
+        color: var(--mccj-gold);
+        font-weight: 600;
+    }
+
+    .mccj-admin-form .form-control,
+    .mccj-admin-form .form-select,
+    .mccj-admin-login .form-control {
+        background: #171717;
+        border: 1px solid var(--mccj-border);
+        color: var(--mccj-text);
+    }
+
+    .mccj-admin-form .form-control::placeholder,
+    .mccj-admin-login .form-control::placeholder {
+        color: var(--mccj-muted);
+    }
+
+    .mccj-admin-form .form-control:focus,
+    .mccj-admin-form .form-select:focus,
+    .mccj-admin-login .form-control:focus {
+        background: #171717;
+        border-color: var(--mccj-gold);
+        color: var(--mccj-text);
+        box-shadow: 0 0 0 0.2rem rgba(215, 184, 62, 0.25);
+    }
+
+    .mccj-admin-form .form-select option,
+    .mccj-admin-login .form-select option {
+        background: #171717;
+        color: var(--mccj-text);
+    }
+
+    .mccj-admin-form .form-label {
+        color: var(--mccj-text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .mccj-admin-alert-ok {
+        background: rgba(215, 184, 62, 0.12);
+        border: 1px solid rgba(215, 184, 62, 0.55);
+        color: var(--mccj-gold-light);
+    }
+
+    .mccj-admin-alert-err {
+        background: rgba(220, 53, 69, 0.12);
+        border: 1px solid rgba(220, 53, 69, 0.55);
+        color: #ff8f9a;
+    }
+
+    .mccj-admin-alert-err .validation-summary-valid,
+    .mccj-admin-form .field-validation-error,
+    .mccj-admin-login .field-validation-error {
+        color: #ff8f9a;
+        font-size: 0.85rem;
+    }
+
+    .mccj-admin-login-wrap {
+        max-width: 26rem;
+        margin: 0 auto;
+    }
+
+    /* Resumen de validación SIN errores: MVC agrega esta clase; debe ocultarse
+       para no dejar cuadros rojos/bordes vacíos en formularios sin errores. */
+    .validation-summary-valid {
+        display: none !important;
+    }
+
+    /* ── Sección «Multimedia de la técnica» (Etapa multimedia) ──────────
+       Misma paleta oscura/dorada; tarjetas por recurso con más respiración,
+       portada resaltada en dorado y estado vacío visible. */
+
+    .mccj-admin-media {
+        padding-top: 1.75rem;
+        border-top: 1px solid var(--mccj-border);
+    }
+
+    .mccj-admin-media-item {
+        background: #171717;
+        border: 1px solid var(--mccj-border);
+        border-radius: var(--mccj-radius);
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+        transition: border-color 0.2s ease;
+    }
+
+    .mccj-admin-media-item:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .mccj-admin-media-item.es-portada {
+        border-color: rgba(215, 184, 62, 0.55);
+        box-shadow: 0 0 0 1px rgba(215, 184, 62, 0.18);
+    }
+
+    .mccj-admin-media-portada {
+        color: var(--mccj-gold);
+        border-color: rgba(215, 184, 62, 0.65);
+    }
+
+    .mccj-admin-media-form .form-label {
+        color: var(--mccj-text-secondary);
+        font-size: 0.85rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .mccj-admin-media-quitar {
+        color: #ff8f9a;
+        border-color: rgba(220, 53, 69, 0.55);
+    }
+
+    .mccj-admin-media-quitar:hover,
+    .mccj-admin-media-quitar:focus {
+        background: rgba(220, 53, 69, 0.16);
+        color: #ffb3ba;
+        border-color: rgba(220, 53, 69, 0.85);
+    }
+
+    .mccj-admin-media-vacio {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border: 1px dashed var(--mccj-border);
+        border-radius: var(--mccj-radius);
+        color: var(--mccj-muted);
+        background: rgba(0, 0, 0, 0.25);
+        margin-bottom: 1.5rem;
+    }
+
+    .mccj-admin-media-vacio-icono {
+        display: block;
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .mccj-admin-media-vacio p {
+        margin-bottom: 0.25rem;
+    }
+
+    .mccj-admin-media-enlace {
+        display: inline-flex;
+        align-items: center;
+        min-height: 100%;
+        padding: 1rem;
+        width: 100%;
+        color: var(--mccj-gold-light);
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid var(--mccj-border);
+        border-radius: var(--mccj-radius);
+        text-decoration: none;
+        word-break: break-all;
+    }
+
+    .mccj-admin-media-enlace:hover {
+        border-color: rgba(215, 184, 62, 0.55);
+        text-decoration: none;
+    }
+
+    .mccj-admin-media-archivo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        min-height: 100%;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        color: var(--mccj-muted);
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid var(--mccj-border);
+        border-radius: var(--mccj-radius);
+        font-size: 0.85rem;
+    }
+
+    .mccj-admin-media-alta {
+        background: rgba(0, 0, 0, 0.28);
+        border: 1px solid var(--mccj-border);
+        border-radius: var(--mccj-radius);
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+</style>

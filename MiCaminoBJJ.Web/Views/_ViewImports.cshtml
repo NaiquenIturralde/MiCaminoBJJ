@@ -1,0 +1,11 @@
+﻿@using MiCaminoBJJ.Web
+@using MiCaminoBJJ.Web.Models
+@using MiCaminoBJJ.Web.ViewModels
+@using MiCaminoBJJ.Web.Services
+@using MiCaminoBJJ.Web.Localization
+@using Microsoft.Extensions.Localization
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@* Localizador compartido de la interfaz (es / en / pt).
+   Disponible en TODAS las vistas con la sintaxis @L[clave-del-recurso]. *@
+@inject IStringLocalizer<UiResources> L

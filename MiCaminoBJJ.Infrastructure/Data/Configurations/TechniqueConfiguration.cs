@@ -16,6 +16,16 @@ public class TechniqueConfiguration : IEntityTypeConfiguration<Technique>
             .IsRequired()
             .HasMaxLength(200);
 
+        // Normalizado para búsqueda sin tildes/mayúsculas. Nullable: las filas
+        // existentes se rellenan con backfill idempotente al iniciar la app.
+        builder.Property(e => e.NameNormalized)
+            .HasMaxLength(200);
+
+        builder.HasMany(e => e.Aliases)
+            .WithOne(a => a.Technique)
+            .HasForeignKey(a => a.TechniqueId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Property(e => e.Description)
             .IsRequired()
             .HasMaxLength(2000);

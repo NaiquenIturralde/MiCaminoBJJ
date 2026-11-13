@@ -1,0 +1,389 @@
+@page "/entrenamientos/nuevo"
+@inject ISessionService SessionService
+@inject ITrainingService TrainingService
+@inject ITechniqueService TechniqueService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando formulario..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadAsync" />
+}
+else
+{
+    <div class="training-form-page">
+        <div class="training-form-header">
+            <h1>Nuevo Entrenamiento 🥋</h1>
+            <p class="text-muted">Registrá tu sesión de entrenamiento</p>
+        </div>
+
+        @if (_successMessage != null)
+        {
+            <div class="alert alert-success" role="status" aria-live="polite">
+                <span>@_successMessage</span>
+                <button class="btn btn-ghost btn-small" @onclick="ResetForm">Registrar otro</button>
+            </div>
+        }
+
+        @if (_errorMessage != null && !_hasError)
+        {
+            <div class="alert alert-danger" role="alert" aria-live="assertive">@_errorMessage</div>
+        }
+
+        <EditForm Model="_model" OnValidSubmit="HandleSave">
+            <DataAnnotationsValidator />
+
+            @* Datos generales *@
+            <section class="training-form-section">
+                <h3>Datos de la sesión</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Fecha</label>
+                    <InputDate class="form-control" @bind-Value="_model.Fecha" />
+                    <ValidationMessage For="() => _model.Fecha" class="validation-message" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Tipo</label>
+                        <InputSelect class="form-control" @bind-Value="_model.Tipo">
+                            <option value="@TrainingType.Gi">Gi</option>
+                            <option value="@TrainingType.NoGi">No-Gi</option>
+                            <option value="@TrainingType.OpenMat">Open Mat</option>
+                        </InputSelect>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Duración (min)</label>
+                        <InputNumber class="form-control" @bind-Value="_model.DuracionMinutos" />
+                        <ValidationMessage For="() => _model.DuracionMinutos" class="validation-message" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Sensación</label>
+                    <InputSelect class="form-control" @bind-Value="_model.Sensacion">
+                        <option value="@Feeling.Buena">😊 Buena</option>
+                        <option value="@Feeling.Media">😐 Media</option>
+                        <option value="@Feeling.Dificil">😓 Difícil</option>
+                    </InputSelect>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Notas (opcional)</label>
+                    <InputTextArea class="form-control" rows="3" placeholder="¿Cómo fue la sesión?"
+                                   @bind-Value="_model.Notas" />
+                </div>
+            </section>
+
+            @* Técnicas *@
+            <section class="training-form-section">
+                <div class="training-form-section-header">
+                    <h3>Técnicas practicadas</h3>
+                    <span class="text-muted">@_tecnicasAgregadas.Count agregada(s)</span>
+                </div>
+
+                @* Buscador *@
+                <div class="technique-search-box">
+                    <input type="text" class="form-control" placeholder="Buscar técnica por nombre..."
+                           @bind="_busquedaTecnica" @bind:event="oninput" />
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(_busquedaTecnica) && _resultadosBusqueda.Any())
+                {
+                    <div class="technique-search-results">
+                        @foreach (var tech in _resultadosBusqueda)
+                        {
+                            <div class="technique-search-result-item">
+                                <div class="technique-search-result-info">
+                                    <span class="technique-search-result-name">@tech.Name</span>
+                                    <span class="text-muted">@tech.Belt.Name · @tech.Category.Name</span>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-small"
+                                        disabled="@_tecnicasAgregadas.Any(t => t.TechniqueId == tech.Id)"
+                                        @onclick="() => AgregarTecnica(tech)">
+                                    @(_tecnicasAgregadas.Any(t => t.TechniqueId == tech.Id) ? "Agregada" : "+ Agregar")
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(_busquedaTecnica))
+                {
+                    <EmptyState Icon="🔍" Title="Sin resultados" Description="No se encontraron técnicas con ese nombre." />
+                }
+
+                @* Técnicas agregadas *@
+                @if (_tecnicasAgregadas.Any())
+                {
+                    <div class="techniques-added-list">
+                        @for (int i = 0; i < _tecnicasAgregadas.Count; i++)
+                        {
+                            var idx = i;
+                            var tech = _tecnicasAgregadas[idx];
+                            <div class="technique-added-card">
+                                <div class="technique-added-header">
+                                    <span class="technique-added-name">@tech.Nombre</span>
+                                    <button type="button" class="btn btn-ghost btn-small" aria-label="Quitar técnica"
+                                            @onclick="() => QuitarTecnica(idx)">✕</button>
+                                </div>
+                                <div class="technique-added-fields">
+                                    <div class="form-group">
+                                        <label class="form-label">Reps</label>
+                                        <InputNumber class="form-control" @bind-Value="tech.Repeticiones" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Min</label>
+                                        <InputNumber class="form-control" @bind-Value="tech.Minutos" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Confianza</label>
+                                        <InputSelect class="form-control" @bind-Value="tech.Confianza">
+                                            <option value="@ConfidenceLevel.Baja">Baja</option>
+                                            <option value="@ConfidenceLevel.Media">Media</option>
+                                            <option value="@ConfidenceLevel.Alta">Alta</option>
+                                        </InputSelect>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Notas (opcional)</label>
+                                    <InputText class="form-control" placeholder="Detalle de la técnica" @bind-Value="tech.Notas" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <EmptyState Icon="🥋" Title="Sin técnicas seleccionadas"
+                                Description="Buscá y agregá las técnicas que practicaste. También podés guardar el entrenamiento sin técnicas." />
+                }
+            </section>
+
+            @* Guardar *@
+            <button type="submit" class="btn btn-primary btn-block" disabled="@_isSaving">
+                @if (_isSaving)
+                {
+                    <span class="spinner"></span>
+                    <span>Guardando...</span>
+                }
+                else
+                {
+                    <span>Guardar entrenamiento</span>
+                }
+            </button>
+        </EditForm>
+    </div>
+}
+
+@code {
+    private EntrenamientoModel _model = new();
+    private List<TecnicaAgregada> _tecnicasAgregadas = new();
+    private List<Technique> _todasLasTecnicas = new();
+    private string _busquedaTecnica = string.Empty;
+
+    private bool _isLoading = true;
+    private bool _isSaving = false;
+    private bool _hasError = false;
+    private string? _errorMessage;
+    private string? _successMessage;
+
+    private IEnumerable<Technique> _resultadosBusqueda =>
+        string.IsNullOrWhiteSpace(_busquedaTecnica)
+            ? Enumerable.Empty<Technique>()
+            : _todasLasTecnicas
+                .Where(t => t.Name.Contains(_busquedaTecnica, StringComparison.OrdinalIgnoreCase))
+                .Where(t => !_tecnicasAgregadas.Any(a => a.TechniqueId == t.Id))
+                .Take(8);
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        _isLoading = true;
+        _hasError = false;
+        StateHasChanged();
+
+        try
+        {
+            _todasLasTecnicas = await TechniqueService.GetAllAsync();
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudieron cargar las técnicas.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void AgregarTecnica(Technique tech)
+    {
+        if (_tecnicasAgregadas.Any(t => t.TechniqueId == tech.Id))
+            return;
+
+        _tecnicasAgregadas.Add(new TecnicaAgregada
+        {
+            TechniqueId = tech.Id,
+            Nombre = tech.Name
+        });
+    }
+
+    private void QuitarTecnica(int index)
+    {
+        if (index >= 0 && index < _tecnicasAgregadas.Count)
+            _tecnicasAgregadas.RemoveAt(index);
+    }
+
+    private async Task HandleSave()
+    {
+        // Protección contra doble clic
+        if (_isSaving)
+            return;
+
+        _errorMessage = null;
+        _successMessage = null;
+
+        // Validación de fecha no futura
+        if (_model.Fecha.Date > DateTime.Today)
+        {
+            _errorMessage = "La fecha no puede ser futura.";
+            return;
+        }
+
+        // Validación de duración
+        if (_model.DuracionMinutos < 1 || _model.DuracionMinutos > 600)
+        {
+            _errorMessage = "La duración debe estar entre 1 y 600 minutos.";
+            return;
+        }
+
+        // Validación de técnicas agregadas
+        foreach (var tech in _tecnicasAgregadas)
+        {
+            if (tech.Repeticiones < 1 || tech.Repeticiones > 1000)
+            {
+                _errorMessage = $"Las repeticiones de '{tech.Nombre}' deben estar entre 1 y 1000.";
+                return;
+            }
+            if (tech.Minutos < 0 || tech.Minutos > 600)
+            {
+                _errorMessage = $"Los minutos de '{tech.Nombre}' deben estar entre 0 y 600.";
+                return;
+            }
+        }
+
+        // El usuario SIEMPRE se obtiene de la sesión, nunca del formulario
+        var userId = await SessionService.GetCurrentUserIdAsync();
+        if (!userId.HasValue)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        _isSaving = true;
+        StateHasChanged();
+
+        try
+        {
+            var input = new TrainingWithTechniques
+            {
+                TrainingType = _model.Tipo,
+                Date = _model.Fecha,
+                DurationMinutes = _model.DuracionMinutos,
+                Feeling = _model.Sensacion,
+                Notes = string.IsNullOrWhiteSpace(_model.Notas) ? null : _model.Notas.Trim(),
+                Techniques = _tecnicasAgregadas.Select(t => new TechniquePracticeInput
+                {
+                    TechniqueId = t.TechniqueId,
+                    Repetitions = t.Repeticiones,
+                    DurationMinutes = t.Minutos,
+                    Confidence = t.Confianza,
+                    Notes = string.IsNullOrWhiteSpace(t.Notas) ? null : t.Notas.Trim()
+                }).ToList()
+            };
+
+            await TrainingService.CreateAsync(userId.Value, input);
+
+            _successMessage = "Entrenamiento guardado correctamente.";
+        }
+        catch (ArgumentException ex)
+        {
+            // Validación de negocio del servicio: se muestra el motivo y se conserva el formulario.
+            _errorMessage = ex.Message;
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Técnica inexistente o inactiva: se informa cuál falló y no se guardó nada.
+            _errorMessage = ex.Message;
+        }
+        catch (Exception)
+        {
+            _errorMessage = "No se pudo guardar el entrenamiento. Volvé a intentar.";
+        }
+        finally
+        {
+            _isSaving = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ResetForm()
+    {
+        _model = new EntrenamientoModel();
+        _tecnicasAgregadas.Clear();
+        _busquedaTecnica = string.Empty;
+        _successMessage = null;
+        _errorMessage = null;
+    }
+
+    public class EntrenamientoModel
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "La fecha es obligatoria.")]
+        public DateTime Fecha { get; set; } = DateTime.Today;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "El tipo es obligatorio.")]
+        public TrainingType Tipo { get; set; } = TrainingType.Gi;
+
+        [System.ComponentModel.DataAnnotations.Range(1, 600, ErrorMessage = "La duración debe estar entre 1 y 600 minutos.")]
+        public int DuracionMinutos { get; set; } = 60;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "La sensación es obligatoria.")]
+        public Feeling Sensacion { get; set; } = Feeling.Buena;
+
+        [System.ComponentModel.DataAnnotations.MaxLength(1000, ErrorMessage = "Las notas no pueden superar 1000 caracteres.")]
+        public string? Notas { get; set; }
+    }
+
+    public class TecnicaAgregada
+    {
+        public int TechniqueId { get; set; }
+        public string Nombre { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Range(1, 1000, ErrorMessage = "Entre 1 y 1000.")]
+        public int Repeticiones { get; set; } = 10;
+
+        [System.ComponentModel.DataAnnotations.Range(0, 600, ErrorMessage = "Entre 0 y 600.")]
+        public int Minutos { get; set; } = 5;
+
+        public ConfidenceLevel Confianza { get; set; } = ConfidenceLevel.Media;
+
+        [System.ComponentModel.DataAnnotations.MaxLength(500)]
+        public string? Notas { get; set; }
+    }
+}

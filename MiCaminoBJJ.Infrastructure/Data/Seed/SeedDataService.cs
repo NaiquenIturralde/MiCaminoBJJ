@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MiCaminoBJJ.Core.Entities;
 using MiCaminoBJJ.Core.Enums;
 using MiCaminoBJJ.Core.Interfaces;
+using MiCaminoBJJ.Core.Services;
 using MiCaminoBJJ.Infrastructure.Data;
+using MiCaminoBJJ.Infrastructure.Services;
 
 namespace MiCaminoBJJ.Infrastructure.Data.Seed;
 
@@ -12,12 +15,18 @@ public class SeedDataService
     private readonly AppDbContext _context;
     private readonly IPasswordHasher _passwordHasher;
     private readonly ILogger<SeedDataService> _logger;
+    private readonly IConfiguration? _configuration;
 
-    public SeedDataService(AppDbContext context, IPasswordHasher passwordHasher, ILogger<SeedDataService> logger)
+    public SeedDataService(
+        AppDbContext context,
+        IPasswordHasher passwordHasher,
+        ILogger<SeedDataService> logger,
+        IConfiguration? configuration = null)
     {
         _context = context;
         _passwordHasher = passwordHasher;
         _logger = logger;
+        _configuration = configuration;
     }
 
     public async Task SeedAsync()
@@ -66,8 +75,14 @@ public class SeedDataService
         _context.Positions.AddRange(positions);
         await _context.SaveChangesAsync();
 
-        // Seed demo admin user (only in development)
-        var adminPasswordHash = _passwordHasher.HashPassword("CONTRASENA_ELIMINADA_EN_LIMPIEZA_DE_SEGURIDAD", out var adminPasswordSalt);
+        // Seed demo admin user (only in development).
+        // La contraseña NO es un literal en el código: la resuelve
+        // SeedAdminPassword desde la configuración ("AdminDev:Password") y, si no
+        // hay ninguna configurada, genera una contraseña aleatoria. Así el
+        // repositorio no publica ninguna credencial fija y adivinable.
+        var adminPasswordHash = _passwordHasher.HashPassword(
+            SeedAdminPassword.Resolve(_configuration),
+            out var adminPasswordSalt);
         var admin = new User
         {
             Name = "Administrador",
@@ -155,6 +170,11 @@ public class SeedDataService
                 IsActive = true
             }
         };
+        // Misma regla que TechniqueService/TextNormalizer: las técnicas del seed
+        // quedan consultables por búsqueda normalizada sin depender solo del backfill.
+        foreach (var technique in techniques)
+            technique.NameNormalized = TextNormalizer.Normalize(technique.Name);
+
         _context.Techniques.AddRange(techniques);
         await _context.SaveChangesAsync();
 

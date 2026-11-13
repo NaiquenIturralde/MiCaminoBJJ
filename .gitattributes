@@ -1,0 +1,58 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# .gitattributes — Mi Camino BJJ
+# Normalización de fin de línea y marcado de archivos binarios.
+# Objetivo: que el repositorio se comporte igual en Windows, Linux y macOS,
+# y que GitHub no muestre diffs espurios por CRLF/LF.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Detección automática: los archivos de texto se guardan con LF en el
+# repositorio y se descargan con el fin de línea nativo de cada SO.
+* text=auto
+
+# ── Código ──────────────────────────────────────────────────────────────────
+*.cs        text diff=csharp
+*.cshtml    text diff=html
+*.razor     text diff=html
+*.css       text diff=css
+*.js        text
+*.json      text
+*.xml       text
+*.resx      text
+*.csproj    text
+*.sln       text eol=crlf
+*.props     text
+*.targets   text
+*.config    text
+*.sql       text
+*.ps1       text eol=crlf
+*.yml       text
+*.yaml      text
+*.md        text diff=markdown
+*.svg       text
+
+# ── Binarios (nunca deben convertirse de fin de línea) ──────────────────────
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.bmp       binary
+*.webp      binary
+*.ttf       binary
+*.otf       binary
+*.woff      binary
+*.woff2     binary
+*.pdf       binary
+*.zip       binary
+*.bak       binary
+*.mdf       binary
+*.ldf       binary
+*.exe       binary
+*.dll       binary
+*.pdb       binary
+*.apk       binary
+*.aab       binary
+*.ipa       binary
+*.pfx       binary
+*.p12       binary
+*.cer       binary

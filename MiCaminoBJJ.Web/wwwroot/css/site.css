@@ -1,0 +1,2176 @@
+/* ===== Mi Camino BJJ — identidad visual (Etapa 0 Web) ===== */
+
+:root {
+  --mccj-bg: #171717;
+  --mccj-surface: #222222;
+  --mccj-surface-alt: #2B2B2B;
+  --mccj-gold: #D7B83E;
+  --mccj-gold-light: #F0DB6A;
+  --mccj-gold-soft: rgba(215, 184, 62, 0.15);
+  --mccj-text: #F5F5F5;
+  --mccj-text-secondary: #C7C7C7;
+  --mccj-muted: #8A8A8A;
+  --mccj-border: #3A3A3A;
+  --mccj-radius: 14px;
+}
+
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 0;
+  background-color: var(--mccj-bg);
+  color: var(--mccj-text);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem var(--mccj-bg), 0 0 0 0.25rem var(--mccj-gold);
+}
+
+a {
+  color: var(--mccj-gold-light);
+}
+
+a:hover {
+  color: var(--mccj-gold);
+}
+
+.text-muted {
+  color: var(--mccj-muted) !important;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* ===== Componentes del landing ===== */
+
+.mccj-hero {
+  background:
+    radial-gradient(1200px 420px at 50% -15%, rgba(215, 184, 62, 0.18), transparent 65%),
+    linear-gradient(180deg, #1c1c1c 0%, var(--mccj-bg) 100%);
+  border-bottom: 1px solid var(--mccj-border);
+}
+
+.mccj-eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mccj-gold-light);
+  background: var(--mccj-gold-soft);
+  border: 1px solid rgba(215, 184, 62, 0.35);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.mccj-hero-title {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--mccj-text);
+  margin-bottom: 0.5rem;
+}
+
+.mccj-hero-tagline {
+  font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+  font-weight: 600;
+  color: var(--mccj-gold);
+  margin-bottom: 1rem;
+}
+
+.mccj-hero-description {
+  max-width: 46rem;
+  color: var(--mccj-text-secondary);
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.btn-gold {
+  background-color: var(--mccj-gold);
+  border-color: var(--mccj-gold);
+  color: #171717;
+  font-weight: 600;
+}
+
+.btn-gold:hover, .btn-gold:focus, .btn-gold:active {
+  background-color: var(--mccj-gold-light);
+  border-color: var(--mccj-gold-light);
+  color: #171717;
+}
+
+/* ===== CTA principal del hero (registro / guía) =====
+   Prioridad visual sobre el botón secundario. Reutiliza .btn-gold
+   (fondo #D7B83E, texto #171717, hover #F0DB6A) y le agrega tamaño,
+   radio acorde al diseño y foco visible accesible. */
+.mccj-cta {
+  border-radius: 12px;
+  padding: 0.7rem 1.5rem;
+  letter-spacing: 0.01em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.mccj-cta:hover {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42);
+  transform: translateY(-2px);
+}
+
+/* Anillo de foco explícito y contrastado sobre el fondo oscuro. */
+.mccj-cta:focus-visible {
+  outline: 2px solid var(--mccj-gold-light);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.85);
+  transform: none;
+}
+
+.mccj-cta .mccj-cta-icon {
+  width: 1.05em;
+  height: 1.05em;
+  stroke-width: 2.25;
+  flex: 0 0 auto;
+}
+
+/* Pantallas muy angostas: el CTA y el secundario se apilan (flex-column de
+   Bootstrap) y se evita que el texto del CTA se parta en dos líneas. */
+@media (max-width: 575.98px) {
+  .mccj-hero .mccj-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+    padding: 0.6rem 1.15rem;
+    font-size: 1rem;
+  }
+}
+
+/* Sin desplazamiento si el usuario pide menos movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  .mccj-cta {
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .mccj-cta:hover {
+    transform: none;
+  }
+}
+
+.mccj-section-heading h2 {
+  font-weight: 700;
+  color: var(--mccj-text);
+  margin-bottom: 0.35rem;
+}
+
+.mccj-section-heading p {
+  color: var(--mccj-text-secondary);
+  margin-bottom: 0;
+}
+
+.mccj-card {
+  background: var(--mccj-surface);
+  border: 1px solid var(--mccj-border);
+  border-radius: var(--mccj-radius);
+  padding: 1.5rem;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mccj-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(215, 184, 62, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.mccj-card-plain {
+  background: var(--mccj-surface-alt);
+}
+
+.mccj-card-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  color: var(--mccj-gold-light);
+}
+
+.mccj-card-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--mccj-gold-light);
+  fill: none;
+}
+
+.mccj-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--mccj-text);
+  margin-bottom: 0.5rem;
+}
+
+.mccj-card p {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.mccj-badge {
+  display: inline-block;
+  width: fit-content;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mccj-gold);
+  border: 1px solid rgba(215, 184, 62, 0.4);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  margin-bottom: 0.6rem;
+}
+
+.mccj-section-alt {
+  background: var(--mccj-surface-alt);
+  border-top: 1px solid var(--mccj-border);
+  border-bottom: 1px solid var(--mccj-border);
+}
+
+/* Ajustes en pantallas pequeñas (mobile-first) */
+@media (max-width: 575.98px) {
+  .mccj-card {
+    padding: 1.25rem;
+  }
+
+  .mccj-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* ===== Biblioteca de técnicas (Etapa 1 Web) ===== */
+
+/* Cabecera compacta de páginas interiores: misma identidad que el hero */
+.mccj-page-header {
+  background:
+    radial-gradient(1000px 320px at 20% -30%, rgba(215, 184, 62, 0.16), transparent 65%),
+    linear-gradient(180deg, #1c1c1c 0%, var(--mccj-bg) 100%);
+  border-bottom: 1px solid var(--mccj-border);
+}
+
+/* Panel de búsqueda y filtros (formulario GET) */
+.mccj-filters {
+  background: var(--mccj-surface);
+  border: 1px solid var(--mccj-border);
+  border-radius: var(--mccj-radius);
+  padding: 1.25rem;
+}
+
+.mccj-filters .form-label {
+  color: var(--mccj-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.mccj-filters .form-control,
+.mccj-filters .form-select {
+  background-color: var(--mccj-surface-alt);
+  border-color: var(--mccj-border);
+  color: var(--mccj-text);
+  min-height: 44px;
+}
+
+.mccj-filters .form-control::placeholder {
+  color: var(--mccj-muted);
+}
+
+.mccj-filters .form-control:focus,
+.mccj-filters .form-select:focus {
+  background-color: var(--mccj-surface-alt);
+  border-color: var(--mccj-gold);
+  color: var(--mccj-text);
+  box-shadow: 0 0 0 0.15rem rgba(215, 184, 62, 0.35);
+}
+
+.mccj-filters .form-select option {
+  background-color: var(--mccj-surface-alt);
+  color: var(--mccj-text);
+}
+
+/* Barra de contador de resultados */
+.mccj-results-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.mccj-results-count {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.mccj-clear-link {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--mccj-gold-light);
+  border-bottom: 1px dotted rgba(240, 219, 106, 0.6);
+}
+
+.mccj-clear-link:hover {
+  border-bottom-style: solid;
+  color: var(--mccj-gold);
+}
+
+/* ===== Etapa UI/UX: introducción por cinturón (biblioteca) =====
+   Bloque contextual breve (2-3 líneas) que aparece al filtrar por un
+   cinturón: enfoque + prioridad del practicante. Misma identidad glass. */
+.mccj-belt-intro {
+  background: rgba(215, 184, 62, 0.08);
+  border: 1px solid rgba(215, 184, 62, 0.35);
+  border-left: 4px solid var(--mccj-gold);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.mccj-belt-intro__eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mccj-gold);
+  margin-bottom: 0.35rem;
+}
+
+.mccj-belt-intro__texto {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* ===== Etapa UI/UX: acceso contextual al recorrido (fuera del navbar) =====
+   Card promocional dentro de la biblioteca con enlace al recorrido de
+   cinturón blanco. */
+.mccj-recorrido-promo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  background: var(--mccj-surface);
+  border: 1px solid var(--mccj-border);
+  border-radius: var(--mccj-radius);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.mccj-recorrido-promo__eyebrow {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mccj-gold);
+  margin-bottom: 0.3rem;
+}
+
+.mccj-recorrido-promo__titulo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--mccj-text);
+  margin-bottom: 0.4rem;
+}
+
+.mccj-recorrido-promo__texto {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+  max-width: 62ch;
+  margin-bottom: 0;
+}
+
+.mccj-recorrido-promo__cta {
+  white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+  .mccj-recorrido-promo {
+    padding: 1.25rem;
+  }
+
+  .mccj-recorrido-promo__cta {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* Tarjetas y textos de la biblioteca */
+.mccj-card-heading {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--mccj-text);
+  margin-bottom: 0.6rem;
+}
+
+.mccj-card-text {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+}
+
+.mccj-card-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estado vacío de resultados */
+.mccj-empty {
+  padding: 2.5rem 1.5rem;
+}
+
+.mccj-empty h2 {
+  color: var(--mccj-text);
+  margin-bottom: 0.5rem;
+}
+
+.mccj-empty p {
+  color: var(--mccj-text-secondary);
+  max-width: 34rem;
+  margin: 0 auto 1.25rem;
+}
+
+/* Listas del detalle (pasos, consejos, alias, multimedia) */
+.mccj-list {
+  color: var(--mccj-text-secondary);
+  padding-left: 1.25rem;
+  margin-bottom: 0;
+}
+
+.mccj-list li {
+  margin-bottom: 0.45rem;
+}
+
+.mccj-list a {
+  text-decoration: none;
+}
+
+.mccj-list a:hover {
+  text-decoration: underline;
+}
+
+/* Regreso al listado conservando los filtros GET */
+.mccj-back-link {
+  display: inline-block;
+  color: var(--mccj-gold-light);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-bottom: 1px dotted rgba(240, 219, 106, 0.5);
+}
+
+.mccj-back-link:hover,
+.mccj-back-link:focus-visible {
+  color: var(--mccj-gold);
+  border-bottom-style: solid;
+}
+
+/* Accesibilidad: foco visible en los controles de la biblioteca */
+.mccj-filters button:focus-visible,
+.mccj-filters a:focus-visible,
+.mccj-card a:focus-visible,
+.mccj-back-link:focus-visible {
+  outline: 2px solid var(--mccj-gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 575.98px) {
+  .mccj-filters {
+    padding: 1rem;
+  }
+
+  .mccj-results-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ===== Navbar GLASS + marca/logo con glow (Etapa navbar glass) =====
+   Todo el CSS de la navbar vive acá y NO en _Layout.cshtml.css: el CSS
+   aislado agrega un atributo [b-...] que NO llega a los elementos generados
+   por tag helpers (<a asp-*> e <img asp-append-version>), y ahí están la
+   marca y el logo. Además, sticky debe ir en <header> (el bloque contenedor
+   de <nav>): sobre <nav> no tendría espacio para desplazarse. */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.mccj-navbar {
+  background-color: rgba(23, 23, 23, 0.78);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid rgba(215, 184, 62, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  /* Alto optimizado: con el logo de 48px la navbar no debe inflarse. */
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+/* Contenedor fluido con ancho útil amplio: padding horizontal responsive y
+   tope generoso para evitar márgenes laterales excesivos en escritorio. */
+.mccj-navbar-container {
+  width: 100%;
+  max-width: 1680px;
+  margin-inline: auto;
+  padding-left: clamp(0.9rem, 2.2vw, 2.75rem);
+  padding-right: clamp(0.9rem, 2.2vw, 2.75rem);
+}
+
+/* Reglas base de los tres grupos (valen para todos los breakpoints). */
+.mccj-nav-list {
+  gap: 0.35rem;
+}
+
+/* Specificidad (0,3,0) para poder ajustar el padding horizontal por breakpoint. */
+.mccj-navbar .mccj-nav-list .nav-link {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.mccj-nav-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Tres grupos en escritorio: enlaces al centro (centrados entre la marca y
+   las acciones) y acciones a la derecha, con gap consistente. */
+@media (min-width: 992px) {
+  .mccj-navbar .navbar-collapse {
+    flex: 1 1 auto;
+    min-width: 0;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 2rem);
+  }
+
+  .mccj-nav-list {
+    flex: 1 1 auto;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(0.6rem, 1.6vw, 2rem);
+    margin-left: 0;
+  }
+
+  .mccj-navbar .mccj-nav-list .nav-link {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    /* Sin cortes ni saltos a dos líneas en escritorio. */
+    white-space: nowrap;
+  }
+
+  .mccj-nav-actions {
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    margin-left: auto;
+    gap: clamp(0.5rem, 1vw, 1rem);
+  }
+}
+
+/* Móvil/tablet (menú colapsable abierto): vertical, toques cómodos y
+   acciones sin apretar. */
+@media (max-width: 991.98px) {
+  .mccj-nav-list {
+    gap: 0.15rem;
+    padding-top: 0.35rem;
+  }
+
+  .mccj-navbar .mccj-nav-list .nav-link {
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+    white-space: nowrap;
+  }
+
+  .mccj-nav-actions {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(215, 184, 62, 0.18);
+  }
+}
+
+/* Enlaces blancos con hover a dorado #D7B83E. Especificidad (0,4,0) para
+   ganarle a Bootstrap `.navbar-dark .navbar-nav .nav-link` (0,3,0). */
+.navbar-dark.mccj-navbar .nav-link {
+  color: #F5F5F5;
+  transition: color 0.2s ease;
+}
+
+.navbar-dark.mccj-navbar .nav-link:hover,
+.navbar-dark.mccj-navbar .nav-link.active {
+  color: #D7B83E;
+}
+
+.mccj-brand {
+  color: #f0db6a;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  /* Sin cortes de palabra en móvil (la regla genérica usa break-all). */
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.mccj-brand:hover {
+  color: var(--mccj-gold);
+}
+
+/* Nombre + slogan apilados junto al logo (izquierda). */
+.mccj-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.mccj-brand-name {
+  color: #f0db6a;
+  white-space: nowrap;
+}
+
+.mccj-brand-slogan {
+  color: #e5e5e5;
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap; /* eslogan corto: nunca se corta ni salta de línea */
+  max-width: none;
+  margin-top: 0.15rem;
+}
+
+/* En tablet/móvil el eslogan baja un poco de tamaño para dar aire. */
+@media (max-width: 991.98px) {
+  .mccj-brand-slogan {
+    font-size: 0.72rem;
+  }
+}
+
+/* Contenedor del glow: radial centrado detrás del logo, sin afectar el layout. */
+.mccj-brand-mark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.mccj-brand-mark::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(240, 219, 106, 0.38),
+    rgba(240, 219, 106, 0)
+  );
+  pointer-events: none;
+}
+
+/* Logo oficial: 48px en todos los breakpoints (Etapa 1).
+   Conserva proporción (width: auto), bordes y resplandor dorado. */
+.mccj-brand-logo {
+  display: block;
+  height: 48px;
+  width: auto;
+  filter:
+    drop-shadow(0 0 8px rgba(240, 219, 106, 0.5))
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+}
+
+@media (min-width: 768px) {
+  .mccj-brand-mark::before {
+    inset: -8px;
+  }
+
+  .mccj-brand-logo {
+    filter:
+      drop-shadow(0 0 10px rgba(240, 219, 106, 0.55))
+      drop-shadow(0 3px 7px rgba(0, 0, 0, 0.45));
+  }
+}
+
+@media (min-width: 992px) {
+  .mccj-brand-mark::before {
+    inset: -9px;
+  }
+
+  .mccj-brand-logo {
+    filter:
+      drop-shadow(0 0 12px rgba(240, 219, 106, 0.55))
+      drop-shadow(0 3px 8px rgba(0, 0, 0, 0.5));
+  }
+}
+
+/* Móvil: glow levemente más contenido en la navbar compacta. */
+@media (max-width: 575.98px) {
+  .mccj-brand-mark::before {
+    inset: -6px;
+    opacity: 0.85;
+  }
+}
+
+/* ===== Acceso público de usuario (der) — visual, deshabilitado =====
+   SIN autenticación pública: botón disabled con indicación accesible
+   "Próximamente". Diseñado para ser reemplazado por "Mi Perfil" cuando
+   exista login público (mismo contenedor). No crea rutas ficticias. */
+.mccj-nav-user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(23, 23, 23, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(215, 184, 62, 0.45);
+  border-radius: 10px;
+  color: #e5e5e5;
+  padding: 0.32rem 0.95rem;
+  text-decoration: none; /* también actúa como enlace (Etapa 4C) */
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.mccj-nav-user-btn:disabled {
+  opacity: 1; /* legible: el estado se comunica con el texto, no con fade */
+}
+
+.mccj-nav-user-btn:hover,
+.mccj-nav-user-btn:focus-visible {
+  color: #f0db6a;
+  border-color: rgba(240, 219, 106, 0.85);
+  background: rgba(215, 184, 62, 0.12);
+}
+
+.mccj-nav-user-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  flex: 0 0 auto;
+}
+
+.mccj-nav-user-icon-lucide {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  flex: 0 0 auto;
+}
+
+.mccj-nav-user-texts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+}
+
+.mccj-nav-user-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Escritorio angosto (992–1199px): tipografía compacta para que los tres
+   grupos quepan sin desbordar ni partir los textos en dos líneas. Va DESPUÉS
+   de las reglas base que sobrescribe (orden de cascada). */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .mccj-navbar .mccj-nav-list .nav-link {
+    font-size: 0.92rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  .mccj-nav-user-label {
+    font-size: 0.8rem;
+  }
+
+  .mccj-brand-slogan {
+    font-size: 0.7rem;
+  }
+}
+
+.mccj-nav-user-soon {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mccj-gold);
+  white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+  .mccj-nav-user-btn {
+    padding: 0.3rem 0.7rem;
+  }
+}
+
+/* ===== Etapa 1: bloque de usuario + menú desplegable del avatar =====
+   Sustituye los botones "Mi perfil" / "Cerrar sesión" de la barra por un
+   avatar rectangular (46px, radio 10px igual al del logo) con saludo y un
+   menú accesible: aria-expanded, Escape, clic fuera y flechas desde
+   wwwroot/js/site.js. El menú vive FUERA del colapsable para que en móvil
+   el avatar siempre quede visible en la cabecera. */
+.mccj-user-block {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0; /* permite recortar el saludo sin desbordar la cabecera */
+  /* Móvil: empuja avatar + hamburguesa contra el borde derecho. */
+  margin-left: auto;
+}
+
+/* Saludo de escritorio (≥992px): dos líneas alineadas a la derecha. */
+.mccj-user-greetings-desktop {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.mccj-user-welcome {
+  color: #e5e5e5;
+  font-size: 0.86rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 34ch;
+}
+
+.mccj-user-name {
+  color: #f0db6a;
+  font-weight: 600;
+}
+
+.mccj-user-role {
+  color: #bdbdbd;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 34ch;
+}
+
+/* Saludo abreviado móvil/tablet (≤991.98px): una sola línea recortable,
+   nunca mayor que un tercio del ancho de pantalla. */
+.mccj-user-greeting-mobile {
+  display: block;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 30vw;
+  color: #e5e5e5;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 992px) {
+  .mccj-user-greetings-desktop {
+    display: flex;
+  }
+
+  .mccj-user-greeting-mobile {
+    display: none;
+  }
+}
+
+.mccj-user-menu-wrap {
+  position: relative; /* ancla del menú desplegable */
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.mccj-avatar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px; /* avatar rectangular 44–48px */
+  height: 46px;
+  padding: 0;
+  background: rgba(23, 23, 23, 0.75);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(215, 184, 62, 0.55);
+  border-radius: 10px; /* mismo radio visual que el logo */
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mccj-avatar-btn:hover {
+  border-color: rgba(240, 219, 106, 0.95);
+  box-shadow: 0 0 10px rgba(240, 219, 106, 0.35);
+}
+
+.mccj-avatar-btn:focus-visible {
+  outline: 2px solid #f0db6a;
+  outline-offset: 2px;
+}
+
+.mccj-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.mccj-avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mccj-avatar-icon {
+  width: 22px;
+  height: 22px;
+  color: #f0db6a;
+  stroke-width: 1.7;
+}
+
+/* Fallback del avatar sin foto: iniciales doradas sobre el mismo rectángulo. */
+.mccj-avatar-iniciales {
+  color: #f0db6a;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  user-select: none;
+}
+
+.mccj-user-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 1040;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 254px;
+  padding: 0.4rem;
+  background: rgba(18, 18, 18, 0.94);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(215, 184, 62, 0.35);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+
+.mccj-user-menu[hidden] {
+  display: none;
+}
+
+.mccj-menu-form {
+  display: block;
+}
+
+.mccj-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: #e5e5e5;
+  font-size: 0.875rem;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+/* Lucide reemplaza <i> por <svg>: tamaño y trazo propios del menú. */
+.mccj-menu-item svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  stroke: currentColor;
+  fill: none;
+}
+
+.mccj-menu-item:hover:not(:disabled),
+.mccj-menu-item:focus-visible {
+  color: #f0db6a;
+  background: rgba(215, 184, 62, 0.14);
+}
+
+.mccj-menu-item:focus-visible {
+  outline: 2px solid #f0db6a;
+  outline-offset: -2px;
+}
+
+.mccj-menu-item:disabled {
+  color: #8f8f8f;
+  cursor: not-allowed;
+}
+
+.mccj-menu-badge {
+  margin-left: auto;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mccj-gold);
+  border: 1px solid rgba(215, 184, 62, 0.4);
+  border-radius: 999px;
+}
+
+.mccj-menu-sep {
+  height: 1px;
+  margin: 0.35rem 0.3rem;
+  background: rgba(215, 184, 62, 0.28);
+}
+
+.mccj-menu-item-logout:hover:not(:disabled),
+.mccj-menu-item-logout:focus-visible {
+  color: #ff9d9d;
+  background: rgba(255, 120, 120, 0.14);
+}
+
+/* Móvil: menú más compacto para que quepa junto a la cabecera. */
+@media (max-width: 575.98px) {
+  .mccj-user-menu {
+    min-width: 224px;
+  }
+
+  .mccj-menu-item {
+    font-size: 0.82rem;
+    padding: 0.45rem 0.5rem;
+  }
+}
+
+/* Título principal de la Home en dorado #F0DB6A (solo con fondo de imagen). */
+body.mccj-home-bg .mccj-hero-title {
+  color: #f0db6a;
+}
+
+/* ===== Toast de login exitoso (Etapa UI/UX) =====
+   Feedback breve y profesional tras iniciar sesión: aparece con una
+   microanimación (desliz + fundido), se auto-oculta a los ~3.5 s y puede
+   cerrarse con el botón. role="status" + aria-live para lectores de pantalla. */
+.mccj-toast-bienvenida {
+  position: fixed;
+  top: 5.25rem;
+  left: 50%;
+  z-index: 1080;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: min(92vw, 420px);
+  padding: 0.75rem 1.1rem;
+  background: rgba(18, 18, 18, 0.96);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: #e5e5e5;
+  border: 1px solid rgba(215, 184, 62, 0.55);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  font-size: 0.92rem;
+  transform: translate(-50%, -14px);
+  opacity: 0;
+  animation: mccj-toast-entra 0.35s ease forwards;
+}
+
+.mccj-toast-bienvenida.is-saliendo {
+  animation: mccj-toast-sale 0.3s ease forwards;
+}
+
+.mccj-toast-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  color: #f0db6a;
+  stroke-width: 2;
+}
+
+.mccj-toast-texto {
+  min-width: 0;
+}
+
+.mccj-toast-cerrar {
+  margin-left: auto;
+  padding: 0 0.35rem;
+  background: transparent;
+  border: 0;
+  color: #bdbdbd;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mccj-toast-cerrar:hover,
+.mccj-toast-cerrar:focus-visible {
+  color: #f0db6a;
+}
+
+@keyframes mccj-toast-entra {
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes mccj-toast-sale {
+  to {
+    transform: translate(-50%, -14px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mccj-toast-bienvenida,
+  .mccj-toast-bienvenida.is-saliendo {
+    animation: none;
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+/* ===== Home pública: fondo FondoBJJWeb.png + superficies glass =====
+   Solo la Home: <body> recibe la clase ViewData["BodyClass"] = "mccj-home-bg".
+   - Capa negra ~45% (linear-gradient) ENCIMA de la imagen.
+   - cover / center / no-repeat; attachment: fixed encuadra el fondo en toda
+     la página sin deformarlo. Sin cambios en biblioteca ni CRUD. */
+
+body.mccj-home-bg {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url("../images/FondoBJJWeb.png");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
+}
+
+/* En la Home el hero deja de pintar su gradiente opaco (se vería la imagen);
+   conserva solo el resplandor dorado translúcido superior. */
+body.mccj-home-bg .mccj-hero {
+  background: radial-gradient(
+    1200px 420px at 50% -15%,
+    rgba(215, 184, 62, 0.18),
+    transparent 65%
+  );
+}
+
+/* Superficie glass discreta detrás del contenido del hero */
+.mccj-glass-panel {
+  background: rgba(23, 23, 23, 0.55);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  backdrop-filter: blur(12px) saturate(130%);
+  border: 1px solid rgba(245, 245, 245, 0.1);
+  border-radius: 20px;
+  padding: clamp(1.4rem, 4vw, 2.75rem);
+}
+
+/* Cards glass de la Home: superponen estilo a .mccj-card sin tocar
+   la biblioteca ni el CRUD (que usan .mccj-card sin esta clase). */
+.mccj-glass-card {
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(215, 184, 62, 0.16);
+  border-radius: 16px;
+  transition:
+    transform 0.15s ease,
+    background-color 0.25s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.mccj-glass-card:hover {
+  /* +30% de negro sobre la base del 45%: profundidad al pasar el cursor */
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* ===== Sección inferior "fuera del tatami": glassmorphism oscuro =====
+   Alcance: solo #arquitectura de la Home (.mccj-section-glass) y sus cards
+   (.mccj-card-dark). NO toca .mccj-glass-card (las seis cards superiores),
+   ni el hero, ni el navbar. Reutiliza la paleta existente: #171717,
+   #D7B83E (borde) y #F0DB6A (iconos vía .mccj-card-icon). */
+
+/* Contenedor: superficie semitransparente que deja percibir el fondo
+   fotográfico sin comprometer la legibilidad (sin bloque gris sólido).
+   Opacidad moderada: el vidrio se nota, pero el texto sigue con contraste. */
+.mccj-section-glass {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0.62),
+    rgba(10, 10, 10, 0.46)
+  );
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: blur(8px) saturate(120%);
+  border-top: 1px solid rgba(215, 184, 62, 0.2);
+  border-bottom: 1px solid rgba(215, 184, 62, 0.2);
+}
+
+/* Subtítulo largo: ancho acotado y centrado para no estirarse en desktop. */
+.mccj-section-glass .mccj-section-heading p {
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+/* Card glass oscura — estado normal (vidrio auténtico, opacidad moderada). */
+.mccj-card.mccj-card-dark {
+  display: flex;
+  flex-direction: column;
+  background: rgba(20, 20, 20, 0.65);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(215, 184, 62, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  transform: none;
+  transition:
+    transform 250ms ease,
+    background-color 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease,
+    -webkit-backdrop-filter 250ms ease,
+    backdrop-filter 250ms ease;
+}
+
+/* Hover solo donde el dispositivo lo soporta: evita estados falsos en
+   táctil. Las cards no son enlaces => sin cursor pointer. */
+@media (hover: hover) and (pointer: fine) {
+  .mccj-card.mccj-card-dark:hover {
+    /* La opacidad AUMENTA en hover: más contraste y profundidad. */
+    background: rgba(10, 10, 10, 0.82);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-color: rgba(215, 184, 62, 0.65);
+    transform: translateY(-4px);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* Fallback: navegadores sin backdrop-filter => superficie opaca legible. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mccj-section-glass {
+    background: rgba(10, 10, 10, 0.92);
+  }
+
+  .mccj-card.mccj-card-dark,
+  .mccj-card.mccj-card-dark:hover {
+    background: rgba(20, 20, 20, 0.97);
+  }
+
+  .mccj-card.mccj-card-dark:hover {
+    background: rgba(10, 10, 10, 0.97);
+  }
+}
+
+/* Accesibilidad: sin desplazamiento si el usuario pide menos movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  .mccj-card.mccj-card-dark,
+  .mccj-card.mccj-card-dark:hover {
+    transform: none;
+  }
+
+  .mccj-card.mccj-card-dark {
+    transition:
+      background-color 250ms ease,
+      border-color 250ms ease,
+      box-shadow 250ms ease;
+  }
+}
+
+/* Una columna (móvil): h-100 de Bootstrap solo iguala alturas dentro de una
+   misma fila, así que fijamos un piso común para que las tres cards se lean
+   como un bloque consistente aunque el texto ocupe distinto número de líneas. */
+@media (max-width: 575.98px) {
+  .mccj-card.mccj-card-dark {
+    min-height: 190px;
+  }
+}
+
+/* Dos columnas (tablet): la tercera card queda sola en la fila siguiente;
+   altura mínima para emparejarla visualmente con las dos primeras. */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .mccj-card.mccj-card-dark {
+    min-height: 192px;
+  }
+}
+
+/* ===== Cuenta de prácticos: Registro y Login (Etapa 4C) =====
+   Dark glassmorphism con la paleta existente: fondo #171717, superficie
+   translúcida #222222, dorados #D7B83E/#F0DB6A. Sin overlays hover sobre
+   campos (los estados de foco los resuelve cada control). */
+
+.mccj-auth-card {
+  background: rgba(34, 34, 34, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid rgba(215, 184, 62, 0.28);
+  border-radius: 16px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.mccj-auth-logo {
+  height: 64px;
+  width: auto;
+  filter:
+    drop-shadow(0 0 9px rgba(240, 219, 106, 0.5))
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+}
+
+.mccj-auth-name {
+  color: #f0db6a;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.mccj-auth-title {
+  color: var(--mccj-text);
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.mccj-auth-subtitle {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.mccj-auth-card .form-control {
+  background: #171717;
+  border: 1px solid var(--mccj-border);
+  color: var(--mccj-text);
+}
+
+.mccj-auth-card .form-control:focus {
+  background: #171717;
+  border-color: var(--mccj-gold);
+  color: var(--mccj-text);
+  box-shadow: 0 0 0 0.2rem rgba(215, 184, 62, 0.25);
+}
+
+.mccj-auth-card .form-label {
+  color: var(--mccj-text-secondary);
+  font-size: 0.9rem;
+}
+
+.mccj-auth-eye {
+  border-color: rgba(215, 184, 62, 0.35);
+  color: #e5e5e5;
+}
+
+.mccj-auth-eye:hover,
+.mccj-auth-eye:focus-visible {
+  color: #f0db6a;
+  border-color: rgba(240, 219, 106, 0.85);
+}
+
+.mccj-auth-eye-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Mensajes de la cuenta con la paleta (sin verdes/rojos saturados de Bootstrap) */
+.mccj-auth-card .alert-success {
+  background: rgba(215, 184, 62, 0.12);
+  border: 1px solid rgba(215, 184, 62, 0.55);
+  color: #f0db6a;
+}
+
+.mccj-auth-card .alert-danger {
+  background: rgba(220, 53, 69, 0.12);
+  border: 1px solid rgba(220, 53, 69, 0.55);
+  color: #ff8f9a;
+}
+
+/* Resumen de validación vacío: oculto (mismo criterio que el módulo admin). */
+.mccj-auth-card .validation-summary-valid {
+  display: none !important;
+}
+
+/* ===== Guía del Practicante — conversación (Etapa 5) ===== */
+
+.mccj-chat {
+  max-width: 860px;
+  background: var(--mccj-surface);
+  border: 1px solid var(--mccj-border);
+  border-radius: var(--mccj-radius);
+  padding: 1rem;
+}
+
+.mccj-chat-header {
+  border-bottom: 1px solid var(--mccj-border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.mccj-chat-titulo {
+  color: var(--mccj-gold);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.mccj-chat-modo {
+  color: var(--mccj-muted);
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.mccj-chat-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-height: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 1rem 0.25rem;
+}
+
+.mccj-chat-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 88%;
+}
+
+.mccj-chat-msg--agente {
+  align-self: flex-start;
+}
+
+.mccj-chat-msg--practicante {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.mccj-chat-msg--error .mccj-chat-bubble {
+  background: rgba(220, 53, 69, 0.12);
+  border: 1px solid rgba(220, 53, 69, 0.55);
+  color: #ff8f9a;
+}
+
+.mccj-chat-rol {
+  font-size: 0.75rem;
+  color: var(--mccj-muted);
+  margin-bottom: 0.25rem;
+}
+
+.mccj-chat-bubble {
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.mccj-chat-msg--agente .mccj-chat-bubble {
+  background: var(--mccj-surface-alt);
+  border: 1px solid var(--mccj-border);
+}
+
+.mccj-chat-msg--practicante .mccj-chat-bubble {
+  background: rgba(215, 184, 62, 0.12);
+  border: 1px solid rgba(215, 184, 62, 0.45);
+  color: var(--mccj-text);
+}
+
+.mccj-chat-sugerencias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.mccj-chat-sugerencias-label {
+  color: var(--mccj-muted);
+  font-size: 0.85rem;
+  align-self: center;
+}
+
+.mccj-chat-sugerencia {
+  font-size: 0.85rem;
+  border-color: rgba(215, 184, 62, 0.5);
+  color: var(--mccj-gold-light);
+}
+
+.mccj-chat-sugerencia:hover,
+.mccj-chat-sugerencia:focus {
+  background: rgba(215, 184, 62, 0.15);
+  border-color: var(--mccj-gold);
+  color: var(--mccj-gold-light);
+}
+
+.mccj-chat-form .form-control {
+  background: var(--mccj-bg);
+  border-color: var(--mccj-border);
+  color: var(--mccj-text);
+}
+
+.mccj-chat-form .form-control::placeholder {
+  color: var(--mccj-muted);
+}
+
+.mccj-chat-form .form-control:focus {
+  background: var(--mccj-bg);
+  border-color: var(--mccj-gold);
+  color: var(--mccj-text);
+}
+
+.mccj-chat-esperando {
+  color: var(--mccj-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 575.98px) {
+  .mccj-chat {
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
+
+  .mccj-chat-msg {
+    max-width: 96%;
+  }
+
+  .mccj-chat-area {
+    min-height: 240px;
+  }
+}
+
+/* ── Cinturones: glow por color (filtro de biblioteca, registro y perfil) ──
+   El cinturón es un DATO DE PERFIL, no de permisos. Los PNG de
+   wwwroot/images/belts son transparentes (sin fondo): el resplandor lo
+   aporta únicamente CSS, con tonos suaves y coherentes con la identidad
+   negro/dorado. Los modificadores mccj-belt--* solo declaran variables
+   (--mccj-belt-glow / --mccj-belt-glow-strong) y se usan junto a la
+   clase base correspondiente. */
+.mccj-belt--blanco {
+  --mccj-belt-glow: rgba(255, 255, 255, 0.45);
+  --mccj-belt-glow-strong: rgba(255, 255, 255, 0.72);
+}
+
+.mccj-belt--azul {
+  --mccj-belt-glow: rgba(64, 132, 242, 0.5);
+  --mccj-belt-glow-strong: rgba(64, 132, 242, 0.78);
+}
+
+.mccj-belt--violeta {
+  --mccj-belt-glow: rgba(139, 92, 246, 0.5);
+  --mccj-belt-glow-strong: rgba(139, 92, 246, 0.78);
+}
+
+.mccj-belt--marron {
+  --mccj-belt-glow: rgba(166, 108, 64, 0.55);
+  --mccj-belt-glow-strong: rgba(178, 118, 70, 0.8);
+}
+
+.mccj-belt--negro {
+  --mccj-belt-glow: rgba(226, 226, 226, 0.3);
+  --mccj-belt-glow-strong: rgba(240, 240, 240, 0.52);
+}
+
+/* ── Sección de filtro visual por cinturón (biblioteca) ── */
+
+.mccj-belt-filter {
+  background: var(--mccj-surface);
+  border: 1px solid var(--mccj-border);
+  border-radius: var(--mccj-radius);
+  padding: 1.25rem;
+}
+
+.mccj-belt-filter__head {
+  margin-bottom: 1rem;
+}
+
+.mccj-belt-filter__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mccj-text);
+  margin: 0 0 0.25rem;
+}
+
+.mccj-belt-filter__hint {
+  color: var(--mccj-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.mccj-belt-filter__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.mccj-belt-card {
+  flex: 1 1 120px;
+  max-width: 160px;
+  min-width: 108px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 0.7rem 0.75rem;
+  background: var(--mccj-surface-alt);
+  border: 1px solid var(--mccj-border);
+  border-radius: var(--mccj-radius);
+  color: var(--mccj-text-secondary);
+  text-decoration: none;
+  text-align: center;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.mccj-belt-card__img {
+  display: block;
+  width: 76px;
+  height: 76px;
+}
+
+.mccj-belt-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px var(--mccj-belt-glow, rgba(255, 255, 255, 0.25)));
+}
+
+.mccj-belt-card__img--todos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 8px;
+  box-sizing: border-box;
+}
+
+.mccj-belt-card__img--todos span {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--mccj-gold), rgba(215, 184, 62, 0.3));
+}
+
+.mccj-belt-card__img--todos span:nth-child(2) {
+  width: 78%;
+}
+
+.mccj-belt-card__img--todos span:nth-child(3) {
+  width: 56%;
+}
+
+.mccj-belt-card__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.mccj-belt-card:hover {
+  color: var(--mccj-text);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 18px var(--mccj-belt-glow, rgba(255, 255, 255, 0.25));
+  transform: translateY(-3px);
+}
+
+.mccj-belt-card:focus-visible {
+  outline: 2px solid var(--mccj-gold-light);
+  outline-offset: 2px;
+}
+
+.mccj-belt-card.is-active {
+  color: var(--mccj-gold-light);
+  border-color: var(--mccj-gold);
+  background: linear-gradient(180deg, rgba(215, 184, 62, 0.1), var(--mccj-surface-alt));
+  box-shadow: 0 0 22px var(--mccj-belt-glow-strong, rgba(255, 255, 255, 0.45)),
+    inset 0 0 0 1px rgba(215, 184, 62, 0.35);
+}
+
+/* ── Selector visual de cinturón (registro) ── */
+
+.mccj-belt-field-hint {
+  color: var(--mccj-muted);
+  font-size: 0.82rem;
+  margin: 0 0 0.6rem;
+}
+
+.mccj-belt-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.mccj-belt-option {
+  position: relative;
+  flex: 1 1 92px;
+  min-width: 86px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.65rem 0.5rem 0.55rem;
+  background: var(--mccj-surface-alt);
+  border: 1px solid var(--mccj-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.mccj-belt-option__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.mccj-belt-option__img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px var(--mccj-belt-glow, rgba(255, 255, 255, 0.25)));
+}
+
+.mccj-belt-option__name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--mccj-text-secondary);
+}
+
+.mccj-belt-option:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px var(--mccj-belt-glow, rgba(255, 255, 255, 0.25));
+  transform: translateY(-2px);
+}
+
+.mccj-belt-option:has(.mccj-belt-option__input:checked) {
+  border-color: var(--mccj-gold);
+  background: linear-gradient(180deg, rgba(215, 184, 62, 0.12), var(--mccj-surface-alt));
+  box-shadow: 0 0 16px var(--mccj-belt-glow-strong, rgba(255, 255, 255, 0.45));
+}
+
+.mccj-belt-option:has(.mccj-belt-option__input:checked) .mccj-belt-option__name {
+  color: var(--mccj-gold-light);
+}
+
+.mccj-belt-option:has(.mccj-belt-option__input:focus-visible) {
+  outline: 2px solid var(--mccj-gold-light);
+  outline-offset: 2px;
+}
+
+/* ── Configuración: selector de idioma (es / en / pt) ── */
+
+.mccj-idioma-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.mccj-idioma-option {
+  position: relative;
+  flex: 1 1 118px;
+  min-width: 108px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.85rem 0.6rem 0.75rem;
+  background: var(--mccj-surface-alt);
+  border: 1px solid var(--mccj-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.mccj-idioma-option__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.mccj-idioma-option__nombre {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--mccj-text-secondary);
+}
+
+.mccj-idioma-option__codigo {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.mccj-idioma-option:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.mccj-idioma-option:has(.mccj-idioma-option__input:checked) {
+  border-color: var(--mccj-gold);
+  background: linear-gradient(180deg, rgba(215, 184, 62, 0.12), var(--mccj-surface-alt));
+  box-shadow: 0 0 16px rgba(215, 184, 62, 0.22);
+}
+
+.mccj-idioma-option:has(.mccj-idioma-option__input:checked) .mccj-idioma-option__nombre {
+  color: var(--mccj-gold-light);
+}
+
+.mccj-idioma-option:has(.mccj-idioma-option__input:focus-visible) {
+  outline: 2px solid var(--mccj-gold-light);
+  outline-offset: 2px;
+}
+
+/* ── Perfil: resumen con cinturón ── */
+
+.mccj-profile-belt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  background: var(--mccj-surface-alt);
+  border: 1px solid var(--mccj-border);
+  border-radius: var(--mccj-radius);
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 18px var(--mccj-belt-glow, rgba(255, 255, 255, 0.12));
+}
+
+.mccj-profile-belt__img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px var(--mccj-belt-glow, rgba(255, 255, 255, 0.25)));
+}
+
+.mccj-profile-belt__label {
+  display: block;
+  color: var(--mccj-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mccj-profile-belt__name {
+  display: block;
+  color: var(--mccj-gold-light);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.mccj-profile-data {
+  margin: 0 0 0.75rem;
+}
+
+.mccj-profile-data__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed var(--mccj-border);
+}
+
+.mccj-profile-data__row:last-child {
+  border-bottom: 0;
+}
+
+.mccj-profile-data dt {
+  color: var(--mccj-muted);
+  font-weight: 500;
+}
+
+.mccj-profile-data dd {
+  margin: 0;
+  color: var(--mccj-text);
+  text-align: right;
+  word-break: break-word;
+}
+
+.mccj-profile-note {
+  color: var(--mccj-muted);
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+
+/* ── Mobile: tarjetas de cinturón a dos columnas, sin romper el layout ── */
+
+@media (max-width: 575.98px) {
+  .mccj-belt-filter {
+    padding: 1rem 0.85rem;
+  }
+
+  .mccj-belt-card {
+    flex: 1 1 calc(50% - 0.75rem);
+    max-width: none;
+    min-width: 0;
+  }
+
+  .mccj-belt-card__img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .mccj-belt-option {
+    flex: 1 1 calc(50% - 0.6rem);
+    min-width: 0;
+  }
+
+  .mccj-idioma-option {
+    flex: 1 1 calc(50% - 0.6rem);
+    min-width: 0;
+  }
+
+  .mccj-profile-belt {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}
+/* ===== Mi perfil: foto 120x120 + avatar de iniciales ===== */
+
+.mccj-profile-photo-block {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-bottom: 1.75rem;
+}
+
+.mccj-profile-photo-block__datos {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mccj-profile-photo {
+  width: 120px;
+  height: 120px;
+  flex: 0 0 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(215, 184, 62, 0.22), rgba(23, 23, 23, 0.92));
+  border: 1px solid rgba(215, 184, 62, 0.5);
+  box-shadow: 0 0 18px rgba(215, 184, 62, 0.18);
+}
+
+.mccj-profile-photo__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mccj-profile-photo__iniciales {
+  color: var(--mccj-gold-light);
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ===== Ayuda / manual de uso ===== */
+
+.mccj-ayuda-indice {
+  display: block;
+  background: var(--mccj-surface-alt);
+  border: 1px solid var(--mccj-border);
+  border-radius: var(--mccj-radius);
+  padding: 1rem 1.15rem;
+  margin-bottom: 2rem;
+}
+
+.mccj-ayuda-indice__label {
+  display: block;
+  color: var(--mccj-gold-light);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.mccj-ayuda-indice ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+}
+
+.mccj-ayuda-indice a {
+  color: var(--mccj-text-secondary);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.mccj-ayuda-indice a:hover,
+.mccj-ayuda-indice a:focus-visible {
+  color: var(--mccj-gold-light);
+  text-decoration: underline;
+}
+
+.mccj-ayuda-seccion {
+  background: var(--mccj-surface);
+  border: 1px solid var(--mccj-border);
+  border-left: 3px solid var(--mccj-gold);
+  border-radius: var(--mccj-radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.mccj-ayuda-seccion__titulo {
+  color: var(--mccj-gold-light);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.9rem;
+}
+
+.mccj-ayuda-seccion p {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+}
+
+.mccj-ayuda-seccion p:last-child {
+  margin-bottom: 0;
+}
+
+.mccj-ayuda-lista {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.mccj-ayuda-lista li {
+  margin-bottom: 0.5rem;
+}
+
+.mccj-ayuda-lista li:last-child {
+  margin-bottom: 0;
+}
+
+.mccj-ayuda-note {
+  margin-top: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--mccj-gold-soft);
+  border: 1px solid rgba(215, 184, 62, 0.28);
+  border-radius: 10px;
+  color: var(--mccj-text);
+  font-size: 0.88rem;
+}
+
+.mccj-ayuda-faq dt {
+  color: var(--mccj-text);
+  font-weight: 600;
+  margin-top: 0.9rem;
+}
+
+.mccj-ayuda-faq dt:first-child {
+  margin-top: 0;
+}
+
+.mccj-ayuda-faq dd {
+  color: var(--mccj-text-secondary);
+  font-size: 0.93rem;
+  margin-bottom: 0;
+}
+
+.mccj-ayuda-tabla {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--mccj-text-secondary);
+  --bs-table-border-color: var(--mccj-border);
+  margin-bottom: 1rem;
+}
+
+.mccj-ayuda-tabla thead th {
+  color: var(--mccj-gold-light);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--mccj-border);
+}
+
+.mccj-ayuda-tabla tbody th {
+  color: var(--mccj-text);
+  font-weight: 600;
+}
+
+.mccj-ayuda-cta {
+  position: sticky;
+  top: 1rem;
+}
+
+@media (max-width: 991.98px) {
+  .mccj-ayuda-cta {
+    position: static;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .mccj-profile-photo-block {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .mccj-profile-photo-block__datos {
+    width: 100%;
+  }
+
+  .mccj-ayuda-seccion {
+    padding: 1.15rem;
+  }
+}

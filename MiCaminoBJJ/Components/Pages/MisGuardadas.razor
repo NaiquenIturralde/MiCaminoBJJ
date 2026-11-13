@@ -20,50 +20,57 @@ else
                 <a href="/tecnicas" class="btn btn-ghost btn-small">← Técnicas</a>
             </div>
             <h1>Mis Favoritas ★</h1>
-            <p class="text-muted">@_savedTechniques.Count técnica@( _savedTechniques.Count != 1 ? "s" : "") favorita@( _savedTechniques.Count != 1 ? "s" : "")</p>
-        </div>
-
-        @* Listado *@
-        @if (_savedTechniques.Count == 0)
-        {
-            <EmptyState
-                Icon="☆"
-                Title="Sin técnicas favoritas"
-                Description="Guardá tus técnicas favoritas desde su detalle para encontrarlas acá." />
-        }
-        else
-        {
-            <div class="techniques-grid">
-                @foreach (var saved in _savedTechniques)
-                {
-                    <div class="technique-card">
-                        <a href="/tecnicas/@saved.Technique.Id" class="technique-card-link">
-                            <div class="technique-card-image">
-                                <span class="technique-card-image-placeholder">🥋</span>
-                            </div>
-                            <div class="technique-card-content">
-                                <h3 class="technique-card-name">@saved.Technique.Name</h3>
-                                <p class="technique-card-description">@saved.Technique.Description</p>
-                                <div class="technique-card-meta">
-                                    <span class="badge badge-gold">@saved.Technique.Belt.Name</span>
-                                    <span class="badge badge-surface">@saved.Technique.Category.Name</span>
-                                    <span class="badge badge-surface">@saved.Technique.Position.Name</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="technique-card-actions">
-                            <button class="btn btn-ghost btn-small btn-danger-text"
-                                    @onclick="() => RemoveSavedAsync(saved)"
-                                    disabled="@_isRemoving">
-                                ✕ Quitar
-                            </button>
-                        </div>
-                    </div>
-                }
+            <p class="text-muted">@_savedTechniques.Count técnica@( _savedTechniques.Count != 1 ? "s" : "") favorita@(
+                _savedTechniques.Count != 1 ? "s" : "")</p>
             </div>
-        }
-    </div>
-}
+
+            @if (!string.IsNullOrEmpty(_feedbackMessage))
+            {
+                <div class="alert alert-success" role="status" aria-live="polite">@_feedbackMessage</div>
+            }
+            @if (!string.IsNullOrEmpty(_feedbackError))
+            {
+                <div class="alert alert-danger" role="alert" aria-live="assertive">@_feedbackError</div>
+            }
+
+            @* Listado *@
+            @if (_savedTechniques.Count == 0)
+            {
+                <EmptyState Icon="☆" Title="Sin técnicas favoritas"
+                            Description="Guardá tus técnicas favoritas desde su detalle para encontrarlas acá." />
+            }
+            else
+            {
+                <div class="techniques-grid">
+                    @foreach (var saved in _savedTechniques)
+                    {
+                        <div class="technique-card">
+                            <a href="/tecnicas/@saved.Technique.Id" class="technique-card-link">
+                                <div class="technique-card-image">
+                                    <span class="technique-card-image-placeholder">🥋</span>
+                                </div>
+                                <div class="technique-card-content">
+                                    <h3 class="technique-card-name">@saved.Technique.Name</h3>
+                                    <p class="technique-card-description">@saved.Technique.Description</p>
+                                    <div class="technique-card-meta">
+                                        <span class="badge badge-gold">@saved.Technique.Belt.Name</span>
+                                        <span class="badge badge-surface">@saved.Technique.Category.Name</span>
+                                        <span class="badge badge-surface">@saved.Technique.Position.Name</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="technique-card-actions">
+                                <button class="btn btn-ghost btn-small btn-danger-text" @onclick="() => RemoveSavedAsync(saved)"
+                                        disabled="@_isRemoving">
+                                    ✕ Quitar
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
 
 @code {
     private List<SavedTechnique> _savedTechniques = new();
@@ -71,6 +78,8 @@ else
     private bool _hasError = false;
     private string _errorMessage = string.Empty;
     private bool _isRemoving = false;
+    private string _feedbackMessage = string.Empty;
+    private string _feedbackError = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -117,17 +126,20 @@ else
         if (_isRemoving) return;
 
         _isRemoving = true;
+        _feedbackMessage = string.Empty;
+        _feedbackError = string.Empty;
         StateHasChanged();
 
         try
         {
             await SavedTechniqueService.RemoveAsync(saved.Id);
             _savedTechniques.Remove(saved);
+            _feedbackMessage = $"'{saved.Technique.Name}' se quitó de tus favoritas.";
         }
         catch (Exception)
         {
-            _hasError = true;
-            _errorMessage = "No se pudo quitar la técnica de favoritas.";
+            // La lista permanece intacta: el elemento sigue en favoritas.
+            _feedbackError = "No se pudo quitar la técnica de favoritas. Intentá nuevamente.";
         }
         finally
         {

@@ -58,6 +58,50 @@ namespace MiCaminoBJJ.Infrastructure.Migrations
                     b.ToTable("Achievements", (string)null);
                 });
 
+            modelBuilder.Entity("MiCaminoBJJ.Core.Entities.AuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Action")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EntityId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Result")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("TimestampUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TimestampUtc");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("EntityType", "EntityId");
+
+                    b.ToTable("AuditLogs", (string)null);
+                });
+
             modelBuilder.Entity("MiCaminoBJJ.Core.Entities.Belt", b =>
                 {
                     b.Property<int>("Id")
@@ -254,6 +298,10 @@ namespace MiCaminoBJJ.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NameNormalized")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Objective")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -284,6 +332,40 @@ namespace MiCaminoBJJ.Infrastructure.Migrations
                     b.HasIndex("PositionId");
 
                     b.ToTable("Techniques", (string)null);
+                });
+
+            modelBuilder.Entity("MiCaminoBJJ.Core.Entities.TechniqueAlias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TechniqueId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NameNormalized")
+                        .HasDatabaseName("IX_TechniqueAliases_NameNormalized");
+
+                    b.HasIndex("TechniqueId", "NameNormalized")
+                        .IsUnique()
+                        .HasDatabaseName("UX_TechniqueAliases_TechniqueId_NameNormalized");
+
+                    b.ToTable("TechniqueAliases", (string)null);
                 });
 
             modelBuilder.Entity("MiCaminoBJJ.Core.Entities.TechniqueCategory", b =>
@@ -750,6 +832,17 @@ namespace MiCaminoBJJ.Infrastructure.Migrations
                     b.Navigation("Position");
                 });
 
+            modelBuilder.Entity("MiCaminoBJJ.Core.Entities.TechniqueAlias", b =>
+                {
+                    b.HasOne("MiCaminoBJJ.Core.Entities.Technique", "Technique")
+                        .WithMany("Aliases")
+                        .HasForeignKey("TechniqueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Technique");
+                });
+
             modelBuilder.Entity("MiCaminoBJJ.Core.Entities.TechniqueMedia", b =>
                 {
                     b.HasOne("MiCaminoBJJ.Core.Entities.MediaAsset", "MediaAsset")
@@ -957,6 +1050,8 @@ namespace MiCaminoBJJ.Infrastructure.Migrations
 
             modelBuilder.Entity("MiCaminoBJJ.Core.Entities.Technique", b =>
                 {
+                    b.Navigation("Aliases");
+
                     b.Navigation("OfficialMedia");
 
                     b.Navigation("PersonalResources");

@@ -1,0 +1,140 @@
+@model ModuloDetalleViewModel
+@{
+    ViewData["Title"] = $"{Model.Titulo} — {L["Recorrido.CinturonBlanco"]}";
+}
+
+<link rel="stylesheet" href="~/css/recorrido.css" asp-append-version="true" />
+
+<section class="mccj-page-header mccjrc-hero">
+    <div class="container py-4 py-md-5">
+        <a class="mccj-back-link" href="@Model.RutaIndice">← @L["Recorrido.IndiceCinturon"]</a>
+        <span class="mccj-eyebrow mt-3">@L["Recorrido.ModuloNumero", Model.Id]</span>
+        <h1 class="mccj-hero-title">@Model.Titulo</h1>
+        <p class="mccj-hero-description">@Model.Resumen</p>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+            <span class="mccj-badge">@(Model.Puntos.Count == 1 ? L["Recorrido.Puntos", Model.Puntos.Count] :
+                                L["Recorrido.PuntosPlural", Model.Puntos.Count])</span>
+                @if (Model.Fichas.Count > 0)
+                {
+                    <span class="mccj-badge">@(Model.Fichas.Count == 1 ? L["Recorrido.Fichas", Model.Fichas.Count] :
+                                        L["Recorrido.FichasPlural", Model.Fichas.Count])</span>
+                    }
+                    <span class="mccj-badge @(Model.TieneVideo ? "mccjrc-badge-ok" : "mccjrc-badge-pend")">
+                        @Model.EstadoVideoTexto
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="container mt-4">
+            @if (Model.MuestraDiferenciaSupervivenciaEscape)
+            {
+                <div class="mccjrc-callout" role="note">
+                    <strong>@L["Recorrido.ConceptoClave"]</strong> @Model.TextoDiferenciaSupervivenciaEscape
+                </div>
+            }
+
+            @if (!Model.TieneVideo)
+            {
+                <p class="mccjrc-video-pendiente">
+                    <span aria-hidden="true">🎬</span> @Model.NotaVideoPendiente
+                </p>
+            }
+
+            <div class="mccj-card mb-4">
+                <h2 class="mccj-card-heading">@L["Recorrido.ContenidoModulo"]</h2>
+                <ol class="mccjrc-puntos">
+                    @foreach (var punto in Model.Puntos)
+                    {
+                        <li>
+                            <h3>@punto.Titulo</h3>
+                            <p>@punto.Texto</p>
+                        </li>
+                    }
+                </ol>
+            </div>
+
+            @if (Model.Fichas.Count > 0)
+            {
+                <div class="mccj-section-heading">
+                    <h2>@L["Recorrido.FichasModulo"]</h2>
+                    <p>@L["Recorrido.FichasModuloDescripcion"]</p>
+                </div>
+
+                <div class="row g-4">
+                    @foreach (var ficha in Model.Fichas)
+                    {
+                        <div class="col-12 col-md-6">
+                            <a class="mccj-card mccj-glass-card mccjrc-tile" href="@ficha.Ruta">
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                    <span class="mccj-badge">@ficha.TipoContenido</span>
+                                    @if (ficha.MaterialComplementario)
+                                    {
+                                        <span class="mccj-badge mccjrc-badge-comp">@ficha.CinturonTexto ·
+                                            @L["Recorrido.Complementario"]</span>
+                                        }
+                            else if (ficha.CinturonSinAsignar)
+                                        {
+                                            <span class="mccj-badge mccjrc-badge-pend">@L["Recorrido.CinturonSinAsignar"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="mccj-badge">@ficha.CinturonTexto</span>
+                                        }
+                                        @if (ficha.TieneVideo)
+                                        {
+                                            <span class="mccj-badge mccjrc-badge-ok">@L["Recorrido.ConVideo"]</span>
+                                        }
+                                    </div>
+                                    <h3 class="mccj-card-heading">@ficha.Nombre</h3>
+                                    @if (ficha.RequiereRevisionInstructor)
+                                    {
+                                        <p class="mccjrc-revision mb-0">@L["Recorrido.RevisionInstructor"]</p>
+                                    }
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @if (Model.FichasRelacionadas.Count > 0)
+                {
+                    <div class="mccj-card mt-4">
+                        <h2 class="mccj-card-heading">@L["Recorrido.FichaRelacionada"]</h2>
+                        <p class="mccj-card-text">@L["Recorrido.FichaRelacionadaTexto"]</p>
+                        <ul class="mccj-list mb-0">
+                            @foreach (var ficha in Model.FichasRelacionadas)
+                            {
+                                <li><a href="@ficha.Ruta">@ficha.Nombre</a></li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                @if (Model.Id == 5)
+                {
+                    <p class="mccjrc-nota mt-4">@Model.NotaMaterialComplementario</p>
+                }
+
+                <nav class="mccjrc-nav" aria-label="@L["Recorrido.NavegacionModulos"]">
+                    @if (Model.TieneAnterior)
+                    {
+                        <a class="mccjrc-nav-btn" href="@Model.RutaAnterior">@L["Recorrido.ModuloAnterior", Model.TituloAnterior ??
+                                     ""]</a>
+                        }
+        else
+                        {
+                            <span></span>
+                        }
+                        <a class="mccjrc-nav-btn mccjrc-nav-btn-centro" href="@Model.RutaIndice">@L["Recorrido.IndiceCinturon"]</a>
+                        @if (Model.TieneSiguiente)
+                        {
+                            <a class="mccjrc-nav-btn mccjrc-nav-btn-der" href="@Model.RutaSiguiente">@L["Recorrido.ModuloSiguiente",
+                                            Model.TituloSiguiente ?? ""]</a>
+                            }
+        else
+                            {
+                                <span></span>
+                            }
+                        </nav>
+                    </section>

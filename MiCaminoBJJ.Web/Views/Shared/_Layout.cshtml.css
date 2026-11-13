@@ -1,0 +1,71 @@
+﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a {
+  color: #F0DB6A;
+}
+
+a:hover {
+  color: #D7B83E;
+}
+
+/* Navbar glass, marca, logo y glow viven en wwwroot/css/site.css (NO en el
+   CSS aislado): el aislamiento no llega a los elementos de tag helpers
+   (<a asp-*> / <img asp-append-version>) y sticky debe ir en <header>. */
+
+/* Los enlaces de la navbar (.nav-link, generados por tag helpers sin atributo
+   de aislamiento) también se estilizan en wwwroot/css/site.css. */
+
+.mccj-footer {
+  color: #8A8A8A;
+  background-color: #1c1c1c;
+}
+
+.btn-primary {
+  color: #171717;
+  background-color: #D7B83E;
+  border-color: #D7B83E;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #171717;
+  background-color: #D7B83E;
+  border-color: #D7B83E;
+}
+
+.border-top {
+  border-top: 1px solid #3A3A3A !important;
+}
+.border-bottom {
+  border-bottom: 1px solid #3A3A3A !important;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .35);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer {
+  position: static;
+  width: 100%;
+  line-height: 1.5;
+  padding: 1rem 0;
+  white-space: normal;
+  text-align: center;
+}
+
+@media (min-width: 576px) {
+  .footer {
+    text-align: left;
+  }
+}

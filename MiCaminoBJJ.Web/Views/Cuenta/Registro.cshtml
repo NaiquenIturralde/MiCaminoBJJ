@@ -1,0 +1,125 @@
+@model RegistroViewModel
+@{
+    ViewData["Title"] = L["Cuenta.Registro.Titulo"];
+}
+
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-9 col-lg-5">
+
+            <div class="mccj-auth-card">
+                <div class="text-center mb-4">
+                    <a asp-controller="Home" asp-action="Index"
+                       class="d-inline-flex align-items-center gap-2 text-decoration-none">
+                        <span class="mccj-brand-mark" aria-hidden="true">
+                            <img src="~/img/LogoMiCaminoBJJ.png" asp-append-version="true" alt="" width="64" height="64"
+                                 class="mccj-auth-logo" />
+                        </span>
+                        <span class="mccj-auth-name">Mi Camino</span>
+                    </a>
+                    <h1 class="mccj-auth-title">@L["Cuenta.Registro.Titulo"]</h1>
+                    <p class="mccj-auth-subtitle">@L["Cuenta.Registro.Subtitulo"]</p>
+                </div>
+
+                @if (TempData["Exito"] is string exito)
+                {
+                    <div class="alert alert-success" role="status">@Mensajes.Traducir(L, exito)</div>
+                }
+                @if (TempData["Error"] is string error)
+                {
+                    <div class="alert alert-danger" role="alert">@Mensajes.Traducir(L, error)</div>
+                }
+
+                <form method="post" asp-controller="Cuenta" asp-action="Registro" novalidate>
+                    <div asp-validation-summary="All" class="text-danger mb-3" role="alert"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label">@L["Common.Nombre"]</label>
+                        <input asp-for="Nombre" class="form-control" autocomplete="name" maxlength="100"
+                               placeholder="@L["Cuenta.Registro.NombrePlaceholder"]" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" type="email" autocomplete="email" maxlength="200"
+                               placeholder="vos@ejemplo.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" for="cinturon-blanco">@L["Cuenta.Registro.Cinturon"]</label>
+                        <p class="mccj-belt-field-hint" id="ayudaCinturon">
+                            @L["Cuenta.Registro.CinturonAyuda"]
+                        </p>
+                        <div class="mccj-belt-picker" role="radiogroup" aria-label="@L["Cuenta.Registro.Cinturon"]"
+                             aria-describedby="ayudaCinturon">
+                            @foreach (var opcion in CinturonVisual.OpcionesRegistro)
+                            {
+                                <label class="mccj-belt-option @opcion.Clase">
+                                    <input type="radio" asp-for="Cinturon" value="@opcion.Valor" id="cinturon-@opcion.Slug"
+                                           class="mccj-belt-option__input" />
+                                    <img src="@Url.Content(opcion.Imagen)" alt="" class="mccj-belt-option__img" width="72"
+                                         height="72" />
+                                    <span class="mccj-belt-option__name">@opcion.Etiqueta</span>
+                                </label>
+                            }
+                        </div>
+                        <span asp-validation-for="Cinturon" class="text-danger d-block"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">@L["Cuenta.Login.Password"]</label>
+                        <div class="input-group">
+                            <input asp-for="Password" class="form-control" autocomplete="new-password"
+                                   placeholder="@L["Cuenta.Registro.PasswordPlaceholder"]" />
+                            <button type="button" class="btn btn-outline-light mccj-auth-eye" id="togglePassword"
+                                    data-password-toggle="#Password" aria-pressed="false"
+                                    aria-label="@L["Cuenta.Login.MostrarPassword"]"
+                                    title="@L["Cuenta.Login.MostrarOcultarPassword"]">
+                                <svg class="mccj-auth-eye-icon" viewBox="0 0 16 16" aria-hidden="true"
+                                     focusable="false">
+                                    <path
+                                    d="M8 5a3 3 0 0 0-3 3c0 2.4 1.5 4.4 3.6 5.2A6 6 0 0 0 8 11a6 6 0 0 0 2.4-.8C12.5 9.4 14 7.4 14 5a3 3 0 0 0-3-3C9.5 2 8 5 8 5zm0 5.5A2.5 2.5 0 1 1 8 5.5a2.5 2.5 0 0 1 0 5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ConfirmarPassword"
+                               class="form-label">@L["Cuenta.Registro.ConfirmarPassword"]</label>
+                        <div class="input-group">
+                            <input asp-for="ConfirmarPassword" class="form-control" autocomplete="new-password"
+                                   placeholder="@L["Cuenta.Registro.ConfirmarPasswordPlaceholder"]" />
+                            <button type="button" class="btn btn-outline-light mccj-auth-eye"
+                                    id="toggleConfirmarPassword" data-password-toggle="#ConfirmarPassword"
+                                    aria-pressed="false" aria-label="@L["Cuenta.Login.MostrarPassword"]"
+                                    title="@L["Cuenta.Login.MostrarOcultarPassword"]">
+                                <svg class="mccj-auth-eye-icon" viewBox="0 0 16 16" aria-hidden="true"
+                                     focusable="false">
+                                    <path
+                                    d="M8 5a3 3 0 0 0-3 3c0 2.4 1.5 4.4 3.6 5.2A6 6 0 0 0 8 11a6 6 0 0 0 2.4-.8C12.5 9.4 14 7.4 14 5a3 3 0 0 0-3-3C9.5 2 8 5 8 5zm0 5.5A2.5 2.5 0 1 1 8 5.5a2.5 2.5 0 0 1 0 5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-gold">@L["Cuenta.Registro.Titulo"]</button>
+                        <a class="btn btn-outline-light" asp-controller="Cuenta"
+                           asp-action="Login">@L["Cuenta.Registro.YaTengoCuenta"]</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/password-toggle.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+}

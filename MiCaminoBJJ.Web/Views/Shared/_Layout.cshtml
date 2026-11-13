@@ -1,0 +1,185 @@
+﻿@inject MiCaminoBJJ.Web.Persistence.WebTfDbContext Db
+@using System.Globalization
+<!DOCTYPE html>
+@* El atributo lang refleja el idioma activo de la petición (es / en / pt). *@
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+          content="Mi Camino BJJ — biblioteca de técnicas, entrenamientos y progreso en Brazilian Jiu-Jitsu." />
+    <title>@ViewData["Title"] - Mi Camino BJJ</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MiCaminoBJJ.Web.styles.css" asp-append-version="true" />
+</head>
+
+<body class="@ViewData["BodyClass"]">
+    @{
+        // Etapa 1 — encabezado: solo la sesión de práctico (esquema
+        // Identity.Application) abre el menú de perfil; la cookie admin de
+        // Development conserva la rama pública.
+        var sesionPractico = User.Identity?.IsAuthenticated == true
+            && User.Identity.AuthenticationType == MiCaminoBJJ.Web.Security.IdentitySetup.AuthSchemeName;
+        var encabezado = sesionPractico
+            ? await EncabezadoUsuarioViewModel.DesdeAsync(User, Db)
+            : null;
+    }
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark mccj-navbar mb-3">
+            <!-- Izquierda: logo + nombre + eslogan. Contenedor fluido con tope ancho. -->
+            <div class="container-fluid mccj-navbar-container">
+                <a class="navbar-brand mccj-brand d-flex align-items-center gap-2" asp-area="" asp-controller="Home"
+                   asp-action="Index">
+                    <span class="mccj-brand-mark" aria-hidden="true">
+                        <img src="~/img/LogoMiCaminoBJJ.png" asp-append-version="true" alt="" width="48" height="48"
+                             class="mccj-brand-logo" />
+                    </span>
+                    <span class="mccj-brand-text">
+                        <span class="mccj-brand-name">Mi Camino</span>
+                        <span class="mccj-brand-slogan">@L["Layout.Nav.Slogan"]</span>
+                    </span>
+                </a>
+                <!-- Centro: enlaces de navegación. Derecha: acceso de usuario. -->
+                <div class="navbar-collapse collapse" id="mccjNavbarCollapse">
+                    <ul class="navbar-nav mccj-nav-list">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home"
+                               asp-action="Index">@L["Layout.Nav.Inicio"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Tecnicas"
+                               asp-action="Index">@L["Layout.Nav.Biblioteca"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="GuiaPracticante"
+                               asp-action="Index">@L["Layout.Nav.Guia"]</a>
+                        </li>
+                    </ul>
+                    @if (encabezado is null)
+                    {
+                        <!-- Visitante: accesos públicos (sin sesión de práctico). -->
+                        <div class="mccj-nav-actions">
+                            <a class="mccj-nav-user-btn" asp-controller="Cuenta" asp-action="Login">
+                                <i data-lucide="log-in" class="mccj-nav-user-icon-lucide"></i>
+                                <span class="mccj-nav-user-label">@L["Layout.Nav.IniciarSesion"]</span>
+                            </a>
+                            <a class="mccj-nav-user-btn" asp-controller="Cuenta" asp-action="Registro">
+                                <span class="mccj-nav-user-label">@L["Layout.Nav.Registrarse"]</span>
+                            </a>
+                        </div>
+                    }
+                </div>
+                @if (encabezado is not null)
+                {
+                    <!-- Derecha: saludo + avatar con menú de perfil (Etapa 1). -->
+                    <div class="mccj-user-block">
+                        <div class="mccj-user-greetings mccj-user-greetings-desktop">
+                            <span class="mccj-user-welcome">@L["Layout.Nav.Bienvenido"] <span
+                                class="mccj-user-name">@encabezado.Nombre</span></span>
+                                <span class="mccj-user-role">@L["Layout.Nav.Rol", encabezado.Rol]</span>
+                            </div>
+                            <span class="mccj-user-greeting-mobile">@L["Layout.Nav.Hola", encabezado.NombreCorto]</span>
+
+                            <div class="mccj-user-menu-wrap">
+                                <button type="button" class="mccj-avatar-btn" id="mccjUserMenuBtn" aria-haspopup="menu"
+                                        aria-expanded="false" aria-controls="mccjUserMenu"
+                                        aria-label="@L["Layout.Nav.MenuCuenta", encabezado.Nombre]">
+                                    <span class="mccj-avatar" aria-hidden="true">
+                                        @if (!string.IsNullOrEmpty(encabezado.FotoUrl))
+                                        {
+                                            <img class="mccj-avatar-img" src="@encabezado.FotoUrl" alt="" />
+                                        }
+                                        else
+                                        {
+                                            @* Avatar con iniciales (rectangular, mismo estilo que el logo):
+                                           mejor identificación visual que un ícono genérico. *@
+                                            var palabras = encabezado.Nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                            var iniciales = palabras.Length >= 2
+                                                ? $"{palabras[0][0]}{palabras[1][0]}"
+                                                : (palabras.Length == 1 ? palabras[0][0].ToString() : "?");
+                                            <span class="mccj-avatar-iniciales">@iniciales.ToUpperInvariant()</span>
+                                        }
+                                    </span>
+                                </button>
+
+                                <div class="mccj-user-menu" id="mccjUserMenu" role="menu" aria-labelledby="mccjUserMenuBtn"
+                                     hidden>
+                                    <a class="mccj-menu-item" role="menuitem" asp-controller="Cuenta" asp-action="Perfil">
+                                        <i data-lucide="user-round"></i>
+                                        <span>@L["Layout.Nav.MiPerfil"]</span>
+                                    </a>
+                                    <a class="mccj-menu-item" role="menuitem" asp-controller="Cuenta"
+                                       asp-action="Configuracion">
+                                        <i data-lucide="settings"></i>
+                                        <span>@L["Layout.Nav.Configuracion"]</span>
+                                    </a>
+                                    <a class="mccj-menu-item" role="menuitem" asp-controller="Ayuda" asp-action="Index">
+                                        <i data-lucide="circle-help"></i>
+                                        <span>@L["Layout.Nav.Ayuda"]</span>
+                                    </a>
+                                    @if (encabezado.EsAdministrador)
+                                    {
+                                        <a class="mccj-menu-item" role="menuitem" asp-controller="AdminTecnicas" asp-action="Index">
+                                            <i data-lucide="shield-check"></i>
+                                            <span>@L["Layout.Nav.Administracion"]</span>
+                                        </a>
+                                    }
+                                    <div class="mccj-menu-sep" role="separator"></div>
+                                    <form asp-controller="Cuenta" asp-action="Logout" method="post" class="mccj-menu-form"
+                                          role="none">
+                                        <button type="submit" class="mccj-menu-item mccj-menu-item-logout" role="menuitem">
+                                            <i data-lucide="log-out"></i>
+                                            <span>@L["Layout.Nav.CerrarSesion"]</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#mccjNavbarCollapse" aria-controls="mccjNavbarCollapse" aria-expanded="false"
+                            aria-label="@L["Layout.Nav.AlternarNavegacion"]">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        @* Feedback de login exitoso (Etapa UI/UX): toast efímero con animación breve. *@
+        @if (TempData["Bienvenida"] is string bienvenida)
+        {
+            <div class="mccj-toast-bienvenida" id="mccjToastBienvenida" role="status" aria-live="polite">
+                <i data-lucide="circle-check" class="mccj-toast-icon" aria-hidden="true"></i>
+                <span class="mccj-toast-texto">@Mensajes.Traducir(L, bienvenida)</span>
+                <button type="button" class="mccj-toast-cerrar" aria-label="@L["Layout.Nav.CerrarAviso"]">&times;</button>
+            </div>
+        }
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer mccj-footer">
+            <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+                <span>@L["Layout.Pie.Copyright"]</span>
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">@L["Layout.Nav.Privacidad"]</a>
+            </div>
+        </footer>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+                                if (window.lucide) {
+                        lucide.createIcons();
+                                }
+        </script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+
+</html>

@@ -1,4 +1,5 @@
 @page "/registro"
+@using Microsoft.EntityFrameworkCore
 @inject ISessionService SessionService
 @inject IUserService UserService
 @inject NavigationManager Navigation
@@ -7,77 +8,90 @@
     <div class="auth-card">
         <h2>Crear Cuenta</h2>
 
-        @if (!string.IsNullOrEmpty(_errorMessage))
+        @if (_registrationSucceeded)
         {
-            <div class="alert alert-danger">@_errorMessage</div>
-        }
-
-        <EditForm Model="_model" OnValidSubmit="HandleRegister">
-            <DataAnnotationsValidator />
-
-            <div class="form-group">
-                <label>Nombre</label>
-                <InputText class="form-control" @bind-Value="_model.Name" />
-                <ValidationMessage For="() => _model.Name" />
+            <div class="alert alert-success" role="status" aria-live="polite">
+                Tu cuenta fue creada correctamente. Ahora iniciá sesión para continuar.
             </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <InputText class="form-control" @bind-Value="_model.Email" />
-                <ValidationMessage For="() => _model.Email" />
-            </div>
-
-            <div class="form-group">
-                <label>Contraseña</label>
-                <InputText class="form-control" type="password" @bind-Value="_model.Password" />
-                <ValidationMessage For="() => _model.Password" />
-            </div>
-
-            <div class="form-group">
-                <label>Confirmar Contraseña</label>
-                <InputText class="form-control" type="password" @bind-Value="_model.ConfirmPassword" />
-                <ValidationMessage For="() => _model.ConfirmPassword" />
-            </div>
-
-            <div class="form-group">
-                <label>Cinturón</label>
-                <InputSelect class="form-control" @bind-Value="_model.BeltRank">
-                    <option value="">Selecciona tu cinturón</option>
-                    <option value="Blanco">Blanco</option>
-                    <option value="Azul">Azul</option>
-                    <option value="Violeta">Violeta</option>
-                    <option value="Marrón">Marrón</option>
-                    <option value="Negro">Negro</option>
-                </InputSelect>
-                <ValidationMessage For="() => _model.BeltRank" />
-            </div>
-
-            <div class="form-group">
-                <label>Academia (Opcional)</label>
-                <InputText class="form-control" @bind-Value="_model.Academy" />
-            </div>
-
-            <button class="btn btn-primary btn-block" type="submit" disabled="@_isLoading">
-                @if (_isLoading)
-                {
-                    <span class="spinner"></span>
-                }
-                else
-                {
-                    <span>Registrarse</span>
-                }
+            <button class="btn btn-primary btn-block" type="button" @onclick="GoToLogin">
+                Ir a iniciar sesión
             </button>
-        </EditForm>
+        }
+        else
+        {
+            @if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                <div class="alert alert-danger" role="alert" aria-live="assertive">@_errorMessage</div>
+            }
 
-        <div class="auth-footer">
-            ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
-        </div>
+            <EditForm Model="_model" OnValidSubmit="HandleRegister">
+                <DataAnnotationsValidator />
+
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <InputText class="form-control" @bind-Value="_model.Name" />
+                    <ValidationMessage For="() => _model.Name" />
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <InputText class="form-control" @bind-Value="_model.Email" />
+                    <ValidationMessage For="() => _model.Email" />
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <InputText class="form-control" type="password" @bind-Value="_model.Password" />
+                    <ValidationMessage For="() => _model.Password" />
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmar Contraseña</label>
+                    <InputText class="form-control" type="password" @bind-Value="_model.ConfirmPassword" />
+                    <ValidationMessage For="() => _model.ConfirmPassword" />
+                </div>
+
+                <div class="form-group">
+                    <label>Cinturón</label>
+                    <InputSelect class="form-control" @bind-Value="_model.BeltRank">
+                        <option value="">Selecciona tu cinturón</option>
+                        <option value="Blanco">Blanco</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Violeta">Violeta</option>
+                        <option value="Marrón">Marrón</option>
+                        <option value="Negro">Negro</option>
+                    </InputSelect>
+                    <ValidationMessage For="() => _model.BeltRank" />
+                </div>
+
+                <div class="form-group">
+                    <label>Academia (Opcional)</label>
+                    <InputText class="form-control" @bind-Value="_model.Academy" />
+                </div>
+
+                <button class="btn btn-primary btn-block" type="submit" disabled="@_isLoading">
+                    @if (_isLoading)
+                    {
+                        <span class="spinner"></span>
+                    }
+                    else
+                    {
+                        <span>Registrarse</span>
+                    }
+                </button>
+            </EditForm>
+
+            <div class="auth-footer">
+                ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
+            </div>
+        }
     </div>
 </div>
 
 @code {
     private RegisterModel _model = new();
     private bool _isLoading = false;
+    private bool _registrationSucceeded = false;
     private string? _errorMessage;
 
     protected override async Task OnInitializedAsync()
@@ -90,6 +104,9 @@
 
     private async Task HandleRegister()
     {
+        if (_isLoading)
+            return;
+
         if (_model.Password != _model.ConfirmPassword)
         {
             _errorMessage = "Las contraseñas no coinciden.";
@@ -100,35 +117,52 @@
         _errorMessage = null;
         StateHasChanged();
 
+        var email = _model.Email.Trim();
+
         try
         {
-            var emailExists = await UserService.EmailExistsAsync(_model.Email);
+            // El servicio compara sin distinguir mayúsculas/minúsculas,
+            // así "Ana@Mail.com" y "ana@mail.com" se consideran el mismo correo.
+            var emailExists = await UserService.EmailExistsAsync(email);
             if (emailExists)
             {
-                _errorMessage = "Este email ya está registrado.";
+                _errorMessage = "Ya existe una cuenta registrada con este email. Iniciá sesión o usá otro correo.";
+                // Se conservan los datos ingresados para que el usuario
+                // corrija únicamente el email.
                 return;
             }
 
-            var user = await UserService.CreateAsync(
+            await UserService.CreateAsync(
                 _model.Name,
-                _model.Email,
+                email,
                 _model.Password,
                 _model.BeltRank,
                 _model.Academy);
 
-            await SessionService.SetCurrentUserIdAsync(user.Id);
-            Navigation.NavigateTo("/inicio");
+            // Registro exitoso: NO se crea sesión ni se navega automáticamente.
+            // Si CreateAsync hubiera lanzado, no se llega a este punto.
+            _registrationSucceeded = true;
+            _model = new RegisterModel();
         }
-        catch (Exception ex)
+        catch (DbUpdateException)
         {
-            _errorMessage = "Ha ocurrido un error al crear la cuenta. Por favor, intenta de nuevo.";
-            // Optionally log ex
+            // Colisión del índice único Users.Email: el correo ya existe.
+            _errorMessage = "Ya existe una cuenta registrada con este email. Iniciá sesión o usá otro correo.";
+        }
+        catch (Exception)
+        {
+            _errorMessage = "No se pudo crear la cuenta. Verificá los datos e intentá de nuevo.";
         }
         finally
         {
             _isLoading = false;
             StateHasChanged();
         }
+    }
+
+    private void GoToLogin()
+    {
+        Navigation.NavigateTo("/login");
     }
 
     public class RegisterModel

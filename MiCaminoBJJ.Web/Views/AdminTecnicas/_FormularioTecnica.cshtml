@@ -1,0 +1,101 @@
+@using MiCaminoBJJ.Web.ViewModels.Admin
+@model AdminTecnicaFormViewModel
+@*
+    Formulario compartido de creación y edición (Etapa 3).
+    El tag helper del form inyecta el token antiforgery automáticamente.
+    Id = 0 publica en Create; con Id publica en Edit (asp-route-id nulo se omite).
+*@
+<div class="mccj-card mccj-admin-form">
+    <form method="post" asp-controller="AdminTecnicas" asp-action="@(Model.EsEdicion ? "Edit" : "Create")"
+          asp-route-id="@(Model.EsEdicion ? Model.Id : (int?)null)" novalidate>
+        @* Filtros del listado: viajan como ocultos para volver al mismo
+           criterio de búsqueda, cinturón y estado al guardar o cancelar. *@
+        <input type="hidden" name="buscar" value="@Model.FiltroBuscar" />
+        <input type="hidden" name="estado" value="@Model.FiltroEstadoTexto" />
+        <input type="hidden" name="cinturon" value="@Model.FiltroCinturon" />
+
+        <div asp-validation-summary="All" class="text-danger mb-3" role="alert"></div>
+
+        @* Etapa multimedia: más respiración entre campos (g-4) y entre el
+           formulario y los botones de acción. *@
+        <div class="row g-4">
+            <div class="col-12">
+                <label asp-for="Nombre" class="form-label">@L["Admin.Form.Nombre"]</label>
+                <input asp-for="Nombre" class="form-control" placeholder="@L["Admin.Form.NombrePlaceholder"]"
+                       maxlength="200" autofocus />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Descripcion" class="form-label">@L["Admin.Form.Descripcion"]</label>
+                <textarea asp-for="Descripcion" class="form-control" rows="4" maxlength="2000"
+                          placeholder="@L["Admin.Form.DescripcionPlaceholder"]"></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Objetivo" class="form-label">@L["Admin.Form.Objetivo"]</label>
+                <textarea asp-for="Objetivo" class="form-control" rows="3" maxlength="1000"
+                          placeholder="@L["Admin.Form.ObjetivoPlaceholder"]"></textarea>
+                <span asp-validation-for="Objetivo" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label asp-for="CinturonId" class="form-label">@L["Admin.Form.Cinturon"]</label>
+                <select asp-for="CinturonId" class="form-select">
+                    <option value="">@L["Admin.Form.CinturonPlaceholder"]</option>
+                    @foreach (var opcion in Model.Cinturones)
+                    {
+                        <option value="@opcion.Id">@opcion.Nombre</option>
+                    }
+                </select>
+                <span asp-validation-for="CinturonId" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label asp-for="PosicionId" class="form-label">@L["Admin.Form.Posicion"]</label>
+                <select asp-for="PosicionId" class="form-select">
+                    <option value="">@L["Admin.Form.PosicionPlaceholder"]</option>
+                    @foreach (var opcion in Model.Posiciones)
+                    {
+                        <option value="@opcion.Id">@opcion.Nombre</option>
+                    }
+                </select>
+                <span asp-validation-for="PosicionId" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="CategoriaId" class="form-label">@L["Admin.Form.Categoria"]</label>
+                <select asp-for="CategoriaId" class="form-select">
+                    <option value="">@L["Admin.Form.CategoriaPlaceholder"]</option>
+                    @foreach (var opcion in Model.Categorias)
+                    {
+                        <option value="@opcion.Id">@opcion.Nombre</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoriaId" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label asp-for="Pasos" class="form-label">@L["Admin.Form.Pasos"]</label>
+                <textarea asp-for="Pasos" class="form-control" rows="6"
+                          placeholder="@L["Admin.Form.PasosPlaceholder"]"></textarea>
+                <span asp-validation-for="Pasos" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label asp-for="Consejos" class="form-label">@L["Admin.Form.Consejos"]</label>
+                <textarea asp-for="Consejos" class="form-control" rows="6"
+                          placeholder="@L["Admin.Form.ConsejosPlaceholder"]"></textarea>
+                <span asp-validation-for="Consejos" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-3 mt-5">
+            <button type="submit" class="btn btn-gold">@(Model.EsEdicion? L["Cuenta.Perfil.GuardarCambios"] :
+                L["Admin.Form.Crear"])</button>
+                @* Vuelve al listado CON los mismos filtros de búsqueda, cinturón y estado. *@
+                <a class="btn btn-outline-light" href="@Model.RutaListado">@L["Common.Cancelar"]</a>
+            </div>
+        </form>
+    </div>

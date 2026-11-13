@@ -1,0 +1,139 @@
+@page "/perfil"
+@inject ISessionService SessionService
+@inject IUserService UserService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando tu perfil..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadData" />
+}
+else if (_user != null)
+{
+    <div class="dashboard">
+        <section class="dashboard-welcome">
+            <h1>Mi Perfil 👤</h1>
+            <div class="dashboard-welcome-details">
+                <span class="badge badge-gold">@_user.BeltRank</span>
+                @if (!string.IsNullOrEmpty(_user.Academy))
+                {
+                    <span class="text-muted">@_user.Academy</span>
+                }
+            </div>
+        </section>
+
+        @* Datos de la cuenta (solo lectura) *@
+        <section class="dashboard-section">
+            <h3>Datos de la cuenta</h3>
+            <div class="training-card">
+                <div class="training-card-body">
+                    <div class="training-detail">
+                        <span class="training-detail-label">Nombre</span>
+                        <span>@_user.Name</span>
+                    </div>
+                    <div class="training-detail">
+                        <span class="training-detail-label">Email</span>
+                        <span>@_user.Email</span>
+                    </div>
+                    <div class="training-detail">
+                        <span class="training-detail-label">Cinturón</span>
+                        <span>@_user.BeltRank</span>
+                    </div>
+                    <div class="training-detail">
+                        <span class="training-detail-label">Academia</span>
+                        <span>@(string.IsNullOrEmpty(_user.Academy) ? "—" : _user.Academy)</span>
+                    </div>
+                    <div class="training-detail">
+                        <span class="training-detail-label">Rol</span>
+                        <span>@(_user.Role == UserRole.Administrador ? "Administrador" : "Practicante")</span>
+                    </div>
+                    <div class="training-detail">
+                        <span class="training-detail-label">Miembro desde</span>
+                        <span>@_user.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        @* Edición de datos básicos (pantalla dedicada con flecha de volver) *@
+        <section class="dashboard-section">
+            <h3>Editar datos</h3>
+            <a class="btn btn-primary btn-block" href="/perfil/editar">Editar perfil</a>
+        </section>
+
+        <section class="dashboard-section">
+            <button type="button" class="btn btn-ghost btn-block" @onclick="LogoutAsync">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <path d="m16 17 5-5-5-5" />
+                    <path d="M21 12H9" />
+                </svg>
+                <span>Cerrar sesión</span>
+            </button>
+        </section>
+    </div>
+}
+
+@code {
+    private User? _user;
+    private bool _isLoading = true;
+    private bool _hasError = false;
+    private string _errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _hasError = false;
+        StateHasChanged();
+
+        try
+        {
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            if (!userId.HasValue)
+            {
+                Navigation.NavigateTo("/login");
+                return;
+            }
+
+            _user = await UserService.GetByIdAsync(userId.Value);
+            if (_user == null)
+            {
+                _hasError = true;
+                _errorMessage = "No se encontró tu usuario.";
+                return;
+            }
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudo cargar el perfil.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task LogoutAsync()
+    {
+        await SessionService.ClearSessionAsync();
+        Navigation.NavigateTo("/login");
+    }
+
+}

@@ -27,7 +27,7 @@ else
 
         @if (!string.IsNullOrEmpty(_errorMessage))
         {
-            <div class="alert alert-danger">@_errorMessage</div>
+            <div class="alert alert-danger" role="alert" aria-live="assertive">@_errorMessage</div>
         }
 
         <EditForm Model="_model" OnValidSubmit="HandleSave">
@@ -89,7 +89,8 @@ else
 
             <div class="form-group">
                 <label>Pasos (un paso por línea)</label>
-                <textarea class="form-control" rows="5" @bind="_stepsText" placeholder="Paso 1&#10;Paso 2&#10;Paso 3"></textarea>
+                <textarea class="form-control" rows="5" @bind="_stepsText"
+                          placeholder="Paso 1&#10;Paso 2&#10;Paso 3"></textarea>
             </div>
 
             <div class="form-group">
@@ -209,7 +210,7 @@ else
                     stepsJson, tipsJson,
                     _model.BeltId, _model.CategoryId, _model.PositionId);
 
-                Navigation.NavigateTo($"/admin/tecnicas/{Id.Value}/media");
+                Navigation.NavigateTo($"/admin/tecnicas/{Id.Value}/media?guardado=actualizada");
             }
             else
             {
@@ -218,8 +219,12 @@ else
                     stepsJson, tipsJson,
                     _model.BeltId, _model.CategoryId, _model.PositionId);
 
-                Navigation.NavigateTo($"/admin/tecnicas/{created.Id}/media");
+                Navigation.NavigateTo($"/admin/tecnicas/{created.Id}/media?guardado=creada");
             }
+        }
+        catch (UnauthorizedAccessException)
+        {
+            _errorMessage = "No tenés permisos de administrador para realizar esta operación.";
         }
         catch
         {

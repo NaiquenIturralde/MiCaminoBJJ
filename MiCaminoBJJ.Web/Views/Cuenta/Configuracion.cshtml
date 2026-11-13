@@ -1,0 +1,72 @@
+@model ConfiguracionViewModel
+@{
+    ViewData["Title"] = L["Cuenta.Configuracion.Titulo"];
+}
+
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-9 col-lg-6">
+
+            <div class="mccj-auth-card">
+                <div class="text-center mb-4">
+                    <h1 class="mccj-auth-title">@L["Cuenta.Configuracion.Titulo"]</h1>
+                    <p class="mccj-auth-subtitle">@L["Cuenta.Configuracion.Subtitulo"]</p>
+                </div>
+
+                @* Confirmación visible tras guardar (PRG: el POST redirige al GET). *@
+                @if (TempData["Exito"] is string exito)
+                {
+                    <div class="alert alert-success" role="status">
+                        <i data-lucide="circle-check" aria-hidden="true"></i>
+                        <span>@Mensajes.Traducir(L, exito)</span>
+                    </div>
+                }
+
+                <form method="post" asp-controller="Cuenta" asp-action="Configuracion" novalidate>
+                    <div asp-validation-summary="All" class="text-danger mb-3" role="alert"></div>
+
+                    @* ── Idioma de la aplicación ── *@
+                    <div class="mb-4">
+                        <h2 class="mccj-card-heading h5 mb-2">@L["Cuenta.Configuracion.IdiomaSeccion"]</h2>
+                        <p class="mccj-belt-field-hint" id="ayudaIdioma">
+                            @L["Cuenta.Configuracion.IdiomaAyuda"]
+                        </p>
+
+                        <div class="mccj-idioma-picker" role="radiogroup"
+                             aria-label="@L["Cuenta.Configuracion.IdiomaSeccion"]" aria-describedby="ayudaIdioma">
+                            @foreach (var opcion in Model.Idiomas)
+                            {
+                                var activo = opcion.Codigo == Model.IdiomaActual;
+                                <label class="mccj-idioma-option @(activo ? "is-active" : "")">
+                                    <input type="radio" asp-for="Idioma" value="@opcion.Codigo" id="idioma-@opcion.Codigo"
+                                           class="mccj-idioma-option__input" />
+                                    <span class="mccj-idioma-option__nombre">@opcion.Nombre</span>
+                                    <span class="mccj-idioma-option__codigo">@opcion.Codigo</span>
+                                </label>
+                            }
+                        </div>
+                        <span asp-validation-for="Idioma" class="text-danger d-block"></span>
+
+                        <p class="mccj-profile-note mt-3">
+                            @L["Cuenta.Configuracion.Actual", Model.IdiomaActualNombre]
+                        </p>
+                    </div>
+
+                    @* Los datos de la cuenta NO se repiten aquí: viven en «Mi perfil». *@
+                    <p class="mccj-profile-note">
+                        @L["Cuenta.Configuracion.PerfilAviso"]
+                    </p>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-gold">@L["Cuenta.Configuracion.Guardar"]</button>
+                        <a class="btn btn-outline-light" asp-controller="Cuenta"
+                           asp-action="Perfil">@L["Cuenta.Configuracion.MiPerfil"]</a>
+                        <a class="btn btn-outline-light" asp-controller="Ayuda"
+                           asp-action="Index">@L["Cuenta.Configuracion.Ayuda"]</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>

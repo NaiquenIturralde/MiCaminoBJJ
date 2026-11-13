@@ -1,0 +1,319 @@
+/* ===== Ficha de técnica (Biblioteca) — reproductor principal y contenido =====
+   Estilos EXCLUSIVOS de la ficha de técnica (prefijo mccj-tecnica-).
+   No modifican el recorrido de cinturón blanco (mccjrc-), ni el CRUD admin,
+   ni la portada. Todo lo que se reutiliza del reproductor compartido
+   (marco 16:9, miniatura, botón Play, iframe) viene de recorrido.css y se
+   reescala aquí con selectores de alcance. */
+
+/* ── Encabezado ─────────────────────────────────────────────────── */
+.mccj-tecnica-header {
+  background:
+    radial-gradient(900px 300px at 15% -40%, rgba(215, 184, 62, 0.18), transparent 65%),
+    linear-gradient(180deg, #1c1c1c 0%, var(--mccj-bg) 100%);
+  border-bottom: 1px solid var(--mccj-border);
+}
+
+.mccj-tecnica-header-title {
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--mccj-text);
+  margin-bottom: 0;
+}
+
+.mccj-tecnica-header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.mccj-tecnica-header-meta .mccj-badge {
+  margin-bottom: 0;
+}
+
+.mccj-tecnica-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(215, 184, 62, 0.35);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  color: var(--mccj-gold-light);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.mccj-tecnica-volver:hover,
+.mccj-tecnica-volver:focus-visible {
+  border-color: var(--mccj-gold);
+  background: rgba(215, 184, 62, 0.12);
+  color: var(--mccj-gold);
+}
+
+/* ── Bloque de video (elemento principal de la ficha) ───────────── */
+.mccj-tecnica-video {
+  margin-top: 1.75rem;
+}
+
+.mccj-tecnica-video .mccjrc-video {
+  width: 100%;
+}
+
+.mccj-tecnica-video .mccjrc-video-frame {
+  border-radius: 16px;
+  border: 1px solid rgba(215, 184, 62, 0.35);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  background: #000;
+}
+
+/* Botón Play grande y centrado (elemento principal del reproductor). */
+.mccj-tecnica-video .mccjrc-video-play {
+  padding: 1rem 2.1rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+.mccj-tecnica-video .mccjrc-video-play-icon {
+  font-size: 1.25rem;
+}
+
+.mccj-tecnica-video .mccjrc-video-poster {
+  background: #000;
+}
+
+/* Barra inferior del reproductor (enlace a YouTube + título). */
+.mccj-tecnica-video .mccjrc-video-bar {
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--mccj-border);
+  font-size: 0.9rem;
+}
+
+.mccj-tecnica-video .mccjrc-video-bar a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mccj-tecnica-video .mccjrc-video-bar a:hover,
+.mccj-tecnica-video .mccjrc-video-bar a:focus-visible {
+  text-decoration: underline;
+}
+
+.mccj-tecnica-video-descripcion {
+  color: var(--mccj-muted);
+  font-size: 0.9rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0;
+}
+
+/* ── Galería: videos adicionales de la misma técnica ───────────── */
+.mccj-tecnica-galeria {
+  margin-top: 1.75rem;
+}
+
+.mccj-tecnica-galeria-titulo {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mccj-gold-light);
+  margin-bottom: 0.85rem;
+}
+
+.mccj-tecnica-galeria-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.mccj-tecnica-miniatura {
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  background: var(--mccj-surface);
+  border: 1px solid var(--mccj-border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  color: inherit;
+  transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.mccj-tecnica-miniatura:hover,
+.mccj-tecnica-miniatura:focus-visible {
+  border-color: rgba(215, 184, 62, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+}
+
+.mccj-tecnica-miniatura.is-activa {
+  border-color: var(--mccj-gold);
+  box-shadow: 0 0 0 1px var(--mccj-gold);
+}
+
+.mccj-tecnica-miniatura img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #000;
+}
+
+.mccj-tecnica-miniatura span {
+  display: block;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+  color: var(--mccj-text-secondary);
+  line-height: 1.35;
+}
+
+.mccj-tecnica-miniatura.is-activa span {
+  color: var(--mccj-text);
+}
+
+/* ── Estado vacío (técnica sin video) ───────────────────────────── */
+.mccj-tecnica-sin-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+  margin-top: 1.75rem;
+  padding: 3rem 1.5rem;
+  background: var(--mccj-surface);
+  border: 1px dashed rgba(215, 184, 62, 0.4);
+  border-radius: 16px;
+}
+
+.mccj-tecnica-sin-video-icono {
+  font-size: 2.4rem;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.mccj-tecnica-sin-video h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--mccj-text);
+  margin: 0;
+}
+
+.mccj-tecnica-sin-video p {
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+  max-width: 32rem;
+  margin: 0;
+}
+
+/* ── Tarjetas de contenido (descripción, objetivo, pasos, consejos) ── */
+.mccj-tecnica-cuerpo {
+  margin-top: 2rem;
+}
+
+.mccj-tecnica-card {
+  background: var(--mccj-surface);
+  border: 1px solid rgba(215, 184, 62, 0.22);
+  border-radius: var(--mccj-radius);
+  padding: 2rem 2.25rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mccj-tecnica-card:last-child {
+  margin-bottom: 0;
+}
+
+.mccj-tecnica-card:hover {
+  border-color: rgba(215, 184, 62, 0.45);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+}
+
+.mccj-tecnica-card h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--mccj-gold-light);
+  letter-spacing: 0.01em;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(215, 184, 62, 0.18);
+}
+
+.mccj-tecnica-card p {
+  color: var(--mccj-text-secondary);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+
+.mccj-tecnica-card .mccj-list {
+  color: var(--mccj-text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+  padding-left: 1.4rem;
+}
+
+.mccj-tecnica-card .mccj-list li {
+  margin-bottom: 0.6rem;
+}
+
+.mccj-tecnica-card .mccj-list li::marker {
+  color: var(--mccj-gold);
+}
+
+/* ── Información secundaria (alias, enlaces) ────────────────────── */
+.mccj-tecnica-extra {
+  margin-top: 2.5rem;
+}
+
+.mccj-tecnica-extra h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mccj-text);
+  margin-bottom: 0.9rem;
+}
+
+.mccj-tecnica-extra .mccj-badge {
+  margin-bottom: 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 991.98px) {
+  .mccj-tecnica-card {
+    padding: 1.6rem 1.5rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .mccj-tecnica-video .mccjrc-video-play {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.95rem;
+  }
+
+  .mccj-tecnica-video .mccjrc-video-play-icon {
+    font-size: 1rem;
+  }
+
+  .mccj-tecnica-galeria-lista {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .mccj-tecnica-card {
+    padding: 1.25rem 1.1rem;
+    border-radius: 12px;
+  }
+
+  .mccj-tecnica-card h2 {
+    font-size: 1.05rem;
+  }
+
+  .mccj-tecnica-sin-video {
+    padding: 2rem 1rem;
+  }
+}

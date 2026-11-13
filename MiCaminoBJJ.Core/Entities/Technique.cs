@@ -4,6 +4,9 @@ public class Technique
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    /// <summary>Versión normalizada de Name (TextNormalizer.Normalize). Nullable para
+    /// ser compatible con filas preexistentes; se rellena con backfill idempotente.</summary>
+    public string? NameNormalized { get; set; }
     public string Description { get; set; } = string.Empty;
     public string Objective { get; set; } = string.Empty;
     public string? Steps { get; set; }
@@ -22,6 +25,7 @@ public class Technique
     public ICollection<SavedTechnique> SavedByUsers { get; set; } = new List<SavedTechnique>();
     public ICollection<TechniqueView> ViewedByUsers { get; set; } = new List<TechniqueView>();
     public ICollection<TechniquePractice> Practices { get; set; } = new List<TechniquePractice>();
+    public ICollection<TechniqueAlias> Aliases { get; set; } = new List<TechniqueAlias>();
     public ICollection<UserTechniqueProgress> UserProgresses { get; set; } = new List<UserTechniqueProgress>();
     public ICollection<UserTechniqueResource> PersonalResources { get; set; } = new List<UserTechniqueResource>();
 }

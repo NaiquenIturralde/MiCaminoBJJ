@@ -1,0 +1,142 @@
+@model RecorridoBlancoViewModel
+@{
+    ViewData["Title"] = L["Recorrido.Titulo"];
+}
+
+<link rel="stylesheet" href="~/css/recorrido.css" asp-append-version="true" />
+
+<section class="mccj-page-header mccjrc-hero">
+    <div class="container py-4 py-md-5">
+        <a class="mccj-back-link" href="/Tecnicas">← @L["Common.VolverBiblioteca"]</a>
+        <span class="mccj-eyebrow mt-3">@L["Recorrido.Eyebrow"]</span>
+        <h1 class="mccj-hero-title">@Model.Titulo</h1>
+        <p class="mccj-hero-tagline">@Model.Subtitulo</p>
+        <p class="mccj-hero-description">@Model.Descripcion</p>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+            <span class="mccj-badge">@L["Recorrido.Badges.Modulos"]</span>
+            <span class="mccj-badge">@L["Recorrido.Badges.Principiantes"]</span>
+            @if (Model.EsFuenteDeDemostracion)
+            {
+                <span class="mccj-badge">@L["Common.DatosDemostracion"]</span>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="container mt-4">
+    <div class="mccj-card mccjrc-intro-card">
+        <h2 class="mccj-card-heading">@L["Recorrido.PorDondeArrancar"]</h2>
+        <p class="mccj-card-text">@Model.Introduccion</p>
+        <p class="mccjrc-marco mb-0">@Model.MarcoPedagogico</p>
+    </div>
+</section>
+
+<section class="container mt-5">
+    <div class="mccj-section-heading">
+        <h2>@L["Recorrido.ModulosEducativos"]</h2>
+        <p>@L["Recorrido.ModulosDescripcion"]</p>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var modulo in Model.Modulos)
+        {
+            <div class="col-12 col-md-6 col-xl-4">
+                <a class="mccj-card mccj-glass-card mccjrc-tile" href="@modulo.Ruta">
+                    <span class="mccjrc-tile-numero" aria-hidden="true">@modulo.Id</span>
+                    <h3 class="mccj-card-heading">@modulo.Titulo</h3>
+                    <p class="mccj-card-text">@modulo.Resumen</p>
+                    <div class="mccjrc-tile-meta">
+                        <span>@(modulo.TotalPuntos == 1 ? L["Recorrido.Puntos", modulo.TotalPuntos] :
+                                                    L["Recorrido.PuntosPlural", modulo.TotalPuntos])</span>
+                            @if (modulo.TotalFichas > 0)
+                            {
+                                <span>@(modulo.TotalFichas == 1 ? L["Recorrido.Fichas", modulo.TotalFichas] :
+                                                            L["Recorrido.FichasPlural", modulo.TotalFichas])</span>
+                                }
+                            </div>
+                            <span class="mccj-badge @(modulo.TieneVideo ? "mccjrc-badge-ok" : "mccjrc-badge-pend")">
+                                @modulo.EstadoVideoTexto
+                            </span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <section class="container mt-5">
+            <div class="mccj-section-heading">
+                <h2>@L["Recorrido.FichasTecnicasVideo"]</h2>
+                <p>@L["Recorrido.FichasTecnicasVideoDescripcion"]</p>
+            </div>
+
+            <div class="row g-4">
+                @foreach (var ficha in Model.Fichas)
+                {
+                    <div class="col-12 col-md-6">
+                        <a class="mccj-card mccj-glass-card mccjrc-tile" href="@ficha.Ruta">
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span class="mccj-badge">@ficha.TipoContenido</span>
+                                @if (ficha.MaterialComplementario)
+                                {
+                                    <span class="mccj-badge mccjrc-badge-comp">@ficha.CinturonTexto ·
+                                        @L["Recorrido.Complementario"]</span>
+                                    }
+                        else if (ficha.CinturonSinAsignar)
+                                    {
+                                        <span class="mccj-badge mccjrc-badge-pend">@L["Recorrido.CinturonSinAsignar"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="mccj-badge">@ficha.CinturonTexto</span>
+                                    }
+                                    @if (ficha.TieneVideo)
+                                    {
+                                        <span class="mccj-badge mccjrc-badge-ok">@L["Recorrido.ConVideo"]</span>
+                                    }
+                                </div>
+                                <h3 class="mccj-card-heading">@ficha.Nombre</h3>
+                                @if (ficha.RequiereRevisionInstructor)
+                                {
+                                    <p class="mccjrc-revision mb-0">@L["Recorrido.RevisionInstructor"]</p>
+                                }
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                <p class="mccjrc-nota mt-3">@Model.NotaMaterialComplementario</p>
+            </section>
+
+            <section class="container mt-5 mb-4">
+                <div class="mccj-section-heading">
+                    <h2>@L["Recorrido.TecnicasParaCinturon"]</h2>
+                    <p>@L["Recorrido.TecnicasParaCinturonDescripcion"]</p>
+                </div>
+
+                @if (!Model.HayTecnicas)
+                {
+                    <div class="mccj-card mccj-empty text-center">
+                        <div class="mccj-card-icon" aria-hidden="true">📚</div>
+                        <p class="mb-0">@(Model.MensajeTecnicas ?? "Todavía no hay técnicas de cinturón blanco cargadas en la biblioteca.")</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="row g-4">
+                        @foreach (var tecnica in Model.Tecnicas)
+                        {
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <a class="mccj-card mccj-glass-card mccjrc-tile" href="@tecnica.Ruta">
+                                    <div class="d-flex flex-wrap gap-2 mb-2">
+                                        <span class="mccj-badge">@tecnica.Cinturon</span>
+                                        <span class="mccj-badge">@tecnica.Categoria</span>
+                                    </div>
+                                    <h3 class="mccj-card-heading">@tecnica.Nombre</h3>
+                                    <p class="mccj-card-text">@tecnica.Descripcion</p>
+                                    <span class="mccjrc-tile-ver">@L["Recorrido.VerFichaBiblioteca"]</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
+            </section>

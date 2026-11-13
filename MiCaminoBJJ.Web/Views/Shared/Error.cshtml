@@ -1,0 +1,22 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = L["Shared.Error.Titulo"];
+}
+
+<h1 class="text-danger">@L["Shared.Error.Titulo"].</h1>
+<h2 class="text-danger">@L["Shared.Error.Encabezado"]</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>@L["Shared.Error.RequestId"]</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<h3>@L["Shared.Error.Desarrollo"]</h3>
+<p>
+    @L["Shared.Error.DesarrolloTexto"]
+</p>
+<p>
+    <strong>@L["Shared.Error.DesarrolloAviso"]</strong>
+</p>

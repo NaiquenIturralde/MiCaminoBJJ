@@ -72,6 +72,13 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
     </ItemGroup>
 
+    <!-- Solo cuando la extensión habilita DevFlow (builds de depuración con Copilot):
+         aporta AddMauiBlazorDevFlowTools() / maui_cdp_* para el BlazorWebView.
+         Los builds normales (Windows, Web, CI) no lo restauran ni lo compilan. -->
+    <ItemGroup Condition="'$(MauiDevFlowEnabled)' == 'true'">
+        <PackageReference Include="Microsoft.Maui.DevFlow.Blazor" Version="0.1.0-preview.12.26368.2" />
+    </ItemGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\MiCaminoBJJ.Core\MiCaminoBJJ.Core.csproj" />
       <ProjectReference Include="..\MiCaminoBJJ.Infrastructure\MiCaminoBJJ.Infrastructure.csproj" />

@@ -1,0 +1,202 @@
+@model TecnicaDetalleViewModel
+@{
+    ViewData["Title"] = Model.Nombre;
+
+    // Recurso principal: el primero con reproductor integrado (YouTube).
+    // Los adicionales se muestran como miniaturas debajo y se pueden elegir
+    // sin salir de la ficha (tecnica-video.js).
+    var videoPrincipal = Model.Videos.FirstOrDefault();
+    var videosAdicionales = Model.Videos.Skip(1).ToList();
+}
+@* Estilos del reproductor (prefijo mccjrc-, reutilizados del recorrido) y
+   estilos propios de la ficha (prefijo mccj-tecnica-): no alteran otros módulos. *@
+<link rel="stylesheet" href="~/css/recorrido.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/tecnica-detalle.css" asp-append-version="true" />
+
+@* ── Encabezado: nombre, cinturón/categoría/posición y vuelta a la biblioteca ── *@
+<section class="mccj-tecnica-header">
+    <div class="container py-4 py-md-5">
+        <a class="mccj-tecnica-volver" href="@Model.RutaVolver">← @L["Common.VolverBiblioteca"]</a>
+        <h1 class="mccj-tecnica-header-title mt-3">@Model.Nombre</h1>
+        <div class="mccj-tecnica-header-meta">
+            <span class="mccj-badge">@Model.Cinturon</span>
+            <span class="mccj-badge">@Model.Categoria</span>
+            <span class="mccj-badge">@Model.Posicion</span>
+            @if (Model.EsFuenteDeDemostracion)
+            {
+                <span class="mccj-badge">@L["Common.DatosDemostracion"]</span>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="container">
+    @* ── Video principal: ancho completo del contenedor, 16:9 ── *@
+    @if (videoPrincipal is not null)
+    {
+        <div class="mccj-tecnica-video" data-mccj-tecnica-video>
+            <div class="mccjrc-video" data-mccjrc-video data-embed="@videoPrincipal.EmbedUrl"
+                 data-title="@videoPrincipal.Titulo" data-poster="@videoPrincipal.MiniaturaUrl"
+                 data-url="@videoPrincipal.Url">
+                <div class="mccjrc-video-frame">
+                    <img class="mccjrc-video-poster" data-mccj-tecnica-poster src="@videoPrincipal.MiniaturaUrl"
+                         alt="@L["Tecnicas.Detalle.VistaPrevia", videoPrincipal.Titulo]" loading="lazy" width="480"
+                         height="270" />
+                    <button type="button" class="mccjrc-video-play" data-mccjrc-play
+                            aria-label="@L["Tecnicas.Detalle.ReproducirVideo", videoPrincipal.Titulo]">
+                        <span class="mccjrc-video-play-icon" aria-hidden="true">▶</span>
+                        <span>@L["Common.Rejecutar"]</span>
+                    </button>
+                </div>
+                <div class="mccjrc-video-bar">
+                    <a data-mccj-tecnica-enlace href="@videoPrincipal.Url" target="_blank" rel="noopener noreferrer">
+                        @L["Tecnicas.Detalle.AbrirYouTube"]
+                    </a>
+                    <span class="mccjrc-video-nota" data-mccj-tecnica-nota>@videoPrincipal.Titulo</span>
+                </div>
+                <p class="mccj-tecnica-video-descripcion @(string.IsNullOrWhiteSpace(videoPrincipal.Descripcion) ? "d-none" : null)"
+                   data-mccj-tecnica-descripcion>@videoPrincipal.Descripcion</p>
+            </div>
+
+            @if (videosAdicionales.Count > 0)
+            {
+                @* Videos adicionales: solo miniaturas. El reproductor cargado
+                   es siempre el del recurso principal (uno solo a la vez). *@
+                <div class="mccj-tecnica-galeria">
+                    <h2 class="mccj-tecnica-galeria-titulo">@L["Tecnicas.Detalle.Galeria"]</h2>
+                    <div class="mccj-tecnica-galeria-lista">
+                        @foreach (var video in videosAdicionales)
+                        {
+                            <button type="button" class="mccj-tecnica-miniatura" data-mccj-tecnica-select
+                                    data-embed="@video.EmbedUrl" data-title="@video.Titulo" data-poster="@video.MiniaturaUrl"
+                                    data-url="@video.Url" data-description="@video.Descripcion"
+                                    aria-label="@L["Tecnicas.Detalle.ElegirVideo", video.Titulo]">
+                                <img src="@video.MiniaturaUrl" alt="@L["Tecnicas.Detalle.Miniatura", video.Titulo]" loading="lazy"
+                                     width="320" height="180" />
+                                <span>@video.Titulo</span>
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        @* Estado vacío elegante: sin errores ni huecos negros. *@
+        <div class="mccj-tecnica-sin-video">
+            <span class="mccj-tecnica-sin-video-icono" aria-hidden="true">🎬</span>
+            <h2>@L["Tecnicas.Detalle.SinVideo"]</h2>
+            <p>
+                @L["Tecnicas.Detalle.SinVideoTexto"]
+            </p>
+        </div>
+    }
+
+    @* ── Contenido de la ficha, debajo del video ── *@
+    <div class="mccj-tecnica-cuerpo">
+        <article>
+            <div class="mccj-tecnica-card">
+                <h2>@L["Tecnicas.Detalle.Descripcion"]</h2>
+                <p>@Model.Descripcion</p>
+            </div>
+
+            @if (Model.TieneObjetivo)
+            {
+                <div class="mccj-tecnica-card">
+                    <h2>@L["Tecnicas.Detalle.Objetivo"]</h2>
+                    <p>@Model.Objetivo</p>
+                </div>
+            }
+
+            <div class="mccj-tecnica-card">
+                <h2>@L["Tecnicas.Detalle.Pasos"]</h2>
+                @if (Model.Pasos.Count > 0)
+                {
+                    <ol class="mccj-list">
+                        @foreach (var paso in Model.Pasos)
+                        {
+                            <li>@paso</li>
+                        }
+                    </ol>
+                }
+                else
+                {
+                    <p>@L["Tecnicas.Detalle.SinPasos"]</p>
+                }
+            </div>
+
+            <div class="mccj-tecnica-card">
+                <h2>@L["Tecnicas.Detalle.Consejos"]</h2>
+                @if (Model.Consejos.Count > 0)
+                {
+                    <ul class="mccj-list">
+                        @foreach (var consejo in Model.Consejos)
+                        {
+                            <li>@consejo</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>@L["Tecnicas.Detalle.SinConsejos"]</p>
+                }
+            </div>
+        </article>
+
+        @* ── Información secundaria: alias y enlaces externos ── *@
+        <div class="mccj-tecnica-extra">
+            <div class="row g-4">
+                <div class="col-12 col-lg-6">
+                    <h2>@L["Tecnicas.Detalle.Aliases"]</h2>
+                    @if (Model.Alias.Count > 0)
+                    {
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach (var alias in Model.Alias)
+                            {
+                                <span class="mccj-badge">@alias</span>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="mccj-card-text mb-0">@L["Tecnicas.Detalle.SinAlias"]</p>
+                    }
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <h2>@L["Tecnicas.Detalle.EnlacesExternos"]</h2>
+                    @if (Model.EnlacesExternos.Count > 0)
+                    {
+                        <ul class="mccj-list mb-0">
+                            @foreach (var recurso in Model.EnlacesExternos)
+                            {
+                                <li>
+                                    <a href="@recurso.Url" target="_blank" rel="noopener noreferrer">@recurso.Titulo ↗</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="mccj-card-text mb-0">@L["Tecnicas.Detalle.SinRecursos"]</p>
+                    }
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a class="mccj-tecnica-volver" href="@Model.RutaVolver">@L["Tecnicas.Detalle.VolverFiltros"]</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @if (Model.TieneVideoIntegrado)
+    {
+        @* Reproductor diferido compartido (el iframe se crea al pulsar Play,
+           sin autoplay en el HTML) + selector de video adicional. *@
+        <script src="~/js/recorrido-video.js" asp-append-version="true"></script>
+        <script src="~/js/tecnica-video.js" asp-append-version="true"></script>
+    }
+}

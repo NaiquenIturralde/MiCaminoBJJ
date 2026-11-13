@@ -1,0 +1,67 @@
+@using MiCaminoBJJ.Web.ViewModels.Guia
+@model GuiaChatViewModel
+@{
+    ViewData["Title"] = L["Guia.Titulo"];
+}
+
+<section class="mccj-page-header">
+    <div class="container py-4 py-md-5">
+        <span class="mccj-eyebrow">@L["Guia.Eyebrow"]</span>
+        <h1 class="mccj-hero-title">@L["Guia.Titulo"]</h1>
+        <p class="mccj-hero-description">
+            @L["Guia.Descripcion"]
+        </p>
+        <span class="mccj-badge">@Model.Modo</span>
+    </div>
+</section>
+
+<section class="container mb-5">
+    <div class="mccj-chat mx-auto">
+        <div class="mccj-chat-header d-flex justify-content-between align-items-center">
+            <span class="mccj-chat-titulo">@L["Guia.Conversacion"]</span>
+            <span class="mccj-chat-modo">@Model.Modo</span>
+        </div>
+
+        <div class="mccj-chat-area" id="guia-conversacion" role="log" aria-live="polite"
+             aria-label="@L["Guia.Conversacion"]">
+            @foreach (var mensaje in Model.Mensajes)
+            {
+                <div class="mccj-chat-msg mccj-chat-msg--@mensaje.Rol">
+                    <span class="mccj-chat-rol">@(mensaje.Rol == "agente" ? L["Guia.RolAgente"] : L["Guia.RolUsuario"])</span>
+                    <div class="mccj-chat-bubble">@mensaje.Texto</div>
+                </div>
+            }
+        </div>
+
+        <div id="guia-error" class="alert alert-danger d-none mt-2" role="alert"></div>
+
+        <div class="mccj-chat-sugerencias" id="guia-sugerencias">
+            <span class="mccj-chat-sugerencias-label">@L["Guia.Sugerencias"]</span>
+            @foreach (var sugerencia in Model.Sugerencias)
+            {
+                <button type="button" class="btn btn-outline-light mccj-chat-sugerencia"
+                        data-texto="@sugerencia">@sugerencia</button>
+            }
+        </div>
+
+        <form id="guia-form" class="mccj-chat-form" novalidate>
+            @Html.AntiForgeryToken()
+            <label class="visually-hidden" for="guia-texto">@L["Guia.TuPregunta"]</label>
+            <textarea id="guia-texto" class="form-control" rows="2" maxlength="1000"
+                      placeholder="@L["Guia.Placeholder"]"
+                      aria-describedby="guia-ayuda"></textarea>
+            <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                <button type="submit" class="btn btn-gold" id="guia-enviar">@L["Guia.Enviar"]</button>
+                <span id="guia-esperando" class="d-none align-items-center gap-2 mccj-chat-esperando" role="status">
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    @L["Guia.Pensando"]
+                </span>
+                <small id="guia-ayuda" class="text-muted ms-auto d-none d-sm-inline">
+                    @L["Guia.Maximo"]
+                </small>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script src="~/js/guia.js" asp-append-version="true"></script>

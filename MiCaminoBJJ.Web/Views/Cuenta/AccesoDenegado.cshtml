@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = L["Cuenta.Denegado.Titulo"];
+}
+
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-9 col-lg-6">
+
+            <div class="mccj-auth-card text-center">
+                <div class="mb-4">
+                    <span class="mccj-brand-mark" aria-hidden="true">
+                        <img src="~/img/LogoMiCaminoBJJ.png" asp-append-version="true" alt="" width="64" height="64"
+                             class="mccj-auth-logo" />
+                    </span>
+                    <h1 class="mccj-auth-title mt-3">@L["Cuenta.Denegado.Titulo"]</h1>
+                    <p class="mccj-auth-subtitle">
+                        @L["Cuenta.Denegado.Subtitulo"]
+                    </p>
+                </div>
+
+                <p class="text-secondary mb-4">
+                    @L["Cuenta.Denegado.Nota"]
+                </p>
+
+                <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-gold">@L["Common.VolverInicio"]</a>
+                    <a asp-controller="Tecnicas" asp-action="Index"
+                       class="btn btn-outline-light">@L["Common.IrBiblioteca"]</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

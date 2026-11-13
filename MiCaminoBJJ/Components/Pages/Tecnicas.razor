@@ -3,6 +3,7 @@
 @inject ITechniqueService TechniqueService
 @inject ITechniqueSearchService SearchService
 @inject NavigationManager Navigation
+@inject ISavedTechniqueService SavedTechniqueService
 
 @if (_isLoading)
 {
@@ -28,13 +29,8 @@ else
 
         @* Búsqueda *@
         <div class="techniques-search">
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Buscar técnica..."
-                @bind="_searchTerm"
-                @bind:event="oninput"
-                @onkeydown="OnSearchKeyDown" />
+            <input type="text" class="form-control" placeholder="Buscar técnica..." @bind="_searchTerm"
+                   @bind:event="oninput" @onkeydown="OnSearchKeyDown" />
         </div>
 
         @* Filtros *@
@@ -74,22 +70,25 @@ else
             </div>
         }
 
+        @if (!string.IsNullOrEmpty(_feedbackMessage))
+        {
+            <div class="alert alert-success" role="status" aria-live="polite">@_feedbackMessage</div>
+        }
+        @if (!string.IsNullOrEmpty(_feedbackError))
+        {
+            <div class="alert alert-danger" role="alert" aria-live="assertive">@_feedbackError</div>
+        }
+
         @* Listado *@
         @if (_filteredTechniques.Count == 0)
         {
             @if (_hasActiveFilters)
             {
-                <EmptyState
-                    Icon="🔍"
-                    Title="Sin resultados"
-                    Description="No se encontraron técnicas con esos filtros." />
+                <EmptyState Icon="🔍" Title="Sin resultados" Description="No se encontraron técnicas con esos filtros." />
             }
             else
             {
-                <EmptyState
-                    Icon="📚"
-                    Title="Sin técnicas"
-                    Description="Aún no hay técnicas disponibles en la biblioteca." />
+                <EmptyState Icon="📚" Title="Sin técnicas" Description="Aún no hay técnicas disponibles en la biblioteca." />
             }
         }
         else
@@ -97,20 +96,33 @@ else
             <div class="techniques-grid">
                 @foreach (var technique in _filteredTechniques)
                 {
-                    <a href="/tecnicas/@technique.Id" class="technique-card">
-                        <div class="technique-card-image">
-                            <span class="technique-card-image-placeholder">🥋</span>
-                        </div>
-                        <div class="technique-card-content">
-                            <h3 class="technique-card-name">@technique.Name</h3>
-                            <p class="technique-card-description">@technique.Description</p>
-                            <div class="technique-card-meta">
-                                <span class="badge badge-gold">@technique.Belt.Name</span>
-                                <span class="badge badge-surface">@technique.Category.Name</span>
-                                <span class="badge badge-surface">@technique.Position.Name</span>
+                    var isFavorite = _favoriteEntryIds.ContainsKey(technique.Id);
+                    <div class="technique-card-wrap">
+                        <a href="/tecnicas/@technique.Id" class="technique-card">
+                            <div class="technique-card-image">
+                                <span class="technique-card-image-placeholder">🥋</span>
                             </div>
-                        </div>
-                    </a>
+                            <div class="technique-card-content">
+                                <h3 class="technique-card-name">@technique.Name</h3>
+                                <p class="technique-card-description">@technique.Description</p>
+                                <div class="technique-card-meta">
+                                    <span class="badge badge-gold">@technique.Belt.Name</span>
+                                    <span class="badge badge-surface">@technique.Category.Name</span>
+                                    <span class="badge badge-surface">@technique.Position.Name</span>
+                                </div>
+                            </div>
+                        </a>
+                        <button type="button" class="technique-fav-btn @(isFavorite ? "is-active" : "")"
+                                aria-label="@FavoriteLabel(isFavorite)" title="@FavoriteLabel(isFavorite)"
+                                aria-pressed="@(isFavorite ? "true" : "false")" @onclick="() => ToggleFavoriteAsync(technique.Id)">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="@(isFavorite ? "currentColor" : "none")"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 aria-hidden="true">
+                                <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg>
+                        </button>
+                    </div>
                 }
             </div>
         }
@@ -123,7 +135,8 @@ else
     private List<Belt> _belts = new();
     private List<TechniqueCategory> _categories = new();
     private List<Position> _positions = new();
-
+    private Dictionary<int, int> _favoriteEntryIds = new();
+    private readonly HashSet<int> _favoriteBusyIds = new();
     private string _searchTerm = string.Empty;
     private int? _selectedBeltId;
     private int? _selectedCategoryId;
@@ -132,6 +145,8 @@ else
     private bool _isLoading = true;
     private bool _hasError = false;
     private string _errorMessage = string.Empty;
+    private string _feedbackMessage = string.Empty;
+    private string _feedbackError = string.Empty;
 
     private bool _hasActiveFilters =>
         !string.IsNullOrWhiteSpace(_searchTerm) ||
@@ -185,6 +200,8 @@ else
 
             // Show all techniques initially
             _filteredTechniques = _allTechniques;
+
+            await LoadFavoritesAsync();
         }
         catch (Exception)
         {
@@ -195,6 +212,28 @@ else
         {
             _isLoading = false;
             StateHasChanged();
+        }
+    }
+
+    private async Task LoadFavoritesAsync()
+    {
+        try
+        {
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            if (!userId.HasValue)
+            {
+                _favoriteEntryIds = new();
+                return;
+            }
+
+            var saved = await SavedTechniqueService.GetByUserAsync(userId.Value);
+            _favoriteEntryIds = saved
+                .Where(s => s.SavedType == SavedType.Favorite)
+                .ToDictionary(s => s.TechniqueId, s => s.Id);
+        }
+        catch (Exception)
+        {
+            _favoriteEntryIds = new();
         }
     }
 
@@ -257,6 +296,50 @@ else
         _selectedPositionId = string.IsNullOrEmpty(value) ? null : int.Parse(value);
         await ApplyFilters();
     }
+
+    private async Task ToggleFavoriteAsync(int techniqueId)
+    {
+        if (_favoriteBusyIds.Contains(techniqueId)) return;
+
+        var userId = await SessionService.GetCurrentUserIdAsync();
+        if (!userId.HasValue)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        _favoriteBusyIds.Add(techniqueId);
+        _feedbackMessage = string.Empty;
+        _feedbackError = string.Empty;
+        try
+        {
+            if (_favoriteEntryIds.TryGetValue(techniqueId, out var savedId))
+            {
+                await SavedTechniqueService.RemoveAsync(savedId);
+                _favoriteEntryIds.Remove(techniqueId);
+                _feedbackMessage = "Técnica quitada de tus favoritas.";
+            }
+            else
+            {
+                var saved = await SavedTechniqueService.SaveAsync(userId.Value, techniqueId, SavedType.Favorite);
+                _favoriteEntryIds[techniqueId] = saved.Id;
+                _feedbackMessage = "Técnica agregada a tus favoritas.";
+            }
+        }
+        catch (Exception)
+        {
+            // Sin cambios visuales si falla la operación.
+            _feedbackError = "No se pudo actualizar tus favoritas. Intentá nuevamente.";
+        }
+        finally
+        {
+            _favoriteBusyIds.Remove(techniqueId);
+            StateHasChanged();
+        }
+    }
+
+    private static string FavoriteLabel(bool isFavorite) =>
+        isFavorite ? "Quitar de favoritos" : "Agregar a favoritos";
 
     private async Task ClearFilters()
     {

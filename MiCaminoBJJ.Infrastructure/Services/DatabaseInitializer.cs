@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MiCaminoBJJ.Core.Entities;
 using MiCaminoBJJ.Core.Interfaces;
@@ -11,23 +12,28 @@ public class DatabaseInitializer
 {
     private const string AdminEmail = "admin@micaminobjj.com";
     private const string PlaceholderSalt = "SeedSaltPlaceholder";
-    private const string DefaultAdminPassword = "CONTRASENA_ELIMINADA_EN_LIMPIEZA_DE_SEGURIDAD";
 
     private readonly AppDbContext _context;
     private readonly SeedDataService _seedService;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IDataNormalizationService _dataNormalization;
     private readonly ILogger<DatabaseInitializer> _logger;
+    private readonly IConfiguration? _configuration;
 
     public DatabaseInitializer(
         AppDbContext context,
         SeedDataService seedService,
         IPasswordHasher passwordHasher,
-        ILogger<DatabaseInitializer> logger)
+        IDataNormalizationService dataNormalization,
+        ILogger<DatabaseInitializer> logger,
+        IConfiguration? configuration = null)
     {
         _context = context;
         _seedService = seedService;
         _passwordHasher = passwordHasher;
+        _dataNormalization = dataNormalization;
         _logger = logger;
+        _configuration = configuration;
     }
 
     public async Task InitializeAsync()
@@ -38,6 +44,15 @@ public class DatabaseInitializer
 
             // Ensure database is created and migrations applied
             await _context.Database.MigrateAsync();
+
+            // Seed initial data
+            await _seedService.SeedAsync();
+
+            // Backfill idempotente de nombres normalizados (TextNormalizer, C#), DESPUÉS
+            // del seed: cubre técnicas previas a esta etapa y cualquier fila creada en
+            // esta inicialización sin normalizar. Solo toca NameNormalized null/vacío,
+            // por lo que es seguro e idempotente en cualquier orden respecto de los datos.
+            await _dataNormalization.BackfillTechniqueNamesAsync();
 
             // Seed initial data
             await _seedService.SeedAsync();
@@ -71,11 +86,16 @@ public class DatabaseInitializer
                 return;
             }
 
-            adminUser.PasswordHash = _passwordHasher.HashPassword(DefaultAdminPassword, out var newSalt);
+            // La contraseña de reparación se resuelve desde la configuración
+            // ("AdminDev:Password"); si no hay ninguna, se genera una aleatoria.
+            // Nunca se usa un literal fijo versionado en el repositorio.
+            adminUser.PasswordHash = _passwordHasher.HashPassword(
+                SeedAdminPassword.Resolve(_configuration),
+                out var newSalt);
             adminUser.PasswordSalt = newSalt;
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Admin user '{Email}' password repaired with default development password.", AdminEmail);
+            _logger.LogInformation("Admin user '{Email}' password repaired with the configured seed password.", AdminEmail);
         }
         catch (Exception ex)
         {

@@ -1,0 +1,219 @@
+@using MiCaminoBJJ.Web.ViewModels.Admin
+@model AdminTecnicasIndexViewModel
+@{
+    ViewData["Title"] = L["Admin.Titulo.Tecnicas"];
+}
+<partial name="_EstilosAdmin" />
+
+<section class="mccj-page-header">
+    <div class="container py-4 py-md-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+            <div>
+                <span class="mccj-eyebrow">@L["Admin.Eyebrow"]</span>
+                <h1 class="mccj-hero-title">@L["Admin.Titulo.Tecnicas"]</h1>
+                <p class="mccj-hero-description">
+                    @L["Admin.Descripcion.Tecnicas"]
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                <a class="btn btn-gold"
+                   href="@($"/AdminTecnicas/Create{Model.QueryString}")">@L["Admin.NuevaTecnica"]</a>
+                <a class="btn btn-outline-light" href="/Auditoria">Auditoría</a>
+                <form asp-controller="AdminAcceso" asp-action="Logout" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-outline-light">@L["Admin.CerrarSesion"]</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container mt-4">
+    @if (TempData["Exito"] is string exito)
+    {
+        <div class="alert mccj-admin-alert-ok" role="status">@exito</div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="alert mccj-admin-alert-err" role="alert">@error</div>
+    }
+
+    <form method="get" action="/AdminTecnicas" class="mccj-filters" aria-label="Buscar y filtrar técnicas">
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <label for="buscar" class="form-label">@L["Common.BuscarNombre"]</label>
+                <input type="search" class="form-control" id="buscar" name="buscar" value="@Model.Buscar"
+                       placeholder="@L["Common.BuscarPlaceholder"]" />
+            </div>
+            <div class="col-6 col-sm-3 col-lg-3">
+                <label for="cinturon" class="form-label">@L["Common.Cinturon"]</label>
+                <select class="form-select" id="cinturon" name="cinturon">
+                    <option value="">@L["Common.Todos"]</option>
+                    @foreach (var opcion in Model.Cinturones)
+                    {
+                        <option value="@opcion.Id" selected="@(Model.Cinturon == opcion.Id)">@opcion.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="col-6 col-sm-3 col-lg-3">
+                <label for="estado" class="form-label">@L["Admin.Estado"]</label>
+                <select class="form-select" id="estado" name="estado">
+                    <option value="" selected="@(Model.Estado is null)">@L["Common.Todas"]</option>
+                    <option value="true" selected="@(Model.Estado == true)">@L["Admin.Estado.Activas"]</option>
+                    <option value="false" selected="@(Model.Estado == false)">@L["Admin.Estado.Desactivadas"]</option>
+                </select>
+            </div>
+            <div class="col-12 col-lg-2 d-grid gap-2">
+                <button type="submit" class="btn btn-gold">@L["Common.Buscar"]</button>
+                <a class="btn btn-outline-light" href="/AdminTecnicas">@L["Common.LimpiarFiltros"]</a>
+            </div>
+        </div>
+    </form>
+
+    <div class="mccj-results-bar mt-4 mb-3">
+        <p class="mccj-results-count" role="status">
+            @Model.TotalResultados @(Model.TotalResultados == 1 ? L["Common.Resultados.Tecnica"] :
+            L["Common.Resultados.Tecnicas"])
+            @if (!string.IsNullOrWhiteSpace(Model.Buscar))
+            {
+                <span>@L["Tecnicas.Resultados.Para", Model.Buscar]</span>
+            }
+            @if (Model.Cinturon.HasValue)
+            {
+                <span>@L["Tecnicas.Resultados.Cinturon", Model.NombreCinturon ?? ""]</span>
+            }
+            @if (Model.Estado == false)
+            {
+                <span>@L["Admin.Resultados.Desactivadas"]</span>
+            }
+            else if (Model.Estado == true)
+            {
+                <span>@L["Admin.Resultados.Activas"]</span>
+            }
+            else if (!Model.Cinturon.HasValue && string.IsNullOrWhiteSpace(Model.Buscar))
+            {
+                <span>@L["Admin.Resultados.Total"]</span>
+            }
+        </p>
+        @if (Model.TieneFiltros)
+        {
+            <a class="mccj-clear-link" href="/AdminTecnicas">@L["Tecnicas.Resultados.Limpiar"]</a>
+        }
+    </div>
+
+    @if (!Model.HayResultados)
+    {
+        <div class="mccj-card mccj-empty text-center">
+            <div class="mccj-card-icon" aria-hidden="true">🔍</div>
+            <h2 class="h5">@L["Common.SinResultados"]</h2>
+            <p>
+                @L["Admin.Vacio.Texto"]
+            </p>
+            <a href="/AdminTecnicas" class="btn btn-gold">@L["Common.VerTodasTecnicas"]</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table mccj-admin-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">@L["Admin.Tabla.Tecnica"]</th>
+                        <th scope="col">@L["Common.Cinturon"]</th>
+                        <th scope="col" class="d-none d-lg-table-cell">@L["Common.Categoria"] / @L["Common.Posicion"]</th>
+                        <th scope="col">@L["Admin.Tabla.Estado"]</th>
+                        <th scope="col" class="d-none d-xl-table-cell">@L["Admin.Tabla.Modificada"]</th>
+                        <th scope="col" class="text-end">@L["Admin.Tabla.Acciones"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var fila in Model.Tecnicas)
+                    {
+                        <tr>
+                            <td>
+                                <span class="mccj-admin-name">@fila.Nombre</span>
+                            </td>
+                            <td>@fila.Cinturon</td>
+                            <td class="d-none d-lg-table-cell">
+                                <span class="mccj-admin-sub">@fila.Categoria · @fila.Posicion</span>
+                            </td>
+                            <td>
+                                @if (fila.Activa)
+                                {
+                                    <span class="mccj-badge">@L["Admin.Estado.Activa"]</span>
+                                }
+                                else
+                                {
+                                    <span class="mccj-badge mccj-badge-off">@L["Admin.Estado.Desactivada"]</span>
+                                }
+                            </td>
+                            <td class="d-none d-xl-table-cell">
+                                <span class="mccj-admin-sub">
+                                    @fila.FechaUtc.ToString("yyyy-MM-dd HH:mm")
+                                    @(fila.FueEditada ? L["Admin.Fila.Editada"] : L["Admin.Fila.Creada"])
+                                </span>
+                            </td>
+                            <td>
+                                <div class="mccj-admin-actions">
+                                    <a class="btn btn-sm btn-outline-light"
+                                       href="@Model.RutaEdicion(fila.Id)">@L["Admin.Accion.Editar"]</a>
+
+                                    @if (fila.Activa)
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal"
+                                                data-bs-target="#confirmar-desactivar-@fila.Id">
+                                            @L["Admin.Accion.Desactivar"]
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="Reactivate" asp-route-id="@fila.Id" method="post" class="d-inline">
+                                            <input type="hidden" name="buscar" value="@Model.Buscar" />
+                                            <input type="hidden" name="estado" value="@Model.EstadoTexto" />
+                                            <input type="hidden" name="cinturon" value="@Model.Cinturon" />
+                                            <button type="submit" class="btn btn-sm btn-gold">@L["Admin.Accion.Reactivar"]</button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+
+                        @if (fila.Activa)
+                        {
+                            <!-- Confirmación de desactivación (solo visual; la escritura es POST con antiforgery) -->
+                            <div class="modal fade mccj-admin-modal" id="confirmar-desactivar-@fila.Id" tabindex="-1"
+                                 aria-hidden="true" aria-labelledby="titulo-desactivar-@fila.Id">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title h5" id="titulo-desactivar-@fila.Id">
+                                                @L["Admin.Modal.Titulo", fila.Nombre]
+                                            </h2>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                                    aria-label="@L["Common.Cerrar"]"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="mb-0">
+                                                @L["Admin.Modal.Texto"]
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">
+                                                @L["Common.Cancelar"]
+                                            </button>
+                                            <form asp-action="Deactivate" asp-route-id="@fila.Id" method="post" class="d-inline">
+                                                <input type="hidden" name="buscar" value="@Model.Buscar" />
+                                                <input type="hidden" name="estado" value="@Model.EstadoTexto" />
+                                                <input type="hidden" name="cinturon" value="@Model.Cinturon" />
+                                                <button type="submit" class="btn btn-gold">@L["Admin.Modal.Confirmar"]</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

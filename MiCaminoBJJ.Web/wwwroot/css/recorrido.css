@@ -1,0 +1,401 @@
+/* ===== Recorrido por cinturón — Cinturón Blanco (Etapa 6A) =====
+   Prefijo: mccjrc- (Mi Camino BJJ Recorrido/Cinturón).
+   Reutiliza las variables de site.css (#171717, #D7B83E, #F0DB6A) y el
+   glassmorphism existente. Prioridad: legibilidad sobre efectos. */
+
+/* ── Encabezado del recorrido ───────────────────────────────────── */
+.mccjrc-hero {
+  background:
+    radial-gradient(900px 320px at 20% -20%, rgba(215, 184, 62, 0.16), transparent 70%),
+    linear-gradient(180deg, #1c1c1c 0%, var(--mccj-bg) 100%);
+  border-bottom: 1px solid var(--mccj-border);
+}
+
+/* ── Intro / marco pedagógico ───────────────────────────────────── */
+.mccjrc-intro-card {
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(215, 184, 62, 0.2);
+  padding: 1.75rem;
+}
+
+@media (max-width: 575.98px) {
+  .mccjrc-intro-card {
+    padding: 1.4rem;
+  }
+}
+
+.mccjrc-marco {
+  color: var(--mccj-muted);
+  font-size: 0.85rem;
+  border-top: 1px dashed var(--mccj-border);
+  padding-top: 0.75rem;
+}
+
+/* ── Tiles navegables (módulos, fichas, técnicas) ────────────────── */
+/* Etapa UI/UX: más respiración — padding amplio y separación clara
+   entre badges, título, descripción y meta/videos. */
+.mccjrc-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+  padding: 1.75rem;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    opacity 0.2s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.15s ease;
+}
+
+@media (max-width: 575.98px) {
+  .mccjrc-tile {
+    padding: 1.4rem;
+    gap: 0.75rem;
+  }
+}
+
+.mccjrc-tile:hover,
+.mccjrc-tile:focus-visible {
+  /* Efecto de opacidad en hover: la superficie se vuelve más opaca y
+     el borde dorado gana intensidad; el texto mantiene contraste. */
+  opacity: 0.92;
+  background: rgba(0, 0, 0, 0.78);
+  border-color: rgba(215, 184, 62, 0.6);
+  color: inherit;
+  transform: translateY(-3px);
+}
+
+.mccjrc-tile-numero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--mccj-gold-soft);
+  border: 1px solid rgba(215, 184, 62, 0.45);
+  color: var(--mccj-gold-light);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+/* Título y descripción con aire propio dentro del tile. */
+.mccjrc-tile .mccj-card-heading {
+  margin-bottom: 0;
+}
+
+.mccjrc-tile .mccj-card-text {
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Fila de badges de la card: separada del título con margen propio. */
+.mccjrc-tile > .d-flex {
+  margin-bottom: 0;
+}
+
+.mccjrc-tile-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--mccj-muted);
+  font-size: 0.82rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(58, 58, 58, 0.7);
+}
+
+.mccjrc-tile-ver {
+  color: var(--mccj-gold-light);
+  font-size: 0.85rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* ── Insignias de estado ────────────────────────────────────────── */
+.mccjrc-badge-ok {
+  background: rgba(215, 184, 62, 0.18);
+  border-color: rgba(215, 184, 62, 0.55);
+  color: var(--mccj-gold-light);
+}
+
+.mccjrc-badge-pend {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--mccj-border);
+  color: var(--mccj-muted);
+}
+
+.mccjrc-badge-comp {
+  background: transparent;
+  border-color: rgba(215, 184, 62, 0.45);
+  color: var(--mccj-gold);
+}
+
+.mccjrc-revision {
+  color: #E7C86A;
+  font-size: 0.82rem;
+}
+
+.mccjrc-nota {
+  color: var(--mccj-muted);
+  font-size: 0.85rem;
+}
+
+/* ── Callout supervivencia vs escape ────────────────────────────── */
+.mccjrc-callout {
+  background: rgba(215, 184, 62, 0.1);
+  border: 1px solid rgba(215, 184, 62, 0.4);
+  border-left: 4px solid var(--mccj-gold);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+  color: var(--mccj-text-secondary);
+  font-size: 0.95rem;
+}
+
+.mccjrc-callout strong {
+  color: var(--mccj-gold-light);
+}
+
+/* ── Aviso de video pendiente (discreto) ─────────────────────────── */
+.mccjrc-video-pendiente {
+  color: var(--mccj-muted);
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed var(--mccj-border);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  display: inline-block;
+}
+
+/* ── Alerta de contenido sin validar ─────────────────────────────── */
+.mccjrc-alerta {
+  background: rgba(215, 184, 62, 0.12);
+  border: 1px solid rgba(215, 184, 62, 0.5);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  color: var(--mccj-text-secondary);
+  font-size: 0.92rem;
+  margin-bottom: 1.25rem;
+}
+
+.mccjrc-alerta strong {
+  color: var(--mccj-gold-light);
+}
+
+/* ── Puntos de contenido del módulo ──────────────────────────────── */
+.mccjrc-puntos {
+  list-style: none;
+  counter-reset: mccjrc-paso;
+  margin: 0;
+  padding: 0;
+}
+
+.mccjrc-puntos li {
+  counter-increment: mccjrc-paso;
+  position: relative;
+  padding: 0 0 1.1rem 3rem;
+  border-bottom: 1px solid rgba(58, 58, 58, 0.6);
+}
+
+.mccjrc-puntos li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.mccjrc-puntos li::before {
+  content: counter(mccjrc-paso);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--mccj-gold-soft);
+  border: 1px solid rgba(215, 184, 62, 0.45);
+  color: var(--mccj-gold-light);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mccjrc-puntos h3 {
+  font-size: 1rem;
+  color: var(--mccj-text);
+  margin-bottom: 0.3rem;
+}
+
+.mccjrc-puntos p {
+  margin-bottom: 0;
+  color: var(--mccj-text-secondary);
+}
+
+/* ── Reproducción de video (vista previa + play, sin autoplay) ───── */
+.mccjrc-video {
+  width: 100%;
+}
+
+.mccjrc-video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--mccj-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mccjrc-video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s ease;
+}
+
+.mccjrc-video-frame:hover .mccjrc-video-poster {
+  opacity: 0.82;
+}
+
+.mccjrc-video-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: max-content;
+  height: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--mccj-gold);
+  color: #171717;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.4rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.mccjrc-video-play:hover,
+.mccjrc-video-play:focus-visible {
+  background: var(--mccj-gold-light);
+  transform: scale(1.04);
+}
+
+.mccjrc-video-play-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.mccjrc-video-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Estado "reproduciendo": el iframe queda por encima y la miniatura y el
+   botón Play se ocultan (NO se borran del DOM), de modo que al elegir otro
+   video de la misma ficha se pueda volver al estado inicial sin recargar. */
+.mccjrc-video-frame.mccjrc-video-reproduciendo .mccjrc-video-poster,
+.mccjrc-video-frame.mccjrc-video-reproduciendo .mccjrc-video-play {
+  display: none;
+}
+
+.mccjrc-video-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(58, 58, 58, 0.7);
+  font-size: 0.85rem;
+}
+
+.mccjrc-video-bar a {
+  color: var(--mccj-gold-light);
+}
+
+.mccjrc-video-nota {
+  color: var(--mccj-muted);
+}
+
+/* ── Enlace lateral ─────────────────────────────────────────────── */
+.mccjrc-enlace {
+  color: var(--mccj-gold-light);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mccjrc-enlace:hover {
+  text-decoration: underline;
+}
+
+/* ── Navegación entre módulos / fichas ───────────────────────────── */
+.mccjrc-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--mccj-border);
+}
+
+.mccjrc-nav-btn {
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(215, 184, 62, 0.3);
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  color: var(--mccj-text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, opacity 0.2s ease, color 0.2s ease;
+}
+
+.mccjrc-nav-btn:hover,
+.mccjrc-nav-btn:focus-visible {
+  border-color: var(--mccj-gold);
+  color: var(--mccj-gold-light);
+  opacity: 0.92;
+}
+
+.mccjrc-nav-btn-centro {
+  color: var(--mccj-gold-light);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 575.98px) {
+  .mccjrc-nav {
+    flex-direction: column;
+  }
+
+  .mccjrc-nav-btn-der {
+    text-align: right;
+  }
+
+  .mccjrc-puntos li {
+    padding-left: 2.6rem;
+  }
+
+  .mccjrc-video-play {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.88rem;
+  }
+}

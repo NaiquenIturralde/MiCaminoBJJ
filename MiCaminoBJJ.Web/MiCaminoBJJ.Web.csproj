@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MiCaminoBJJ.Web</RootNamespace>
+    <!-- Etapa 3: credencial administrativa de Development vía User Secrets.
+         El archivo de secretos vive FUERA del repositorio (%APPDATA%\Microsoft\UserSecrets). -->
+    <UserSecretsId>MiCaminoBJJ.Web-etape3-admin-dev-7c2f9a41</UserSecretsId>
+  </PropertyGroup>
+
+  <!--
+    Arquitectura compartida (Etapa 0 Web):
+      MiCaminoBJJ.Web -> MiCaminoBJJ.Infrastructure -> MiCaminoBJJ.Core
+    Ningún proyecto compartido referencia a Web, por lo que no hay dependencias circulares.
+    Web NO modifica la app MAUI ni ejecuta migraciones.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\MiCaminoBJJ.Core\MiCaminoBJJ.Core.csproj" />
+    <ProjectReference Include="..\MiCaminoBJJ.Infrastructure\MiCaminoBJJ.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <!--
+    Etapa 2A — persistencia SQL Server de la web, aislada de la SQLite de MAUI.
+    Misma versión EF Core 10.0.10 que usa Infrastructure para SQLite.
+    Design solo para `dotnet ef` (no se empaqueta en producción).
+  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <!-- Etapa 4B: ASP.NET Core Identity (stores EF) alineado a EF Core 10.0.10. -->
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.10" />
+    <PackageReference Include="QuestPDF" Version="2026.9.2" />
+
+    <!-- Seguridad: sobreescribe la 9.0.4 transitiva (vía Microsoft.Data.SqlClient → Azure.Identity)
+         afectada por GHSA-2fmv-rv2c-59x7 (NU1902) y GHSA-846f-f764-76mx (NU1903).
+         Se fija la última versión 10.x con esos avisos corregidos. -->
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
+  </ItemGroup>
+
+</Project>

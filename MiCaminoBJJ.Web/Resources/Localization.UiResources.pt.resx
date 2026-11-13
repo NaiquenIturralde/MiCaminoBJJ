@@ -1,0 +1,1420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Layout.Nav.Inicio" xml:space="preserve">
+    <value>Início</value>
+  </data>
+  <data name="Layout.Nav.Biblioteca" xml:space="preserve">
+    <value>Biblioteca de técnicas</value>
+  </data>
+  <data name="Layout.Nav.Guia" xml:space="preserve">
+    <value>Guia do Praticante</value>
+  </data>
+  <data name="Layout.Nav.IniciarSesion" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="Layout.Nav.Registrarse" xml:space="preserve">
+    <value>Registar</value>
+  </data>
+  <data name="Layout.Nav.MiPerfil" xml:space="preserve">
+    <value>Meu perfil</value>
+  </data>
+  <data name="Layout.Nav.Configuracion" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Layout.Nav.Ayuda" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="Layout.Nav.Administracion" xml:space="preserve">
+    <value>Painel de administração</value>
+  </data>
+  <data name="Layout.Nav.CerrarSesion" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="Layout.Nav.Bienvenido" xml:space="preserve">
+    <value>Bem-vindo de volta,</value>
+  </data>
+  <data name="Layout.Nav.Rol" xml:space="preserve">
+    <value>Papel: {0}</value>
+  </data>
+  <data name="Layout.Nav.Hola" xml:space="preserve">
+    <value>Olá, {0}</value>
+  </data>
+  <data name="Layout.Nav.MenuCuenta" xml:space="preserve">
+    <value>Menu da conta de {0}</value>
+  </data>
+  <data name="Layout.Nav.AlternarNavegacion" xml:space="preserve">
+    <value>Alternar navegação</value>
+  </data>
+  <data name="Layout.Nav.Proximamente" xml:space="preserve">
+    <value>Em breve</value>
+  </data>
+  <data name="Layout.Nav.CerrarAviso" xml:space="preserve">
+    <value>Fechar aviso</value>
+  </data>
+  <data name="Layout.Nav.Privacidad" xml:space="preserve">
+    <value>Privacidade</value>
+  </data>
+  <data name="Layout.Nav.Slogan" xml:space="preserve">
+    <value>Dentro e fora do tatame</value>
+  </data>
+  <data name="Layout.Nav.Idioma" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Layout.Pie.Copyright" xml:space="preserve">
+    <value>© 2026 Mi Camino BJJ — Brazilian Jiu-Jitsu</value>
+  </data>
+  <data name="Common.Buscar" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="Common.LimpiarFiltros" xml:space="preserve">
+    <value>Limpar filtros</value>
+  </data>
+  <data name="Common.Todos" xml:space="preserve">
+    <value>Todos</value>
+  </data>
+  <data name="Common.Todas" xml:space="preserve">
+    <value>Todas</value>
+  </data>
+  <data name="Common.Cerrar" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="Common.Cancelar" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Common.SinResultados" xml:space="preserve">
+    <value>Nenhum resultado</value>
+  </data>
+  <data name="Common.VerTodasTecnicas" xml:space="preserve">
+    <value>Ver todas as técnicas</value>
+  </data>
+  <data name="Common.NoEncontramosTecnicas" xml:space="preserve">
+    <value>Não encontramos nenhuma técnica com esses critérios. Tente outro nome (você também pode usar sinônimos) ou limpe os filtros.</value>
+  </data>
+  <data name="Common.Cinturon" xml:space="preserve">
+    <value>Faixa</value>
+  </data>
+  <data name="Common.Categoria" xml:space="preserve">
+    <value>Categoria</value>
+  </data>
+  <data name="Common.Posicion" xml:space="preserve">
+    <value>Posição</value>
+  </data>
+  <data name="Common.Nombre" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Common.Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Common.Rol" xml:space="preserve">
+    <value>Papel</value>
+  </data>
+  <data name="Common.BuscarNombre" xml:space="preserve">
+    <value>Buscar por nome ou sinônimo</value>
+  </data>
+  <data name="Common.BuscarPlaceholder" xml:space="preserve">
+    <value>ex.: kimura, mata león, RNC</value>
+  </data>
+  <data name="Common.DatosDemostracion" xml:space="preserve">
+    <value>Dados de demonstração</value>
+  </data>
+  <data name="Common.VolverInicio" xml:space="preserve">
+    <value>Voltar ao início</value>
+  </data>
+  <data name="Common.IrBiblioteca" xml:space="preserve">
+    <value>Ir à biblioteca</value>
+  </data>
+  <data name="Common.Rejecutar" xml:space="preserve">
+    <value>Reproduzir</value>
+  </data>
+  <data name="Common.VolverBiblioteca" xml:space="preserve">
+    <value>Voltar à biblioteca</value>
+  </data>
+  <data name="Common.Resultados.Tecnica" xml:space="preserve">
+    <value>técnica</value>
+  </data>
+  <data name="Common.Resultados.Tecnicas" xml:space="preserve">
+    <value>técnicas</value>
+  </data>
+  <data name="Cuenta.Configuracion.Titulo" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Cuenta.Configuracion.Subtitulo" xml:space="preserve">
+    <value>Preferências da sua conta.</value>
+  </data>
+  <data name="Cuenta.Configuracion.IdiomaSeccion" xml:space="preserve">
+    <value>Idioma do aplicativo</value>
+  </data>
+  <data name="Cuenta.Configuracion.IdiomaAyuda" xml:space="preserve">
+    <value>Escolha o idioma da interface. Vale para a navegação, os formulários, os títulos e as mensagens de todo o site.</value>
+  </data>
+  <data name="Cuenta.Configuracion.Actual" xml:space="preserve">
+    <value>Idioma atual: {0}</value>
+  </data>
+  <data name="Cuenta.Configuracion.Guardar" xml:space="preserve">
+    <value>Salvar preferências</value>
+  </data>
+  <data name="Cuenta.Configuracion.Exito" xml:space="preserve">
+    <value>Preferências salvas com sucesso.</value>
+  </data>
+  <data name="Cuenta.Configuracion.Error" xml:space="preserve">
+    <value>Não foi possível salvar a preferência de idioma.</value>
+  </data>
+  <data name="Cuenta.Configuracion.ErrorIdiomaInvalido" xml:space="preserve">
+    <value>O idioma selecionado não é válido.</value>
+  </data>
+  <data name="Cuenta.Configuracion.PerfilAviso" xml:space="preserve">
+    <value>Seu nome, email, papel e faixa são gerenciados em «Meu perfil».</value>
+  </data>
+  <data name="Cuenta.Configuracion.MiPerfil" xml:space="preserve">
+    <value>Meu perfil</value>
+  </data>
+  <data name="Cuenta.Configuracion.Ayuda" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="Cuenta.Idioma.Es" xml:space="preserve">
+    <value>Espanhol</value>
+  </data>
+  <data name="Cuenta.Idioma.En" xml:space="preserve">
+    <value>Inglês</value>
+  </data>
+  <data name="Cuenta.Idioma.Pt" xml:space="preserve">
+    <value>Português</value>
+  </data>
+  <data name="Cuenta.Login.Titulo" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="Cuenta.Login.Subtitulo" xml:space="preserve">
+    <value>Acesse com seu e-mail e senha.</value>
+  </data>
+  <data name="Cuenta.Login.Password" xml:space="preserve">
+    <value>Senha</value>
+  </data>
+  <data name="Cuenta.Login.PasswordPlaceholder" xml:space="preserve">
+    <value>Sua senha</value>
+  </data>
+  <data name="Cuenta.Login.MostrarPassword" xml:space="preserve">
+    <value>Mostrar senha</value>
+  </data>
+  <data name="Cuenta.Login.MostrarOcultarPassword" xml:space="preserve">
+    <value>Mostrar ou ocultar senha</value>
+  </data>
+  <data name="Cuenta.Login.CrearCuenta" xml:space="preserve">
+    <value>Criar conta</value>
+  </data>
+  <data name="Cuenta.Registro.Titulo" xml:space="preserve">
+    <value>Criar conta</value>
+  </data>
+  <data name="Cuenta.Registro.Subtitulo" xml:space="preserve">
+    <value>Cadastre-se como praticante e comece a acompanhar seu progresso.</value>
+  </data>
+  <data name="Cuenta.Registro.NombrePlaceholder" xml:space="preserve">
+    <value>Como quer que te chamemos</value>
+  </data>
+  <data name="Cuenta.Registro.Cinturon" xml:space="preserve">
+    <value>Faixa</value>
+  </data>
+  <data name="Cuenta.Registro.CinturonAyuda" xml:space="preserve">
+    <value>Sua faixa atual. Personaliza seu percurso e a biblioteca; não define permissões.</value>
+  </data>
+  <data name="Cuenta.Registro.PasswordPlaceholder" xml:space="preserve">
+    <value>Mínimo 8 caracteres</value>
+  </data>
+  <data name="Cuenta.Registro.ConfirmarPassword" xml:space="preserve">
+    <value>Confirmar senha</value>
+  </data>
+  <data name="Cuenta.Registro.ConfirmarPasswordPlaceholder" xml:space="preserve">
+    <value>Repita a senha</value>
+  </data>
+  <data name="Cuenta.Registro.YaTengoCuenta" xml:space="preserve">
+    <value>Já tenho conta</value>
+  </data>
+  <data name="Cuenta.Perfil.Titulo" xml:space="preserve">
+    <value>Meu perfil</value>
+  </data>
+  <data name="Cuenta.Perfil.Subtitulo" xml:space="preserve">
+    <value>Atualize sua foto, seu nome e sua faixa de Brazilian Jiu-Jitsu.</value>
+  </data>
+  <data name="Cuenta.Perfil.Foto" xml:space="preserve">
+    <value>Foto de perfil</value>
+  </data>
+  <data name="Cuenta.Perfil.FotoAyuda" xml:space="preserve">
+    <value>JPG, PNG ou WEBP, até 2 MB. Se você não enviar nenhuma imagem a atual é mantida.</value>
+  </data>
+  <data name="Cuenta.Perfil.AvatarIniciales" xml:space="preserve">
+    <value>Avatar com suas iniciais</value>
+  </data>
+  <data name="Cuenta.Perfil.TuFoto" xml:space="preserve">
+    <value>Sua foto de perfil</value>
+  </data>
+  <data name="Cuenta.Perfil.NombrePlaceholder" xml:space="preserve">
+    <value>Seu nome</value>
+  </data>
+  <data name="Cuenta.Perfil.CinturonActual" xml:space="preserve">
+    <value>Faixa atual</value>
+  </data>
+  <data name="Cuenta.Perfil.MiembroDesde" xml:space="preserve">
+    <value>Membro desde</value>
+  </data>
+  <data name="Cuenta.Perfil.Nota" xml:space="preserve">
+    <value>Sua faixa é usada para personalizar sua experiência e sugerir técnicas do seu nível. Não define permissões dentro do aplicativo. O sistema gerencia seu email e seu papel.</value>
+  </data>
+  <data name="Cuenta.Perfil.GuardarCambios" xml:space="preserve">
+    <value>Salvar alterações</value>
+  </data>
+  <data name="Cuenta.Denegado.Titulo" xml:space="preserve">
+    <value>Acesso negado</value>
+  </data>
+  <data name="Cuenta.Denegado.Subtitulo" xml:space="preserve">
+    <value>Sua sessão é válida, mas não tem as permissões exigidas para este módulo.</value>
+  </data>
+  <data name="Cuenta.Denegado.Nota" xml:space="preserve">
+    <value>Se você precisa de acesso administrativo, peça ao administrador do sistema que habilite sua conta com o papel correspondente.</value>
+  </data>
+  <data name="Cuenta.Mensaje.CredencialesInvalidas" xml:space="preserve">
+    <value>E-mail ou senha incorretos.</value>
+  </data>
+  <data name="Cuenta.Mensaje.CuentaCreada" xml:space="preserve">
+    <value>Conta criada. Entre para continuar.</value>
+  </data>
+  <data name="Cuenta.Mensaje.ErrorCrearCuenta" xml:space="preserve">
+    <value>Não foi possível criar a conta. Tente novamente em alguns minutos.</value>
+  </data>
+  <data name="Cuenta.Mensaje.EmailExistente" xml:space="preserve">
+    <value>Já existe uma conta com esse e-mail.</value>
+  </data>
+  <data name="Cuenta.Mensaje.PasswordInvalida" xml:space="preserve">
+    <value>A senha não atende aos requisitos: pelo menos 8 caracteres, uma maiúscula, uma minúscula, um número e um caractere especial.</value>
+  </data>
+  <data name="Cuenta.Mensaje.EmailInvalido" xml:space="preserve">
+    <value>O e-mail não é válido.</value>
+  </data>
+  <data name="Cuenta.Mensaje.ErrorDatos" xml:space="preserve">
+    <value>Não foi possível criar a conta com esses dados.</value>
+  </data>
+  <data name="Cuenta.Mensaje.Bloqueada" xml:space="preserve">
+    <value>Conta temporariamente bloqueada por tentativas malsucedidas. Tente novamente em alguns minutos.</value>
+  </data>
+  <data name="Cuenta.Mensaje.Bienvenida" xml:space="preserve">
+    <value>Início de sessão bem-sucedido</value>
+  </data>
+  <data name="Cuenta.Mensaje.PerfilActualizado" xml:space="preserve">
+    <value>Perfil atualizado com sucesso.</value>
+  </data>
+  <data name="Cuenta.Mensaje.CambiosGuardados" xml:space="preserve">
+    <value>Alterações salvas com sucesso.</value>
+  </data>
+  <data name="Cuenta.Mensaje.CambiosGuardadosSinFoto" xml:space="preserve">
+    <value>Nome e faixa atualizados. A foto não pôde ser alterada.</value>
+  </data>
+  <data name="Cuenta.Mensaje.FotoInvalida" xml:space="preserve">
+    <value>A foto não é válida.</value>
+  </data>
+  <data name="Validacion.Nombre.Requerido" xml:space="preserve">
+    <value>Digite seu nome.</value>
+  </data>
+  <data name="Validacion.Nombre.Largo" xml:space="preserve">
+    <value>O nome não pode exceder 100 caracteres.</value>
+  </data>
+  <data name="Validacion.Email.Requerido" xml:space="preserve">
+    <value>Digite seu e-mail.</value>
+  </data>
+  <data name="Validacion.Email.Formato" xml:space="preserve">
+    <value>O e-mail não tem um formato válido.</value>
+  </data>
+  <data name="Validacion.Email.Largo" xml:space="preserve">
+    <value>O e-mail não pode exceder 200 caracteres.</value>
+  </data>
+  <data name="Validacion.Password.Requerido" xml:space="preserve">
+    <value>Digite sua senha.</value>
+  </data>
+  <data name="Validacion.Password.Largo" xml:space="preserve">
+    <value>A senha não pode exceder 100 caracteres.</value>
+  </data>
+  <data name="Validacion.Password.Compleja" xml:space="preserve">
+    <value>Deve ter pelo menos 8 caracteres, uma maiúscula, uma minúscula, um número e um caractere especial.</value>
+  </data>
+  <data name="Validacion.ConfirmarPassword.Requerido" xml:space="preserve">
+    <value>Confirme a senha.</value>
+  </data>
+  <data name="Validacion.ConfirmarPassword.NoCoincide" xml:space="preserve">
+    <value>As senhas não coincidem.</value>
+  </data>
+  <data name="Validacion.Cinturon.Requerido" xml:space="preserve">
+    <value>Selecione sua faixa.</value>
+  </data>
+  <data name="Validacion.Cinturon.Lista" xml:space="preserve">
+    <value>Escolha uma das faixas disponíveis: Branca, Azul, Roxa, Marrom ou Preta.</value>
+  </data>
+  <data name="Validacion.Cinturon.Seleccion" xml:space="preserve">
+    <value>Selecione uma faixa da lista.</value>
+  </data>
+  <data name="Validacion.Admin.Password.Requerido" xml:space="preserve">
+    <value>Digite a credencial de desenvolvimento.</value>
+  </data>
+  <data name="Validacion.Idioma.Requerido" xml:space="preserve">
+    <value>Selecione um idioma.</value>
+  </data>
+  <data name="Validacion.Idioma.Soportado" xml:space="preserve">
+    <value>O idioma selecionado não é válido.</value>
+  </data>
+  <data name="Home.Eyebrow" xml:space="preserve">
+    <value>Brazilian Jiu-Jitsu · Aprendizado · Progresso · Respeito</value>
+  </data>
+  <data name="Home.Title" xml:space="preserve">
+    <value>Evolua no seu caminho no Brazilian Jiu-Jitsu</value>
+  </data>
+  <data name="Home.Description" xml:space="preserve">
+    <value>Sua evolução começa em cada treino. Aprenda novas técnicas, registre seus avanços e fortaleça seu conhecimento com um guia inteligente que acompanha você dentro e fora do tatame.</value>
+  </data>
+  <data name="Home.Cta.Guia" xml:space="preserve">
+    <value>Ir para o meu guia</value>
+  </data>
+  <data name="Home.Cta.Registrarme" xml:space="preserve">
+    <value>Cadastre-se agora!</value>
+  </data>
+  <data name="Home.Cta.Explorar" xml:space="preserve">
+    <value>Explorar técnicas</value>
+  </data>
+  <data name="Home.Section.Titulo" xml:space="preserve">
+    <value>Tudo o que você precisa para evoluir</value>
+  </data>
+  <data name="Home.Section.Subtitulo" xml:space="preserve">
+    <value>Ferramentas práticas para aprender, revisar e acompanhar sua evolução.</value>
+  </data>
+  <data name="Home.Pilar.Titulo" xml:space="preserve">
+    <value>Seu aprendizado continua fora do tatame</value>
+  </data>
+  <data name="Home.Pilar.Descripcion" xml:space="preserve">
+    <value>Um espaço criado para transformar cada treino em uma oportunidade de aprender, praticar e evoluir.</value>
+  </data>
+  <data name="Home.Tarjeta1.Titulo" xml:space="preserve">
+    <value>Aprenda com clareza</value>
+  </data>
+  <data name="Home.Tarjeta1.Descripcion" xml:space="preserve">
+    <value>Acesse conteúdo organizado por níveis, com explicações simples e vídeos para reforçar o que aprendeu.</value>
+  </data>
+  <data name="Home.Tarjeta2.Titulo" xml:space="preserve">
+    <value>Treine com propósito</value>
+  </data>
+  <data name="Home.Tarjeta2.Descripcion" xml:space="preserve">
+    <value>Compreenda cada movimento, reconheça suas dificuldades e prepare-se melhor para a sua próxima aula.</value>
+  </data>
+  <data name="Home.Tarjeta3.Titulo" xml:space="preserve">
+    <value>Evolua no seu ritmo</value>
+  </data>
+  <data name="Home.Tarjeta3.Descripcion" xml:space="preserve">
+    <value>Construa seu próprio caminho de aprendizado, consolidando conhecimentos e avançando passo a passo.</value>
+  </data>
+  <data name="Home.Card1.Titulo" xml:space="preserve">
+    <value>Biblioteca de técnicas</value>
+  </data>
+  <data name="Home.Card1.Descripcion" xml:space="preserve">
+    <value>Explore técnicas organizadas por faixa, posição e categoria, com vídeos e explicações claras para aprender passo a passo.</value>
+  </data>
+  <data name="Home.Card2.Titulo" xml:space="preserve">
+    <value>Registro de treinos</value>
+  </data>
+  <data name="Home.Card2.Descripcion" xml:space="preserve">
+    <value>Registre suas sessões, as técnicas praticadas e suas observações para manter um histórico do seu treino.</value>
+  </data>
+  <data name="Home.Card3.Titulo" xml:space="preserve">
+    <value>Acompanhamento de progresso</value>
+  </data>
+  <data name="Home.Card3.Descripcion" xml:space="preserve">
+    <value>Visualize sua evolução, identifique as técnicas que mais pratica e descubra onde precisa melhorar.</value>
+  </data>
+  <data name="Home.Card4.Titulo" xml:space="preserve">
+    <value>Técnicas salvas</value>
+  </data>
+  <data name="Home.Card4.Descripcion" xml:space="preserve">
+    <value>Salve suas técnicas favoritas e acesse-as facilmente sempre que quiser revê-las.</value>
+  </data>
+  <data name="Home.Card5.Titulo" xml:space="preserve">
+    <value>Busca rápida</value>
+  </data>
+  <data name="Home.Card5.Descripcion" xml:space="preserve">
+    <value>Encontre técnicas por nome, posição ou faixa e acesse direto o conteúdo de que precisa.</value>
+  </data>
+  <data name="Home.Card6.Titulo" xml:space="preserve">
+    <value>Acompanhamento personalizado</value>
+  </data>
+  <data name="Home.Card6.Descripcion" xml:space="preserve">
+    <value>Tire suas dúvidas, compreenda os fundamentos do BJJ e reforce seu aprendizado com um guia interativo.</value>
+  </data>
+  <data name="Home.Pillar1.Titulo" xml:space="preserve">
+    <value>App móvel</value>
+  </data>
+  <data name="Home.Pillar1.Descripcion" xml:space="preserve">
+    <value>Acesse sua biblioteca e seu acompanhamento de qualquer lugar, com uma experiência pensada para o dia a dia.</value>
+  </data>
+  <data name="Home.Pillar2.Titulo" xml:space="preserve">
+    <value>Web unificada</value>
+  </data>
+  <data name="Home.Pillar2.Descripcion" xml:space="preserve">
+    <value>Gerencie e consulte seu progresso pelo navegador com uma interface limpa, ágil e profissional.</value>
+  </data>
+  <data name="Home.Pillar3.Titulo" xml:space="preserve">
+    <value>Experiência coerente</value>
+  </data>
+  <data name="Home.Pillar3.Descripcion" xml:space="preserve">
+    <value>Tudo em um só lugar para aprender, revisar e acompanhar sua evolução sem distrações.</value>
+  </data>
+  <data name="Home.Privacy.Titulo" xml:space="preserve">
+    <value>Privacidade</value>
+  </data>
+  <data name="Home.Privacy.Texto1" xml:space="preserve">
+    <value>Esta página detalha a política de privacidade do Mi Camino BJJ.</value>
+  </data>
+  <data name="Home.Privacy.Texto2" xml:space="preserve">
+    <value>As informações de treino e progresso são armazenadas localmente no seu dispositivo. Esta etapa ainda não incorpora autenticação nem serviços externos.</value>
+  </data>
+  <data name="Common.Disponible" xml:space="preserve">
+    <value>Disponível</value>
+  </data>
+  <data name="Common.Proximamente" xml:space="preserve">
+    <value>Em breve</value>
+  </data>
+  <data name="Tecnicas.Eyebrow" xml:space="preserve">
+    <value>Biblioteca</value>
+  </data>
+  <data name="Tecnicas.Titulo" xml:space="preserve">
+    <value>Biblioteca de técnicas</value>
+  </data>
+  <data name="Tecnicas.Descripcion" xml:space="preserve">
+    <value>Técnicas de Brazilian Jiu-Jitsu organizadas por faixa, categoria e posição. Busque por nome ou sinônimo e filtre conforme o que você treina hoje.</value>
+  </data>
+  <data name="Tecnicas.Filtro.Titulo" xml:space="preserve">
+    <value>Filtrar por faixa</value>
+  </data>
+  <data name="Tecnicas.Filtro.Ayuda" xml:space="preserve">
+    <value>Escolha uma faixa com um clique ou volte a «Todos». Combina com a busca e com os demais filtros.</value>
+  </data>
+  <data name="Tecnicas.Intro.Blanco" xml:space="preserve">
+    <value>Você trabalha os fundamentos: postura, escapes básicos e posições de sobrevivência. Priorize a técnica segura e entender cada conceito antes da velocidade.</value>
+  </data>
+  <data name="Tecnicas.Intro.Azul" xml:space="preserve">
+    <value>Você consolida a base e começa a encadear ataques e defesas. Priorize a transição entre posições e o controle do adversário.</value>
+  </data>
+  <data name="Tecnicas.Intro.Violeta" xml:space="preserve">
+    <value>Você desenvolve um jogo mais ofensivo com ataques da guarda e finalizações. Priorize a precisão das chaves e o timing.</value>
+  </data>
+  <data name="Tecnicas.Intro.Marrón" xml:space="preserve">
+    <value>Você refina sua técnica e começa a ler o jogo do adversário. Priorize a eficiência, os detalhes e a tomada de decisões.</value>
+  </data>
+  <data name="Tecnicas.Intro.Negro" xml:space="preserve">
+    <value>Você domina os detalhes finos e adapta seu jogo a cada adversário. Priorize a fluidez, seu próprio jogo e corrigir os erros de raiz.</value>
+  </data>
+  <data name="Tecnicas.Intro.Etiqueta" xml:space="preserve">
+    <value>Faixa {0}</value>
+  </data>
+  <data name="Tecnicas.Recorrido.Eyebrow" xml:space="preserve">
+    <value>Percurso guiado</value>
+  </data>
+  <data name="Tecnicas.Recorrido.Titulo" xml:space="preserve">
+    <value>Começando agora no tatame?</value>
+  </data>
+  <data name="Tecnicas.Recorrido.Descripcion" xml:space="preserve">
+    <value>Siga o percurso da faixa branca: cinco módulos ordenados para avançar dos fundamentos às suas primeiras técnicas.</value>
+  </data>
+  <data name="Tecnicas.Recorrido.Cta" xml:space="preserve">
+    <value>Ver o percurso da faixa branca</value>
+  </data>
+  <data name="Tecnicas.Resultados.Para" xml:space="preserve">
+    <value>para «{0}»</value>
+  </data>
+  <data name="Tecnicas.Resultados.Cinturon" xml:space="preserve">
+    <value>· faixa {0}</value>
+  </data>
+  <data name="Tecnicas.Resultados.Filtros" xml:space="preserve">
+    <value>· filtros aplicados</value>
+  </data>
+  <data name="Tecnicas.Resultados.Limpiar" xml:space="preserve">
+    <value>Limpar filtros ✕</value>
+  </data>
+  <data name="Tecnicas.VerDetalle" xml:space="preserve">
+    <value>Ver detalhes</value>
+  </data>
+  <data name="Tecnicas.Detalle.Descripcion" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="Tecnicas.Detalle.Objetivo" xml:space="preserve">
+    <value>Objetivo</value>
+  </data>
+  <data name="Tecnicas.Detalle.Pasos" xml:space="preserve">
+    <value>Passos</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinPasos" xml:space="preserve">
+    <value>Esta técnica ainda não tem passos carregados.</value>
+  </data>
+  <data name="Tecnicas.Detalle.Consejos" xml:space="preserve">
+    <value>Dicas</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinConsejos" xml:space="preserve">
+    <value>Esta técnica ainda não tem dicas carregadas.</value>
+  </data>
+  <data name="Tecnicas.Detalle.Aliases" xml:space="preserve">
+    <value>Também conhecida como</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinAlias" xml:space="preserve">
+    <value>Sem sinônimos registrados.</value>
+  </data>
+  <data name="Tecnicas.Detalle.Multimedia" xml:space="preserve">
+    <value>Multimídia</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinRecursos" xml:space="preserve">
+    <value>Sem recursos de multimídia disponíveis no momento.</value>
+  </data>
+  <data name="Tecnicas.Detalle.AbrirYouTube" xml:space="preserve">
+    <value>Abrir no YouTube ↗</value>
+  </data>
+  <data name="Tecnicas.Detalle.VistaPrevia" xml:space="preserve">
+    <value>Prévia do vídeo: {0}</value>
+  </data>
+  <data name="Tecnicas.Detalle.ReproducirVideo" xml:space="preserve">
+    <value>Reproduzir o vídeo: {0}</value>
+  </data>
+  <data name="Tecnicas.Detalle.Galeria" xml:space="preserve">
+    <value>Outros vídeos desta técnica</value>
+  </data>
+  <data name="Tecnicas.Detalle.ElegirVideo" xml:space="preserve">
+    <value>Escolher o vídeo: {0}</value>
+  </data>
+  <data name="Tecnicas.Detalle.Miniatura" xml:space="preserve">
+    <value>Miniatura do vídeo: {0}</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinVideo" xml:space="preserve">
+    <value>Sem vídeo disponível</value>
+  </data>
+  <data name="Tecnicas.Detalle.SinVideoTexto" xml:space="preserve">
+    <value>Esta técnica ainda não tem uma demonstração em vídeo. Enquanto isso, você pode estudar a descrição, o objetivo e os passos abaixo.</value>
+  </data>
+  <data name="Tecnicas.Detalle.EnlacesExternos" xml:space="preserve">
+    <value>Links externos</value>
+  </data>
+  <data name="Tecnicas.Detalle.VolverFiltros" xml:space="preserve">
+    <value>Voltar com os filtros aplicados</value>
+  </data>
+  <data name="Guia.Eyebrow" xml:space="preserve">
+    <value>Acompanhamento</value>
+  </data>
+  <data name="Guia.Titulo" xml:space="preserve">
+    <value>Guia do Praticante</value>
+  </data>
+  <data name="Guia.Descripcion" xml:space="preserve">
+    <value>Consulte as técnicas da biblioteca, peça explicações passo a passo, busque por nome ou pelo nome alternativo que você conhece na sua academia e receba sugestões de estudo para o seu nível. Tudo baseado nas técnicas cadastradas no Mi Camino BJJ.</value>
+  </data>
+  <data name="Guia.Conversacion" xml:space="preserve">
+    <value>Conversa</value>
+  </data>
+  <data name="Guia.RolAgente" xml:space="preserve">
+    <value>Guia</value>
+  </data>
+  <data name="Guia.RolUsuario" xml:space="preserve">
+    <value>Você</value>
+  </data>
+  <data name="Guia.Sugerencias" xml:space="preserve">
+    <value>Perguntas sugeridas:</value>
+  </data>
+  <data name="Guia.TuPregunta" xml:space="preserve">
+    <value>Sua pergunta</value>
+  </data>
+  <data name="Guia.Placeholder" xml:space="preserve">
+    <value>Escreva sua pergunta sobre BJJ… (Enter para enviar, Shift+Enter para quebra de linha)</value>
+  </data>
+  <data name="Guia.Enviar" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="Guia.Pensando" xml:space="preserve">
+    <value>Pensando na sua resposta…</value>
+  </data>
+  <data name="Guia.Maximo" xml:space="preserve">
+    <value>Máximo de 1000 caracteres</value>
+  </data>
+  <data name="Guia.Bienvenida" xml:space="preserve">
+    <value>Olá! Sou o Guia do Praticante do Mi Camino BJJ. Posso explicar as técnicas da biblioteca, ajudar você a encontrá-las por nome ou pelo nome alternativo que você conhece, sugerir o que estudar conforme sua faixa e tirar dúvidas gerais de aprendizado. Como posso te ajudar hoje?</value>
+  </data>
+  <data name="Guia.Nota.Seguridad" xml:space="preserve">
+    <value>Pratique sempre sob a supervisão do seu instrutor: aprenda o movimento presencialmente e nunca force uma articulação no colega.</value>
+  </data>
+  <data name="Guia.Sugerencia.Guardia" xml:space="preserve">
+    <value>O que é uma guarda?</value>
+  </data>
+  <data name="Guia.Sugerencia.CinturonBlanco" xml:space="preserve">
+    <value>Mostre técnicas de faixa branca</value>
+  </data>
+  <data name="Guia.Sugerencia.Mejorar" xml:space="preserve">
+    <value>Como posso melhorar meu aprendizado?</value>
+  </data>
+  <data name="Guia.Error.Consulta" xml:space="preserve">
+    <value>Não consegui consultar a biblioteca de técnicas agora. Tente novamente em alguns minutos.</value>
+  </data>
+  <data name="Guia.Nota.Timeout" xml:space="preserve">
+    <value>O serviço de IA demorou muito para responder; esta resposta vem do catálogo.</value>
+  </data>
+  <data name="Guia.Nota.Fallo" xml:space="preserve">
+    <value>Não foi possível contatar o serviço de IA; esta resposta vem do catálogo.</value>
+  </data>
+  <data name="Guia.Modo.Ia" xml:space="preserve">
+    <value>Assistente com IA generativa</value>
+  </data>
+  <data name="Guia.Modo.Catalogo" xml:space="preserve">
+    <value>Guia baseada em catálogo (sem IA generativa)</value>
+  </data>
+  <data name="Recorrido.Eyebrow" xml:space="preserve">
+    <value>Percurso por faixa</value>
+  </data>
+  <data name="Recorrido.Titulo" xml:space="preserve">
+    <value>Faixa Branca — Percurso</value>
+  </data>
+  <data name="Recorrido.CinturonBlanco" xml:space="preserve">
+    <value>Faixa Branca</value>
+  </data>
+  <data name="Recorrido.Badges.Modulos" xml:space="preserve">
+    <value>5 módulos educativos</value>
+  </data>
+  <data name="Recorrido.Badges.Principiantes" xml:space="preserve">
+    <value>Guia para iniciantes</value>
+  </data>
+  <data name="Recorrido.PorDondeArrancar" xml:space="preserve">
+    <value>Por onde começar</value>
+  </data>
+  <data name="Recorrido.ModulosEducativos" xml:space="preserve">
+    <value>Módulos educativos</value>
+  </data>
+  <data name="Recorrido.ModulosDescripcion" xml:space="preserve">
+    <value>Percorra os cinco módulos em ordem: primeiro você entende, depois pratica.</value>
+  </data>
+  <data name="Recorrido.Puntos" xml:space="preserve">
+    <value>{0} ponto</value>
+  </data>
+  <data name="Recorrido.PuntosPlural" xml:space="preserve">
+    <value>{0} pontos</value>
+  </data>
+  <data name="Recorrido.Fichas" xml:space="preserve">
+    <value>{0} ficha</value>
+  </data>
+  <data name="Recorrido.FichasPlural" xml:space="preserve">
+    <value>{0} fichas</value>
+  </data>
+  <data name="Recorrido.ConVideo" xml:space="preserve">
+    <value>Com vídeo</value>
+  </data>
+  <data name="Recorrido.SinVideo" xml:space="preserve">
+    <value>Pendente de revisão do instrutor</value>
+  </data>
+  <data name="Recorrido.Complementario" xml:space="preserve">
+    <value>complementar</value>
+  </data>
+  <data name="Recorrido.CinturonSinAsignar" xml:space="preserve">
+    <value>Faixa não atribuída</value>
+  </data>
+  <data name="Recorrido.ContenidoModulo" xml:space="preserve">
+    <value>Conteúdo do módulo</value>
+  </data>
+  <data name="Recorrido.ConceptoClave" xml:space="preserve">
+    <value>Conceito-chave:</value>
+  </data>
+  <data name="Recorrido.FichasModulo" xml:space="preserve">
+    <value>Fichas técnicas do módulo</value>
+  </data>
+  <data name="Recorrido.FichasModuloDescripcion" xml:space="preserve">
+    <value>Cada ficha inclui vídeo integrado, passo a passo e suas precauções de segurança.</value>
+  </data>
+  <data name="Recorrido.FichaRelacionada" xml:space="preserve">
+    <value>Ficha relacionada</value>
+  </data>
+  <data name="Recorrido.FichaRelacionadaTexto" xml:space="preserve">
+    <value>Este módulo é praticado junto com a próxima ficha do percurso:</value>
+  </data>
+  <data name="Recorrido.IndiceCinturon" xml:space="preserve">
+    <value>Índice da faixa branca</value>
+  </data>
+  <data name="Recorrido.ModuloAnterior" xml:space="preserve">
+    <value>← Módulo anterior: {0}</value>
+  </data>
+  <data name="Recorrido.ModuloSiguiente" xml:space="preserve">
+    <value>Próximo módulo: {0} →</value>
+  </data>
+  <data name="Recorrido.ModuloNumero" xml:space="preserve">
+    <value>Módulo {0} de 5</value>
+  </data>
+  <data name="Recorrido.FichaModulo" xml:space="preserve">
+    <value>Ficha técnica · Módulo {0} — {1}</value>
+  </data>
+  <data name="Recorrido.VolverModulo" xml:space="preserve">
+    <value>← Voltar ao módulo {0}</value>
+  </data>
+  <data name="Recorrido.CinturonPrincipal" xml:space="preserve">
+    <value>Faixa principal: {0}</value>
+  </data>
+  <data name="Recorrido.CinturonPrincipalSinAsignar" xml:space="preserve">
+    <value>Faixa principal: não atribuída</value>
+  </data>
+  <data name="Recorrido.MaterialComplementario" xml:space="preserve">
+    <value>Material complementar do percurso branco</value>
+  </data>
+  <data name="Recorrido.VideoDemostrativo" xml:space="preserve">
+    <value>Vídeo demonstrativo</value>
+  </data>
+  <data name="Recorrido.VideoPendiente" xml:space="preserve">
+    <value>Vídeo pendente: ainda não há demonstração confirmada para esta ficha.</value>
+  </data>
+  <data name="Recorrido.Introduccion" xml:space="preserve">
+    <value>Introdução</value>
+  </data>
+  <data name="Recorrido.PasoAPaso" xml:space="preserve">
+    <value>Passo a passo</value>
+  </data>
+  <data name="Recorrido.PrincipiosTecnicos" xml:space="preserve">
+    <value>Princípios técnicos</value>
+  </data>
+  <data name="Recorrido.ErroresFrecuentes" xml:space="preserve">
+    <value>Erros frequentes</value>
+  </data>
+  <data name="Recorrido.Precauciones" xml:space="preserve">
+    <value>Precauções de segurança</value>
+  </data>
+  <data name="Recorrido.PosicionInicial" xml:space="preserve">
+    <value>Posição inicial</value>
+  </data>
+  <data name="Recorrido.Objetivo" xml:space="preserve">
+    <value>Objetivo</value>
+  </data>
+  <data name="Recorrido.TecnicaBiblioteca" xml:space="preserve">
+    <value>Técnica na biblioteca</value>
+  </data>
+  <data name="Recorrido.SinEquivalente" xml:space="preserve">
+    <value>Esta ficha não tem uma técnica equivalente carregada na biblioteca.</value>
+  </data>
+  <data name="Recorrido.FichaCompleta" xml:space="preserve">
+    <value>Ficha completa de {0} (faixa principal: {1}).</value>
+  </data>
+  <data name="Recorrido.SinDatos" xml:space="preserve">
+    <value>sem dados</value>
+  </data>
+  <data name="Recorrido.VerEnBiblioteca" xml:space="preserve">
+    <value>Ver na biblioteca →</value>
+  </data>
+  <data name="Recorrido.Oculta" xml:space="preserve">
+    <value>A técnica relacionada {0} existe na biblioteca, mas está oculta administrativamente (sem publicação de vídeo), portanto sua ficha pública não está disponível.</value>
+  </data>
+  <data name="Recorrido.NoEnlazada" xml:space="preserve">
+    <value>Não foi possível vincular à biblioteca neste momento. Técnica relacionada: {0}.</value>
+  </data>
+  <data name="Recorrido.EstadoRevision" xml:space="preserve">
+    <value>Situação da revisão técnica</value>
+  </data>
+  <data name="Recorrido.Referencia" xml:space="preserve">
+    <value>Referência bibliográfica:</value>
+  </data>
+  <data name="Recorrido.MasEnRecorrido" xml:space="preserve">
+    <value>Mais neste percurso</value>
+  </data>
+  <data name="Recorrido.FichaAnterior" xml:space="preserve">
+    <value>← Ficha anterior: {0}</value>
+  </data>
+  <data name="Recorrido.FichaSiguiente" xml:space="preserve">
+    <value>Próxima ficha: {0} →</value>
+  </data>
+  <data name="Recorrido.Indice" xml:space="preserve">
+    <value>Índice</value>
+  </data>
+  <data name="Recorrido.FichasTecnicasVideo" xml:space="preserve">
+    <value>Fichas técnicas com vídeo</value>
+  </data>
+  <data name="Recorrido.FichasTecnicasVideoDescripcion" xml:space="preserve">
+    <value>Fichas do módulo 5, com prévia integrada e reprodução sob demanda.</value>
+  </data>
+  <data name="Recorrido.TecnicasParaCinturon" xml:space="preserve">
+    <value>Técnicas da biblioteca para esta faixa</value>
+  </data>
+  <data name="Recorrido.TecnicasParaCinturonDescripcion" xml:space="preserve">
+    <value>Técnicas existentes, adequadas para iniciantes, com sua ficha completa na biblioteca.</value>
+  </data>
+  <data name="Recorrido.VerFichaBiblioteca" xml:space="preserve">
+    <value>Ver a ficha na biblioteca →</value>
+  </data>
+  <data name="Recorrido.RevisionInstructor" xml:space="preserve">
+    <value>Pendente de revisão do instrutor</value>
+  </data>
+  <data name="Recorrido.ContenidoRevision" xml:space="preserve">
+    <value>Conteúdo pendente de revisão. Esta ficha foi escrita para este percurso e ainda não foi validada por um instrutor. Não a apresente como material verificado.</value>
+  </data>
+  <data name="Recorrido.NavegacionModulos" xml:space="preserve">
+    <value>Navegação entre módulos</value>
+  </data>
+  <data name="Recorrido.NavegacionFichas" xml:space="preserve">
+    <value>Navegação entre fichas</value>
+  </data>
+  <data name="Shared.Error.Titulo" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="Shared.Error.Encabezado" xml:space="preserve">
+    <value>Ocorreu um erro ao processar sua solicitação.</value>
+  </data>
+  <data name="Shared.Error.RequestId" xml:space="preserve">
+    <value>ID da solicitação:</value>
+  </data>
+  <data name="Shared.Error.Desarrollo" xml:space="preserve">
+    <value>Modo de desenvolvimento</value>
+  </data>
+  <data name="Shared.Error.DesarrolloTexto" xml:space="preserve">
+    <value>Trocar para o ambiente de desenvolvimento exibirá informações mais detalhadas sobre o erro ocorrido.</value>
+  </data>
+  <data name="Shared.Error.DesarrolloAviso" xml:space="preserve">
+    <value>O ambiente de desenvolvimento não deve ser habilitado em aplicativos implantados. Isso pode exibir informações sensíveis de exceções aos usuários finais. Para depuração local, habilite o ambiente de desenvolvimento definindo a variável de ambiente ASPNETCORE_ENVIRONMENT como Development e reiniciando o aplicativo.</value>
+  </data>
+  <data name="Ayuda.Eyebrow" xml:space="preserve">
+    <value>Manual de uso</value>
+  </data>
+  <data name="Ayuda.Titulo" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="Ayuda.Descripcion" xml:space="preserve">
+    <value>Guia rápido do Mi Camino BJJ: o que é o aplicativo, como se cadastrar, como usar a biblioteca de técnicas, o Guia do Praticante e seu perfil. Descrevemos apenas o que já está disponível.</value>
+  </data>
+  <data name="Ayuda.IndiceEtiqueta" xml:space="preserve">
+    <value>Nesta página</value>
+  </data>
+  <data name="Ayuda.Indice.QueEs" xml:space="preserve">
+    <value>O que é o Mi Camino BJJ</value>
+  </data>
+  <data name="Ayuda.Indice.Registro" xml:space="preserve">
+    <value>Cadastro e entrada</value>
+  </data>
+  <data name="Ayuda.Indice.Biblioteca" xml:space="preserve">
+    <value>Biblioteca de técnicas</value>
+  </data>
+  <data name="Ayuda.Indice.Cinturon" xml:space="preserve">
+    <value>Buscar por faixa</value>
+  </data>
+  <data name="Ayuda.Indice.Videos" xml:space="preserve">
+    <value>Reproduzir vídeos</value>
+  </data>
+  <data name="Ayuda.Indice.Guia" xml:space="preserve">
+    <value>Guia do Praticante</value>
+  </data>
+  <data name="Ayuda.Indice.Perfil" xml:space="preserve">
+    <value>Gerenciar seu perfil</value>
+  </data>
+  <data name="Ayuda.Indice.Faq" xml:space="preserve">
+    <value>Perguntas frequentes</value>
+  </data>
+  <data name="Ayuda.Indice.Roles" xml:space="preserve">
+    <value>Praticante e Administrador</value>
+  </data>
+  <data name="Ayuda.QueEs.Titulo" xml:space="preserve">
+    <value>O que é o Mi Camino BJJ</value>
+  </data>
+  <data name="Ayuda.QueEs.P1" xml:space="preserve">
+    <value>O Mi Camino BJJ é um aplicativo web para praticar Brazilian Jiu-Jitsu: reúne uma biblioteca de técnicas com fichas, vídeos e filtros, um Guia do Praticante que responde a consultas sobre essas técnicas e um perfil pessoal com seu nome, sua faixa e sua foto.</value>
+  </data>
+  <data name="Ayuda.QueEs.P2" xml:space="preserve">
+    <value>Sua faixa é um dado de perfil: personaliza a experiência e as sugestões do Guia, mas nunca define permissões dentro do aplicativo.</value>
+  </data>
+  <data name="Ayuda.Registro.Titulo" xml:space="preserve">
+    <value>Como se cadastrar e entrar</value>
+  </data>
+  <data name="Ayuda.Registro.L1" xml:space="preserve">
+    <value>Acesse a página inicial e clique em «Cadastre-se agora!» (ou no link «Registrar» da barra superior).</value>
+  </data>
+  <data name="Ayuda.Registro.L2" xml:space="preserve">
+    <value>Preencha o formulário: nome, e-mail, faixa atual e uma senha com pelo menos 8 caracteres, uma maiúscula, uma minúscula, um número e um caractere especial.</value>
+  </data>
+  <data name="Ayuda.Registro.L3" xml:space="preserve">
+    <value>Ao se cadastrar, sua conta é criada com o papel Praticante. O papel é atribuído pelo sistema: não pode ser escolhido no formulário.</value>
+  </data>
+  <data name="Ayuda.Registro.L4" xml:space="preserve">
+    <value>Entre com seu e-mail e senha em «Entrar». A sessão pertence ao aplicativo: ao fechar o navegador ela também é encerrada.</value>
+  </data>
+  <data name="Ayuda.Registro.L5" xml:space="preserve">
+    <value>Depois de entrar, seu avatar (canto superior direito) abre o menu da conta com «Meu perfil», «Configurações», «Ajuda» e «Sair».</value>
+  </data>
+  <data name="Ayuda.Biblioteca.Titulo" xml:space="preserve">
+    <value>Como usar a Biblioteca de técnicas</value>
+  </data>
+  <data name="Ayuda.Biblioteca.P1" xml:space="preserve">
+    <value>A biblioteca está em «Biblioteca de técnicas», na barra superior. Ela lista as técnicas disponíveis ordenadas por faixa e, sobre cada uma, você pode abrir sua ficha com a descrição passo a passo, seus vídeos e as técnicas relacionadas.</value>
+  </data>
+  <data name="Ayuda.Biblioteca.L1" xml:space="preserve">
+    <value>Buscar por nome ou sinônimo: digite o nome da técnica (por exemplo «kimura» ou «RNC») no buscador. A busca também reconhece o nome alternativo que você usa na sua academia.</value>
+  </data>
+  <data name="Ayuda.Biblioteca.L2" xml:space="preserve">
+    <value>Filtrar: combine os filtros de faixa, categoria e posição e clique em «Buscar».</value>
+  </data>
+  <data name="Ayuda.Biblioteca.L3" xml:space="preserve">
+    <value>Percurso da faixa branca: ao filtrar pela faixa branca aparece o acesso ao percurso educativo, com módulos e fichas ordenados para avançar passo a passo.</value>
+  </data>
+  <data name="Ayuda.Cinturon.Titulo" xml:space="preserve">
+    <value>Como buscar por faixa</value>
+  </data>
+  <data name="Ayuda.Cinturon.L1" xml:space="preserve">
+    <value>No topo da biblioteca está o bloco «Filtrar por faixa»: escolha uma faixa com um clique ou volte a «Todos».</value>
+  </data>
+  <data name="Ayuda.Cinturon.L2" xml:space="preserve">
+    <value>Ao escolher uma, a lista fica filtrada e é exibida uma breve introdução com o contexto dessa faixa.</value>
+  </data>
+  <data name="Ayuda.Cinturon.L3" xml:space="preserve">
+    <value>O filtro se combina com a busca por texto e com os filtros de categoria e posição: todos os critérios são aplicados ao mesmo tempo.</value>
+  </data>
+  <data name="Ayuda.Videos.Titulo" xml:space="preserve">
+    <value>Como reproduzir os vídeos</value>
+  </data>
+  <data name="Ayuda.Videos.L1" xml:space="preserve">
+    <value>Abra a ficha da técnica (por exemplo, a partir da listagem ou do Guia).</value>
+  </data>
+  <data name="Ayuda.Videos.L2" xml:space="preserve">
+    <value>Na seção de vídeos você verá a miniatura com o botão ▶: ao clicar, o player é carregado e o vídeo começa a ser reproduzido.</value>
+  </data>
+  <data name="Ayuda.Videos.L3" xml:space="preserve">
+    <value>Abaixo há o link «Abrir no YouTube ↗», que abre o vídeo em outra aba.</value>
+  </data>
+  <data name="Ayuda.Videos.Nota" xml:space="preserve">
+    <value>Os vídeos são enviados pelos administradores da biblioteca. Se uma técnica ainda não tem vídeo associado, sua ficha mostra a descrição sem player.</value>
+  </data>
+  <data name="Ayuda.Guia.Titulo" xml:space="preserve">
+    <value>Como usar o Guia do Praticante com IA</value>
+  </data>
+  <data name="Ayuda.Guia.P1" xml:space="preserve">
+    <value>O Guia do Praticante está na barra superior e exige entrar. É uma conversa: você escreve sua pergunta (até 1000 caracteres) e recebe uma resposta sobre as técnicas da biblioteca.</value>
+  </data>
+  <data name="Ayuda.Guia.L1" xml:space="preserve">
+    <value>Modo real na tela: a etiqueta do chat indica se você está usando o assistente com IA generativa ou o guia baseado em catálogo (o modo que funciona quando o serviço de IA não está disponível). A resposta sempre indica sua origem: o catálogo nunca é apresentado como IA.</value>
+  </data>
+  <data name="Ayuda.Guia.L2" xml:space="preserve">
+    <value>Perguntas sugeridas: abaixo do chat há botões com perguntas frequentes («O que é uma guarda?», «Mostre técnicas de faixa branca», etc.) que você pode tocar para enviar a consulta.</value>
+  </data>
+  <data name="Ayuda.Guia.L3" xml:space="preserve">
+    <value>Nível de faixa: o Guia usa a faixa do seu perfil para sugerir técnicas do seu nível.</value>
+  </data>
+  <data name="Ayuda.Guia.L4" xml:space="preserve">
+    <value>Atalhos: Enter envia a pergunta e Shift+Enter insere uma quebra de linha.</value>
+  </data>
+  <data name="Ayuda.Guia.Nota" xml:space="preserve">
+    <value>O Guia é um companheiro de estudo: pratique sempre sob a supervisão do seu instrutor e nunca force uma articulação no colega.</value>
+  </data>
+  <data name="Ayuda.Perfil.Titulo" xml:space="preserve">
+    <value>Como gerenciar seu perfil</value>
+  </data>
+  <data name="Ayuda.Perfil.P1" xml:space="preserve">
+    <value>Acesse «Meu perfil» no menu do seu avatar (canto superior direito). Nessa mesma tela você pode:</value>
+  </data>
+  <data name="Ayuda.Perfil.L1" xml:space="preserve">
+    <value>Ver sua foto em tamanho médio (120 × 120 px, com cantos arredondados). Se você ainda não enviou nenhuma, é exibido um avatar com suas iniciais.</value>
+  </data>
+  <data name="Ayuda.Perfil.L2" xml:space="preserve">
+    <value>Enviar ou trocar sua foto: escolha o arquivo e clique em «Salvar alterações». São aceitas imagens JPG, PNG ou WEBP de até 2 MB; o aplicativo verifica o tipo e o conteúdo real do arquivo antes de salvá-lo.</value>
+  </data>
+  <data name="Ayuda.Perfil.L3" xml:space="preserve">
+    <value>Editar seu nome (é o nome com o que o restante do aplicativo te vê).</value>
+  </data>
+  <data name="Ayuda.Perfil.L4" xml:space="preserve">
+    <value>Editar sua faixa atual escolhendo uma das faixas do catálogo (branca, azul, roxa, marrom ou preta).</value>
+  </data>
+  <data name="Ayuda.Perfil.L5" xml:space="preserve">
+    <value>Consultar seu e-mail, seu papel e a data de cadastro: são dados somente leitura.</value>
+  </data>
+  <data name="Ayuda.Perfil.P2" xml:space="preserve">
+    <value>Quando terminar as alterações, clique em «Salvar alterações»: a tela confirma que as alterações foram salvas.</value>
+  </data>
+  <data name="Ayuda.Perfil.Nota" xml:space="preserve">
+    <value>O e-mail é a chave da sua conta e o papel é atribuído pelo sistema: por isso não são editáveis no perfil.</value>
+  </data>
+  <data name="Ayuda.Faq.Titulo" xml:space="preserve">
+    <value>Perguntas frequentes</value>
+  </data>
+  <data name="Ayuda.Faq.D1" xml:space="preserve">
+    <value>Posso mudar meu e-mail ou meu papel?</value>
+  </data>
+  <data name="Ayuda.Faq.R1" xml:space="preserve">
+    <value>Não. O e-mail identifica sua conta e o papel é atribuído pelo sistema no cadastro.</value>
+  </data>
+  <data name="Ayuda.Faq.D2" xml:space="preserve">
+    <value>Mudar minha faixa me dá permissões?</value>
+  </data>
+  <data name="Ayuda.Faq.R2" xml:space="preserve">
+    <value>Não. A faixa apenas personaliza a experiência e as sugestões do Guia.</value>
+  </data>
+  <data name="Ayuda.Faq.D3" xml:space="preserve">
+    <value>O que acontece se eu enviar uma imagem muito pesada ou que não é uma imagem?</value>
+  </data>
+  <data name="Ayuda.Faq.R3" xml:space="preserve">
+    <value>Não é salvo: o aplicativo valida o tamanho (máximo de 2 MB), a extensão e o conteúdo real do arquivo e informa o motivo.</value>
+  </data>
+  <data name="Ayuda.Faq.D4" xml:space="preserve">
+    <value>Dá para ver a foto de outra pessoa?</value>
+  </data>
+  <data name="Ayuda.Faq.R4" xml:space="preserve">
+    <value>Não. Cada foto é privada: só quem ela pertence pode vê-la.</value>
+  </data>
+  <data name="Ayuda.Faq.D5" xml:space="preserve">
+    <value>O Guia responde qualquer pergunta?</value>
+  </data>
+  <data name="Ayuda.Faq.R5" xml:space="preserve">
+    <value>Ele foca nas técnicas da biblioteca e no seu nível. Se o serviço de IA não estiver disponível, responde em modo catálogo e avisa.</value>
+  </data>
+  <data name="Ayuda.Faq.D6" xml:space="preserve">
+    <value>Esqueci minha senha, o que faço?</value>
+  </data>
+  <data name="Ayuda.Faq.R6" xml:space="preserve">
+    <value>Hoje não há recuperação automática de senha: peça a um administrador que redefina sua credencial.</value>
+  </data>
+  <data name="Ayuda.Faq.D7" xml:space="preserve">
+    <value>Onde vejo meu progresso ou meus treinos salvos?</value>
+  </data>
+  <data name="Ayuda.Faq.R7" xml:space="preserve">
+    <value>O registro de treinos e o acompanhamento de progresso ainda não estão disponíveis na versão web; aparecem como «Em breve» na página inicial.</value>
+  </data>
+  <data name="Ayuda.Roles.Titulo" xml:space="preserve">
+    <value>Diferenças entre Praticante e Administrador</value>
+  </data>
+  <data name="Ayuda.Roles.Funcion" xml:space="preserve">
+    <value>Função</value>
+  </data>
+  <data name="Ayuda.Roles.Practicante" xml:space="preserve">
+    <value>Praticante</value>
+  </data>
+  <data name="Ayuda.Roles.Administrador" xml:space="preserve">
+    <value>Administrador</value>
+  </data>
+  <data name="Ayuda.Roles.Fila1" xml:space="preserve">
+    <value>Consultar a biblioteca de técnicas</value>
+  </data>
+  <data name="Ayuda.Roles.Fila2" xml:space="preserve">
+    <value>Usar o Guia do Praticante</value>
+  </data>
+  <data name="Ayuda.Roles.Fila3" xml:space="preserve">
+    <value>Gerenciar seu próprio perfil (nome, faixa, foto)</value>
+  </data>
+  <data name="Ayuda.Roles.Fila4" xml:space="preserve">
+    <value>Criar, editar e ativar ou desativar técnicas</value>
+  </data>
+  <data name="Ayuda.Roles.Fila5" xml:space="preserve">
+    <value>Anexar e remover vídeos das fichas</value>
+  </data>
+  <data name="Ayuda.Roles.Fila6" xml:space="preserve">
+    <value>Acesso ao painel de administração</value>
+  </data>
+  <data name="Ayuda.Roles.Si" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="Ayuda.Roles.No" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="Ayuda.Roles.Panel" xml:space="preserve">
+    <value>Sim, com credencial administrativa</value>
+  </data>
+  <data name="Ayuda.Roles.Nota" xml:space="preserve">
+    <value>O acesso administrativo está habilitado no ambiente de desenvolvimento do aplicativo: fora dele, o painel não existe e responde como página inexistente.</value>
+  </data>
+  <data name="Ayuda.Cta.Titulo" xml:space="preserve">
+    <value>Ainda tem dúvidas?</value>
+  </data>
+  <data name="Ayuda.Cta.P1" xml:space="preserve">
+    <value>Revise a biblioteca e o Guia do Praticante: a resposta costuma estar lá. E lembre-se de praticar sempre com supervisão.</value>
+  </data>
+  <data name="Ayuda.Cta.Biblioteca" xml:space="preserve">
+    <value>Ver a biblioteca</value>
+  </data>
+  <data name="Ayuda.Cta.Guia" xml:space="preserve">
+    <value>Ir para o Guia</value>
+  </data>
+  <data name="Admin.Eyebrow" xml:space="preserve">
+    <value>Administração · Somente Development</value>
+  </data>
+  <data name="Admin.Eyebrow.Crear" xml:space="preserve">
+    <value>Administração · Criar</value>
+  </data>
+  <data name="Admin.Eyebrow.Editar" xml:space="preserve">
+    <value>Administração · Editar</value>
+  </data>
+  <data name="Admin.Titulo.Tecnicas" xml:space="preserve">
+    <value>Técnicas</value>
+  </data>
+  <data name="Admin.Titulo.Nueva" xml:space="preserve">
+    <value>Nova técnica</value>
+  </data>
+  <data name="Admin.Titulo.Editar" xml:space="preserve">
+    <value>Editar técnica</value>
+  </data>
+  <data name="Admin.Descripcion.Tecnicas" xml:space="preserve">
+    <value>Criar, editar, desativar e reativar técnicas da biblioteca pública. As alterações são gravadas no SQL Server com auditoria.</value>
+  </data>
+  <data name="Admin.Descripcion.Nueva" xml:space="preserve">
+    <value>Os campos com * são obrigatórios. A técnica é gravada no SQL Server e fica visível na biblioteca pública.</value>
+  </data>
+  <data name="Admin.Descripcion.Editar" xml:space="preserve">
+    <value>Modifique os dados da técnica. As alterações são auditadas com seu usuário administrativo de Development.</value>
+  </data>
+  <data name="Admin.NuevaTecnica" xml:space="preserve">
+    <value>Nova técnica</value>
+  </data>
+  <data name="Admin.CerrarSesion" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="Admin.Estado" xml:space="preserve">
+    <value>Situação</value>
+  </data>
+  <data name="Admin.Estado.Activas" xml:space="preserve">
+    <value>Ativas</value>
+  </data>
+  <data name="Admin.Estado.Desactivadas" xml:space="preserve">
+    <value>Desativadas</value>
+  </data>
+  <data name="Admin.Resultados.Desactivadas" xml:space="preserve">
+    <value>· desativadas</value>
+  </data>
+  <data name="Admin.Resultados.Activas" xml:space="preserve">
+    <value>· ativas</value>
+  </data>
+  <data name="Admin.Resultados.Total" xml:space="preserve">
+    <value>· no total (incluindo desativadas)</value>
+  </data>
+  <data name="Admin.Tabla.Tecnica" xml:space="preserve">
+    <value>Técnica</value>
+  </data>
+  <data name="Admin.Tabla.Estado" xml:space="preserve">
+    <value>Situação</value>
+  </data>
+  <data name="Admin.Tabla.Modificada" xml:space="preserve">
+    <value>Modificada (UTC)</value>
+  </data>
+  <data name="Admin.Tabla.Acciones" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="Admin.Estado.Activa" xml:space="preserve">
+    <value>Ativa</value>
+  </data>
+  <data name="Admin.Estado.Desactivada" xml:space="preserve">
+    <value>Desativada</value>
+  </data>
+  <data name="Admin.Fila.Editada" xml:space="preserve">
+    <value>· editada</value>
+  </data>
+  <data name="Admin.Fila.Creada" xml:space="preserve">
+    <value>· criada</value>
+  </data>
+  <data name="Admin.Accion.Editar" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Admin.Accion.Desactivar" xml:space="preserve">
+    <value>Desativar</value>
+  </data>
+  <data name="Admin.Accion.Reactivar" xml:space="preserve">
+    <value>Reativar</value>
+  </data>
+  <data name="Admin.Modal.Titulo" xml:space="preserve">
+    <value>Desativar «{0}»</value>
+  </data>
+  <data name="Admin.Modal.Texto" xml:space="preserve">
+    <value>A técnica deixará de aparecer na biblioteca pública. Você pode reativá-la a qualquer momento; nenhum dado é excluído.</value>
+  </data>
+  <data name="Admin.Modal.Confirmar" xml:space="preserve">
+    <value>Sim, desativar</value>
+  </data>
+  <data name="Admin.Vacio.Texto" xml:space="preserve">
+    <value>Não há técnicas que correspondam a esses critérios. Tente outro nome (você também pode usar sinônimos), escolha outra faixa ou limpe os filtros.</value>
+  </data>
+  <data name="Admin.Form.Nombre" xml:space="preserve">
+    <value>Nome *</value>
+  </data>
+  <data name="Admin.Form.NombrePlaceholder" xml:space="preserve">
+    <value>ex.: Kimura da guarda fechada</value>
+  </data>
+  <data name="Admin.Form.Descripcion" xml:space="preserve">
+    <value>Descrição *</value>
+  </data>
+  <data name="Admin.Form.DescripcionPlaceholder" xml:space="preserve">
+    <value>O que é e quando se usa.</value>
+  </data>
+  <data name="Admin.Form.Objetivo" xml:space="preserve">
+    <value>Objetivo *</value>
+  </data>
+  <data name="Admin.Form.ObjetivoPlaceholder" xml:space="preserve">
+    <value>Para que serve esta técnica.</value>
+  </data>
+  <data name="Admin.Form.Cinturon" xml:space="preserve">
+    <value>Faixa *</value>
+  </data>
+  <data name="Admin.Form.CinturonPlaceholder" xml:space="preserve">
+    <value>Selecione uma faixa</value>
+  </data>
+  <data name="Admin.Form.Posicion" xml:space="preserve">
+    <value>Posição *</value>
+  </data>
+  <data name="Admin.Form.PosicionPlaceholder" xml:space="preserve">
+    <value>Selecione uma posição</value>
+  </data>
+  <data name="Admin.Form.Categoria" xml:space="preserve">
+    <value>Categoria *</value>
+  </data>
+  <data name="Admin.Form.CategoriaPlaceholder" xml:space="preserve">
+    <value>Selecione uma categoria</value>
+  </data>
+  <data name="Admin.Form.Pasos" xml:space="preserve">
+    <value>Passos (um por linha)</value>
+  </data>
+  <data name="Admin.Form.PasosPlaceholder" xml:space="preserve">
+    <value>Encoste os cotovelos no corpo…</value>
+  </data>
+  <data name="Admin.Form.Consejos" xml:space="preserve">
+    <value>Dicas (uma por linha)</value>
+  </data>
+  <data name="Admin.Form.ConsejosPlaceholder" xml:space="preserve">
+    <value>A ponte deve ser explosiva…</value>
+  </data>
+  <data name="Admin.Form.Crear" xml:space="preserve">
+    <value>Criar técnica</value>
+  </data>
+  <data name="Admin.Media.Titulo" xml:space="preserve">
+    <value>Multimídia da técnica</value>
+  </data>
+  <data name="Admin.Media.Descripcion" xml:space="preserve">
+    <value>Vídeos do YouTube (incluindo Shorts) e links de vídeo associados a esta técnica. Remover um recurso apenas o desvincula: o arquivo ou link compartilhado nunca é excluído.</value>
+  </data>
+  <data name="Admin.Media.Recursos" xml:space="preserve">
+    <value>{0} recurso</value>
+  </data>
+  <data name="Admin.Media.RecursosPlural" xml:space="preserve">
+    <value>{0} recursos</value>
+  </data>
+  <data name="Admin.Media.Vacio.Titulo" xml:space="preserve">
+    <value>Esta técnica ainda não tem vídeos nem links de multimídia.</value>
+  </data>
+  <data name="Admin.Media.Vacio.Texto" xml:space="preserve">
+    <value>Adicione o primeiro com o formulário abaixo: URLs do YouTube (watch, Shorts ou youtu.be) e Vimeo são aceitos.</value>
+  </data>
+  <data name="Admin.Media.AbrirEn" xml:space="preserve">
+    <value>Abrir no {0} ↗</value>
+  </data>
+  <data name="Admin.Media.Enlace" xml:space="preserve">
+    <value>{0}: abrir link ↗</value>
+  </data>
+  <data name="Admin.Media.ArchivoLocal" xml:space="preserve">
+    <value>Arquivo local sem prévia na web</value>
+  </data>
+  <data name="Admin.Media.Portada" xml:space="preserve">
+    <value>★ Capa</value>
+  </data>
+  <data name="Admin.Media.Url" xml:space="preserve">
+    <value>URL do vídeo</value>
+  </data>
+  <data name="Admin.Media.TituloRecurso" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Admin.Media.DescripcionRecurso" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="Admin.Media.DescripcionPlaceholder" xml:space="preserve">
+    <value>Nota visível na ficha pública</value>
+  </data>
+  <data name="Admin.Media.MarcarPortada" xml:space="preserve">
+    <value>★ Marcar como capa</value>
+  </data>
+  <data name="Admin.Media.Quitar" xml:space="preserve">
+    <value>✕ Remover recurso</value>
+  </data>
+  <data name="Admin.Media.ConfirmarQuitar" xml:space="preserve">
+    <value>Remover este recurso da técnica? O arquivo ou link compartilhado NÃO é excluído: ele é apenas desvinculado.</value>
+  </data>
+  <data name="Admin.Media.Agregar" xml:space="preserve">
+    <value>Adicionar vídeo ou link</value>
+  </data>
+  <data name="Admin.Media.Alta.Url" xml:space="preserve">
+    <value>URL do vídeo *</value>
+  </data>
+  <data name="Admin.Media.Alta.UrlPlaceholder" xml:space="preserve">
+    <value>https://www.youtube.com/watch?v=… ou https://youtube.com/shorts/…</value>
+  </data>
+  <data name="Admin.Media.Alta.Titulo" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Admin.Media.Alta.TituloPlaceholder" xml:space="preserve">
+    <value>Título do vídeo (opcional)</value>
+  </data>
+  <data name="Admin.Media.Alta.Descripcion" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="Admin.Mensaje.ErrorOperacion" xml:space="preserve">
+    <value>Não foi possível concluir a operação. Revise os dados e tente novamente.</value>
+  </data>
+  <data name="AdminAcceso.Eyebrow" xml:space="preserve">
+    <value>Administração · Somente Development</value>
+  </data>
+  <data name="AdminAcceso.Titulo" xml:space="preserve">
+    <value>Acesso administrativo</value>
+  </data>
+  <data name="AdminAcceso.Descripcion" xml:space="preserve">
+    <value>Este módulo existe apenas em ambientes de desenvolvimento. A credencial é validada no servidor e não é armazenada no repositório.</value>
+  </data>
+  <data name="AdminAcceso.Credencial" xml:space="preserve">
+    <value>Credencial de desenvolvimento</value>
+  </data>
+  <data name="AdminAcceso.Ingresar" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="AdminAcceso.Error.Credencial" xml:space="preserve">
+    <value>Credencial incorreta.</value>
+  </data>
+  <data name="AdminAcceso.Error.Inhabilitado" xml:space="preserve">
+    <value>O acesso administrativo está desabilitado neste ambiente.</value>
+  </data>
+</root>

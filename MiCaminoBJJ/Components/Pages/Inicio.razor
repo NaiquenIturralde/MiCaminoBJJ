@@ -87,30 +87,39 @@ else if (_user != null)
         <section class="dashboard-section">
             <h3>Accesos rápidos</h3>
             <div class="quick-access-grid">
-                <a href="/tecnicas" class="quick-access-card">
-                    <span class="quick-access-icon">📚</span>
-                    <span class="quick-access-label">Técnicas</span>
-                </a>
                 <a href="/mis-guardadas" class="quick-access-card">
-                    <span class="quick-access-icon">★</span>
+                    <span class="quick-access-icon" style="color: var(--gold-primary);">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                    </span>
                     <span class="quick-access-label">Favoritas</span>
                 </a>
-                <a href="/entrenamientos/nuevo" class="quick-access-card">
-                    <span class="quick-access-icon">➕</span>
-                    <span class="quick-access-label">Registrar Entreno</span>
-                </a>
                 <a href="/estadisticas" class="quick-access-card">
-                    <span class="quick-access-icon">📊</span>
+                    <span class="quick-access-icon" style="color: var(--gold-primary);">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="18" y1="20" x2="18" y2="10" />
+                            <line x1="12" y1="20" x2="12" y2="4" />
+                            <line x1="6" y1="20" x2="6" y2="14" />
+                        </svg>
+                    </span>
                     <span class="quick-access-label">Estadísticas</span>
-                </a>
-                <a href="/perfil" class="quick-access-card">
-                    <span class="quick-access-icon">👤</span>
-                    <span class="quick-access-label">Mi Perfil</span>
                 </a>
                 @if (_isAdmin)
                 {
                     <a href="/admin/tecnicas" class="quick-access-card">
-                        <span class="quick-access-icon">⚙️</span>
+                        <span class="quick-access-icon" style="color: var(--gold-primary);">
+                            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M20 7h-9" />
+                                <path d="M14 17H5" />
+                                <circle cx="17" cy="17" r="3" />
+                                <circle cx="7" cy="7" r="3" />
+                            </svg>
+                        </span>
                         <span class="quick-access-label">Admin Técnicas</span>
                     </a>
                 }

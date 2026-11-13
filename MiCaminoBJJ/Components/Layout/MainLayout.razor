@@ -1,55 +1,113 @@
-﻿@inherits LayoutComponentBase
+﻿@implements IDisposable
+@inherits LayoutComponentBase
 @inject NavigationManager Navigation
 @inject ISessionService SessionService
+@inject IUserService UserService
 
 <div class="app-container">
     @* Only show header and bottom nav on main pages, not on landing *@
     @if (!IsPublicPage())
     {
         <header class="app-header">
-            <button class="btn btn-ghost btn-icon no-select" @onclick="ToggleMenu" aria-label="Menú">
-                <span class="nav-icon">☰</span>
-            </button>
             <span class="app-header-title">Mi Camino BJJ</span>
-            <div class="header-actions">
-                <button class="btn btn-ghost btn-icon no-select" @onclick="HandleLogout" aria-label="Cerrar Sesión">
-                    <svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
-                    </svg>
-                </button>
-                <div class="avatar-container" @onclick="NavigateToProfile" role="button" tabindex="0" aria-label="Perfil">
-                    <img src="media/default-avatar.svg" alt="Avatar" />
+            <div class="header-user" @onkeydown="HandleMenuKeyDown">
+                @if (_currentUser != null)
+                {
+                    <div class="header-user-info">
+                        <span class="header-user-name">@_currentUser.Name</span>
+                        <span class="header-user-belt">@_currentUser.BeltRank</span>
+                    </div>
+                }
+                <div class="avatar-menu">
+                    <button type="button" class="avatar-trigger" aria-label="Menú de usuario" aria-haspopup="true"
+                            aria-expanded="@(_menuOpen ? "true" : "false")" aria-controls="avatar-menu-list"
+                            @onclick="ToggleMenu">
+                        <span class="avatar-circle">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                                 focusable="false">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </span>
+                    </button>
+                    @if (_menuOpen)
+                    {
+                        <div id="avatar-menu-list" class="avatar-menu-list" role="menu">
+                            <a class="avatar-menu-item" href="/perfil" role="menuitem" @onclick="CloseMenu">Mi perfil</a>
+                            <a class="avatar-menu-item" href="/perfil/editar" role="menuitem" @onclick="CloseMenu">Editar
+                                perfil</a>
+                                <button type="button" class="avatar-menu-item" role="menuitem" disabled>
+                                    <span>Configuración</span>
+                                    <span class="avatar-menu-soon">Próximamente</span>
+                                </button>
+                                <button type="button" class="avatar-menu-item" role="menuitem" disabled>
+                                    <span>Ayuda</span>
+                                    <span class="avatar-menu-soon">Próximamente</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
-        </header>
-    }
+            </header>
+        }
 
-    <main style="padding-bottom: calc(var(--nav-height, 60px) + var(--safe-bottom, 0px) + 1rem); min-height: 100dvh;">
-        @Body
-    </main>
+        <main style="padding-bottom: calc(var(--nav-height, 60px) + var(--safe-bottom, 0px) + 1rem); min-height: 100dvh;">
+            @Body
+        </main>
 
-    @if (!IsPublicPage())
-    {
-        <NavMenu />
-    }
-</div>
+        @if (!IsPublicPage())
+        {
+            <NavMenu />
+        }
+    </div>
 
 @code {
-    private void ToggleMenu()
+    private User? _currentUser;
+    private bool _menuOpen;
+
+    protected override async Task OnInitializedAsync()
     {
-        // TODO: Implement sidebar menu
+        Navigation.LocationChanged += OnLocationChanged;
+        await LoadCurrentUserAsync();
     }
 
-    private void NavigateToProfile()
+    private async void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
-        Navigation.NavigateTo("/perfil");
+        _menuOpen = false;
+        await LoadCurrentUserAsync();
+        await InvokeAsync(StateHasChanged);
     }
 
-    private async Task HandleLogout()
+    private async Task LoadCurrentUserAsync()
     {
-        await SessionService.ClearSessionAsync();
-        Navigation.NavigateTo("/");
+        if (IsPublicPage())
+        {
+            _currentUser = null;
+            return;
+        }
+
+        try
+        {
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            _currentUser = userId.HasValue ? await UserService.GetByIdAsync(userId.Value) : null;
+        }
+        catch (Exception)
+        {
+            _currentUser = null;
+        }
     }
+
+    private void ToggleMenu() => _menuOpen = !_menuOpen;
+
+    private void CloseMenu() => _menuOpen = false;
+
+    private void HandleMenuKeyDown(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape") _menuOpen = false;
+    }
+
+    public void Dispose() => Navigation.LocationChanged -= OnLocationChanged;
 
     private bool IsPublicPage()
     {

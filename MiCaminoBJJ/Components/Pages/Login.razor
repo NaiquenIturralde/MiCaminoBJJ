@@ -9,7 +9,7 @@
 
         @if (!string.IsNullOrEmpty(_errorMessage))
         {
-            <div class="alert alert-danger">@_errorMessage</div>
+            <div class="alert alert-danger" role="alert" aria-live="assertive">@_errorMessage</div>
         }
 
         <EditForm Model="_model" OnValidSubmit="HandleLogin">
@@ -60,33 +60,37 @@
 
     private async Task HandleLogin()
     {
+        if (_isLoading)
+            return;
+
         _isLoading = true;
         _errorMessage = null;
         StateHasChanged();
 
+        var email = _model.Email.Trim();
+
         try
         {
-            var isValid = await UserService.ValidateCredentialsAsync(_model.Email, _model.Password);
+            var isValid = await UserService.ValidateCredentialsAsync(email, _model.Password);
             if (!isValid)
             {
                 _errorMessage = "Email o contraseña incorrectos.";
                 return;
             }
 
-            var user = await UserService.GetByEmailAsync(_model.Email);
+            var user = await UserService.GetByEmailAsync(email);
             if (user == null)
             {
-                _errorMessage = "Error al obtener los datos del usuario.";
+                _errorMessage = "No se pudo recuperar tu cuenta. Intentá nuevamente.";
                 return;
             }
 
             await SessionService.SetCurrentUserIdAsync(user.Id);
             Navigation.NavigateTo("/inicio");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _errorMessage = "Ha ocurrido un error inesperado. Por favor, intenta de nuevo.";
-            // Optionally log ex
+            _errorMessage = "No se pudo iniciar sesión en este momento. Intentá nuevamente.";
         }
         finally
         {

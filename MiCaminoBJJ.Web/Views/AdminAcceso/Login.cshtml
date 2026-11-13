@@ -1,0 +1,44 @@
+@using MiCaminoBJJ.Web.ViewModels.Admin
+@model AdminLoginViewModel
+@{
+    ViewData["Title"] = L["AdminAcceso.Titulo"];
+}
+<partial name="_EstilosAdmin" />
+
+<section class="mccj-page-header">
+    <div class="container py-4 py-md-5">
+        <span class="mccj-eyebrow">@L["AdminAcceso.Eyebrow"]</span>
+        <h1 class="mccj-hero-title">@L["AdminAcceso.Titulo"]</h1>
+        <p class="mccj-hero-description">
+            @L["AdminAcceso.Descripcion"]
+        </p>
+    </div>
+</section>
+
+<section class="container mt-4 mb-5">
+    <div class="mccj-admin-login-wrap">
+        <div class="mccj-card mccj-admin-login">
+            <form method="post" asp-controller="AdminAcceso" asp-action="Login" novalidate>
+                <div asp-validation-summary="All" class="mccj-admin-alert-err mb-3 border rounded p-2" role="alert"></div>
+
+                <input asp-for="ReturnUrl" type="hidden" />
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">@L["AdminAcceso.Credencial"]</label>
+                    <input asp-for="Password" class="form-control" autocomplete="current-password"
+                           placeholder="Contraseña AdminDev:Password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-gold">@L["AdminAcceso.Ingresar"]</button>
+                    <a class="btn btn-outline-light" href="/">@L["Common.VolverInicio"]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

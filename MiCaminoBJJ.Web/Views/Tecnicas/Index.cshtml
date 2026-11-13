@@ -1,0 +1,207 @@
+@model TecnicasIndexViewModel
+@{
+    ViewData["Title"] = L["Tecnicas.Titulo"];
+
+    // Introducción breve por cinturón (Etapa UI/UX): se muestra solo al
+    // filtrar. Texto corto (2-3 líneas): enfoque + prioridad del practicante.
+    // La CLAVE es el dato de dominio del cinturón; el TEXTO sale traducido
+    // del catálogo de recursos.
+    var introsPorCinturon = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        ["Blanco"] = L["Tecnicas.Intro.Blanco"],
+        ["Azul"] = L["Tecnicas.Intro.Azul"],
+        ["Violeta"] = L["Tecnicas.Intro.Violeta"],
+        ["Marrón"] = L["Tecnicas.Intro.Marrón"],
+        ["Negro"] = L["Tecnicas.Intro.Negro"]
+    };
+}
+
+<section class="mccj-page-header">
+    <div class="container py-4 py-md-5">
+        <span class="mccj-eyebrow">@L["Tecnicas.Eyebrow"]</span>
+        <h1 class="mccj-hero-title">@L["Tecnicas.Titulo"]</h1>
+        <p class="mccj-hero-description">
+            @L["Tecnicas.Descripcion"]
+        </p>
+        @if (Model.EsFuenteDeDemostracion)
+        {
+            <span class="mccj-badge">@L["Common.DatosDemostracion"]</span>
+        }
+    </div>
+</section>
+
+<section class="container mt-4">
+    @if (!string.IsNullOrWhiteSpace(Model.MensajeError))
+    {
+        <div class="alert alert-danger" role="alert">@Model.MensajeError</div>
+    }
+
+    @if (Model.Cinturones.Count > 0)
+    {
+        <section class="mccj-belt-filter" aria-labelledby="mccjBeltFilterTitle">
+            <div class="mccj-belt-filter__head">
+                <h2 class="mccj-belt-filter__title" id="mccjBeltFilterTitle">@L["Tecnicas.Filtro.Titulo"]</h2>
+                <p class="mccj-belt-filter__hint">@L["Tecnicas.Filtro.Ayuda"]</p>
+            </div>
+            <div class="mccj-belt-filter__list">
+                <a class="mccj-belt-card mccj-belt-card--todos @(Model.Filtro.Cinturon.HasValue ? "" : "is-active")"
+                   href="@Model.Filtro.RutaConCinturon(null)"
+                   aria-current="@(Model.Filtro.Cinturon.HasValue ? "false" : "true")">
+                    <span class="mccj-belt-card__img mccj-belt-card__img--todos" aria-hidden="true">
+                        <span></span><span></span><span></span>
+                    </span>
+                    <span class="mccj-belt-card__name">@L["Common.Todos"]</span>
+                </a>
+                @foreach (var opcion in Model.Cinturones)
+                {
+                    var activo = Model.Filtro.Cinturon == opcion.Id;
+                    <a class="mccj-belt-card @(opcion.ClaseGlow) @(activo ? "is-active" : "")"
+                       href="@Model.Filtro.RutaConCinturon(opcion.Id)" aria-current="@(activo ? "true" : "false")">
+                        @if (!string.IsNullOrEmpty(opcion.Imagen))
+                        {
+                            <span class="mccj-belt-card__img">
+                                <img src="@Url.Content(opcion.Imagen)" alt="" width="88" height="88" loading="lazy" />
+                            </span>
+                        }
+                        <span class="mccj-belt-card__name">@opcion.Nombre</span>
+                    </a>
+                }
+            </div>
+        </section>
+    }
+
+    @* Introducción del cinturón filtrado (Etapa UI/UX): contexto breve
+           y útil apenas el practicante elige un cinturón. *@
+    @if (Model.Filtro.Cinturon.HasValue)
+    {
+        var nombreCinturon = Model.Cinturones.FirstOrDefault(c => c.Id == Model.Filtro.Cinturon)?.Nombre;
+        if (!string.IsNullOrWhiteSpace(nombreCinturon) && introsPorCinturon.TryGetValue(nombreCinturon, out var
+introCinturon))
+        {
+            <aside class="mccj-belt-intro" role="note">
+                <span class="mccj-belt-intro__eyebrow">@L["Tecnicas.Intro.Etiqueta", nombreCinturon]</span>
+                <p class="mccj-belt-intro__texto">@introCinturon</p>
+            </aside>
+        }
+    }
+
+    @* Acceso contextual al Recorrido de cinturón blanco: fuera del navbar
+           principal, disponible donde el practicante explora la biblioteca. *@
+    <aside class="mccj-recorrido-promo">
+        <div class="mccj-recorrido-promo__textos">
+            <span class="mccj-recorrido-promo__eyebrow">@L["Tecnicas.Recorrido.Eyebrow"]</span>
+            <h2 class="mccj-recorrido-promo__titulo">@L["Tecnicas.Recorrido.Titulo"]</h2>
+            <p class="mccj-recorrido-promo__texto">
+                @L["Tecnicas.Recorrido.Descripcion"]
+            </p>
+        </div>
+        <a class="btn btn-gold mccj-recorrido-promo__cta" href="/recorrido/cinturon-blanco">
+            @L["Tecnicas.Recorrido.Cta"]
+        </a>
+    </aside>
+
+    <form method="get" action="/Tecnicas" class="mccj-filters mt-4" aria-label="Buscar y filtrar técnicas">
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <label for="buscar" class="form-label">@L["Common.BuscarNombre"]</label>
+                <input type="search" class="form-control" id="buscar" name="buscar" value="@Model.Filtro.Buscar"
+                       placeholder="@L["Common.BuscarPlaceholder"]" />
+            </div>
+
+            <div class="col-6 col-sm-6 col-lg-2">
+                <label for="cinturon" class="form-label">@L["Common.Cinturon"]</label>
+                <select class="form-select" id="cinturon" name="cinturon">
+                    <option value="">@L["Common.Todos"]</option>
+                    @foreach (var opcion in Model.Cinturones)
+                    {
+                        <option value="@opcion.Id" selected="@(Model.Filtro.Cinturon == opcion.Id)">@opcion.Nombre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-6 col-sm-6 col-lg-2">
+                <label for="categoria" class="form-label">@L["Common.Categoria"]</label>
+                <select class="form-select" id="categoria" name="categoria">
+                    <option value="">@L["Common.Todas"]</option>
+                    @foreach (var opcion in Model.Categorias)
+                    {
+                        <option value="@opcion.Id" selected="@(Model.Filtro.Categoria == opcion.Id)">@opcion.Nombre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-6 col-sm-6 col-lg-2">
+                <label for="posicion" class="form-label">@L["Common.Posicion"]</label>
+                <select class="form-select" id="posicion" name="posicion">
+                    <option value="">@L["Common.Todas"]</option>
+                    @foreach (var opcion in Model.Posiciones)
+                    {
+                        <option value="@opcion.Id" selected="@(Model.Filtro.Posicion == opcion.Id)">@opcion.Nombre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-12 col-lg-2 d-grid gap-2">
+                <button type="submit" class="btn btn-gold">@L["Common.Buscar"]</button>
+                <a href="/Tecnicas" class="btn btn-outline-light">@L["Common.LimpiarFiltros"]</a>
+            </div>
+        </div>
+    </form>
+
+    <div class="mccj-results-bar mt-4 mb-3">
+        <p class="mccj-results-count" role="status">
+            @Model.TotalResultados @(Model.TotalResultados == 1 ? L["Common.Resultados.Tecnica"] :
+            L["Common.Resultados.Tecnicas"])
+            @if (!string.IsNullOrWhiteSpace(Model.Filtro.Buscar))
+            {
+                <span>@L["Tecnicas.Resultados.Para", Model.Filtro.Buscar]</span>
+            }
+            @if (Model.Filtro.Cinturon.HasValue)
+            {
+                var nombreCinturon = Model.Cinturones.FirstOrDefault(c => c.Id == Model.Filtro.Cinturon)?.Nombre;
+                <span>@L["Tecnicas.Resultados.Cinturon", nombreCinturon ?? ""]</span>
+            }
+            @if (Model.Filtro.Cinturon.HasValue || Model.Filtro.Categoria.HasValue || Model.Filtro.Posicion.HasValue)
+            {
+                <span>@L["Tecnicas.Resultados.Filtros"]</span>
+            }
+        </p>
+        @if (Model.Filtro.TieneFiltros)
+        {
+            <a class="mccj-clear-link" href="/Tecnicas">@L["Tecnicas.Resultados.Limpiar"]</a>
+        }
+    </div>
+
+    @if (!Model.HayResultados)
+    {
+        <div class="mccj-card mccj-empty text-center">
+            <div class="mccj-card-icon" aria-hidden="true">🔍</div>
+            <h2 class="h5">@L["Common.SinResultados"]</h2>
+            <p>
+                @L["Common.NoEncontramosTecnicas"]
+            </p>
+            <a href="/Tecnicas" class="btn btn-gold">@L["Common.VerTodasTecnicas"]</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var tecnica in Model.Tecnicas)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <article class="mccj-card mccj-card-flex h-100">
+                        <div class="d-flex flex-wrap gap-2 mb-2">
+                            <span class="mccj-badge">@tecnica.Cinturon</span>
+                            <span class="mccj-badge">@tecnica.Categoria</span>
+                            <span class="mccj-badge">@tecnica.Posicion</span>
+                        </div>
+                        <h2 class="mccj-card-heading">@tecnica.Nombre</h2>
+                        <p class="mccj-card-text flex-grow-1">@tecnica.Descripcion</p>
+                        <a class="btn btn-gold align-self-start mt-3"
+                           href="@Model.RutaDetalle(tecnica.Id)">@L["Tecnicas.VerDetalle"]</a>
+                    </article>
+                </div>
+            }
+        </div>
+    }
+</section>

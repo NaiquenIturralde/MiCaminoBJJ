@@ -1,0 +1,170 @@
+@page "/estadisticas"
+@inject ISessionService SessionService
+@inject IStatisticsService StatisticsService
+@inject ITrainingService TrainingService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Cargando estadísticas..." />
+}
+else if (_hasError)
+{
+    <ErrorState Title="Algo salió mal" Message="@_errorMessage" ShowRetry="true" Retry="LoadData" />
+}
+else
+{
+    <div class="dashboard">
+        <section class="dashboard-welcome">
+            <h1>Estadísticas 📊</h1>
+            <div class="dashboard-welcome-details">
+                <span class="text-muted">Tu progreso en números</span>
+            </div>
+        </section>
+
+        @* Métricas generales *@
+        <section class="dashboard-stats">
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalTrainings</span>
+                <span class="stat-label">Entrenamientos</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalPracticedTechniques</span>
+                <span class="stat-label">Practicadas</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalSavedTechniques</span>
+                <span class="stat-label">Favoritas</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalAchievements</span>
+                <span class="stat-label">Logros</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@_stats.TotalTournaments</span>
+                <span class="stat-label">Torneos</span>
+            </div>
+        </section>
+
+        @* Detalle *@
+        <section class="dashboard-section">
+            <h3>Detalle</h3>
+            <div class="training-card">
+                <div class="training-card-body">
+                    <div class="training-detail">
+                        <span class="training-detail-label">Última clase</span>
+                        <span>@(_stats.LastClassDate?.ToLocalTime().ToString("dd/MM/yyyy") ?? "Sin datos aún")</span>
+                    </div>
+                    <div class="training-detail">
+                        <span class="training-detail-label">Más vista (7 días)</span>
+                        <span>@(_stats.MostViewedTechniqueThisWeek ?? "Sin datos aún")</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        @* Historial reciente *@
+        <section class="dashboard-section">
+            <h3>Entrenamientos recientes</h3>
+            @if (_trainings.Count == 0)
+            {
+                <EmptyState Icon="🥋" Title="Sin entrenamientos"
+                            Description="Registrá tu primer entrenamiento para ver tu historial aquí." />
+            }
+            else
+            {
+                @foreach (var training in _trainings.Take(5))
+                {
+                    <div class="training-card">
+                        <div class="training-card-header">
+                            <span class="badge badge-gold">@GetTrainingTypeLabel(training.TrainingType)</span>
+                            <span class="text-muted">@training.Date.ToLocalTime().ToString("dd/MM/yyyy")</span>
+                        </div>
+                        <div class="training-card-body">
+                            <div class="training-detail">
+                                <span class="training-detail-label">Duración</span>
+                                <span>@training.DurationMinutes min</span>
+                            </div>
+                            <div class="training-detail">
+                                <span class="training-detail-label">Sensación</span>
+                                <span>@GetFeelingLabel(training.Feeling)</span>
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(training.Notes))
+                        {
+                            <div class="training-card-notes">
+                                <p>@training.Notes</p>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </section>
+    </div>
+}
+
+@code {
+    private UserStatistics _stats = new();
+    private List<TrainingSession> _trainings = new();
+    private bool _isLoading = true;
+    private bool _hasError = false;
+    private string _errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!await SessionService.IsAuthenticatedAsync())
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        _hasError = false;
+        StateHasChanged();
+
+        try
+        {
+            var userId = await SessionService.GetCurrentUserIdAsync();
+            if (!userId.HasValue)
+            {
+                Navigation.NavigateTo("/login");
+                return;
+            }
+
+            _stats = await StatisticsService.GetByUserAsync(userId.Value);
+            var all = await TrainingService.GetByUserAsync(userId.Value);
+            _trainings = all.OrderByDescending(t => t.Date).ToList();
+        }
+        catch (Exception)
+        {
+            _hasError = true;
+            _errorMessage = "No se pudieron cargar las estadísticas.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private string GetTrainingTypeLabel(TrainingType type) => type switch
+    {
+        TrainingType.Gi => "Gi",
+        TrainingType.NoGi => "No-Gi",
+        TrainingType.OpenMat => "Open Mat",
+        _ => type.ToString()
+    };
+
+    private string GetFeelingLabel(Feeling feeling) => feeling switch
+    {
+        Feeling.Buena => "😊 Buena",
+        Feeling.Media => "😐 Media",
+        Feeling.Dificil => "😓 Difícil",
+        _ => feeling.ToString()
+    };
+}

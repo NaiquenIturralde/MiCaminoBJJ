@@ -1,0 +1,45 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // Build por defecto (Ctrl+Shift+B): SOLO el proyecto Web.
+            // Reemplaza el build implícito que antes podía lanzar el MAUI.
+            "label": "build: Mi Camino BJJ Web",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/MiCaminoBJJ.Web/MiCaminoBJJ.Web.csproj"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared",
+                "clear": true
+            }
+        },
+        {
+            // Ejecutar el Web sin depurar (perfil "http" de launchSettings.json).
+            "label": "run: Mi Camino BJJ Web",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "${workspaceFolder}/MiCaminoBJJ.Web/MiCaminoBJJ.Web.csproj",
+                "--launch-profile",
+                "http"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        }
+    ]
+}

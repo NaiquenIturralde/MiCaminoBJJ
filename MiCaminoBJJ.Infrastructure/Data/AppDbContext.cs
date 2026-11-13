@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<TechniqueCategory> TechniqueCategories => Set<TechniqueCategory>();
     public DbSet<Position> Positions => Set<Position>();
     public DbSet<Technique> Techniques => Set<Technique>();
+    public DbSet<TechniqueAlias> TechniqueAliases => Set<TechniqueAlias>();
     public DbSet<MediaAsset> MediaAssets => Set<MediaAsset>();
     public DbSet<TechniqueMedia> TechniqueMedia => Set<TechniqueMedia>();
     public DbSet<UserTechniqueResource> UserTechniqueResources => Set<UserTechniqueResource>();
@@ -28,6 +29,7 @@ public class AppDbContext : DbContext
     public DbSet<UserAchievement> UserAchievements => Set<UserAchievement>();
     public DbSet<UserTournament> UserTournaments => Set<UserTournament>();
     public DbSet<UserSettings> UserSettings => Set<UserSettings>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -38,6 +40,7 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new TechniqueCategoryConfiguration());
         modelBuilder.ApplyConfiguration(new PositionConfiguration());
         modelBuilder.ApplyConfiguration(new TechniqueConfiguration());
+        modelBuilder.ApplyConfiguration(new TechniqueAliasConfiguration());
         modelBuilder.ApplyConfiguration(new MediaAssetConfiguration());
         modelBuilder.ApplyConfiguration(new TechniqueMediaConfiguration());
         modelBuilder.ApplyConfiguration(new UserTechniqueResourceConfiguration());
@@ -51,5 +54,6 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new UserAchievementConfiguration());
         modelBuilder.ApplyConfiguration(new UserTournamentConfiguration());
         modelBuilder.ApplyConfiguration(new UserSettingsConfiguration());
+        modelBuilder.ApplyConfiguration(new AuditLogConfiguration());
     }
 }

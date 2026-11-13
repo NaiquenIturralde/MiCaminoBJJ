@@ -36,73 +36,77 @@ else
 
         @if (!string.IsNullOrEmpty(_message))
         {
-            <div class="alert alert-success">@_message</div>
+            <div class="alert alert-success" role="status" aria-live="polite">@_message</div>
         }
         @if (!string.IsNullOrEmpty(_errorMessage))
         {
-            <div class="alert alert-danger">@_errorMessage</div>
+            <div class="alert alert-danger" role="alert" aria-live="assertive">@_errorMessage</div>
         }
 
         <div class="admin-media-actions">
             <button class="btn btn-ghost btn-block" @onclick="() => AddImageAsync()">📷 Agregar imagen</button>
             <button class="btn btn-ghost btn-block" @onclick="() => AddVideoAsync()">🎬 Agregar video</button>
             <button class="btn btn-ghost btn-block" @onclick="() => AddDocumentAsync()">📄 Agregar archivo</button>
-            <button class="btn btn-ghost btn-block" @onclick="() => _showLinkForm = !_showLinkForm">🔗 Agregar enlace</button>
-        </div>
+            <button class="btn btn-ghost btn-block" @onclick="() => _showLinkForm = !_showLinkForm">🔗 Agregar
+                enlace</button>
+            </div>
 
-        @if (_showLinkForm)
-        {
-            <div class="admin-link-form">
-                <input type="text" class="form-control" placeholder="Pegá una URL de YouTube o Vimeo" @bind="_linkUrl" />
-                <div class="admin-link-actions">
-                    <button class="btn btn-primary" @onclick="AddLinkAsync">Agregar enlace</button>
-                    <button class="btn btn-ghost" @onclick="() => _showLinkForm = false">Cancelar</button>
+            @if (_showLinkForm)
+            {
+                <div class="admin-link-form">
+                    <input type="text" class="form-control" placeholder="Pegá una URL de YouTube o Vimeo" @bind="_linkUrl" />
+                    <div class="admin-link-actions">
+                        <button class="btn btn-primary" @onclick="AddLinkAsync">Agregar enlace</button>
+                        <button class="btn btn-ghost" @onclick="() => _showLinkForm = false">Cancelar</button>
+                    </div>
+                </div>
+            }
+
+            @if (_mediaEntries.Count == 0)
+            {
+                <EmptyState Icon="🖼️" Title="Sin contenido multimedia"
+                            Description="Agregá imágenes, videos, archivos o enlaces a esta técnica." />
+            }
+            else
+            {
+                <div class="admin-media-grid">
+                    @foreach (var entry in _mediaEntries)
+                    {
+                        <div class="admin-media-card @(entry.IsCover ? "cover" : "")">
+                            <div class="admin-media-type">
+                                @GetMediaTypeIcon(entry.MediaAsset)
+                                <span>@GetMediaTypeLabel(entry.MediaAsset)</span>
+                            </div>
+                            @if (entry.IsCover)
+                            {
+                                <span class="badge badge-cover">⭐ Portada</span>
+                            }
+                            <div class="admin-media-info">
+                                <p class="admin-media-title">@(string.IsNullOrEmpty(entry.MediaAsset.Title) ?
+                                                                                                                                                                    entry.MediaAsset.OriginalFileName ?? "Sin título" : entry.MediaAsset.Title)</p>
+                                    @if (!string.IsNullOrEmpty(entry.MediaAsset.ExternalUrl))
+                                    {
+                                        <p class="admin-media-url">@entry.MediaAsset.ExternalUrl</p>
+                                    }
+                                </div>
+                                <div class="admin-media-actions-row">
+                                    @if (entry.MediaAsset.MediaType == MediaType.Image)
+                                    {
+                                        <button class="btn btn-ghost btn-small" @onclick="() => MarkCoverAsync(entry)">⭐ Portada</button>
+                                    }
+                                    <button class="btn btn-ghost btn-small btn-danger-text"
+                                            @onclick="() => RemoveMediaAsync(entry)">Quitar</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <div class="admin-form-actions">
+                    <button type="button" class="btn btn-outline btn-block" @onclick="OpenTechniqueDetail">Ver en Biblioteca</button>
                 </div>
             </div>
         }
-
-        @if (_mediaEntries.Count == 0)
-        {
-            <EmptyState Icon="🖼️" Title="Sin contenido multimedia" Description="Agregá imágenes, videos, archivos o enlaces a esta técnica." />
-        }
-        else
-        {
-            <div class="admin-media-grid">
-                @foreach (var entry in _mediaEntries)
-                {
-                    <div class="admin-media-card @(entry.IsCover ? "cover" : "")">
-                        <div class="admin-media-type">
-                            @GetMediaTypeIcon(entry.MediaAsset)
-                            <span>@GetMediaTypeLabel(entry.MediaAsset)</span>
-                        </div>
-                        @if (entry.IsCover)
-                        {
-                            <span class="badge badge-cover">⭐ Portada</span>
-                        }
-                        <div class="admin-media-info">
-                            <p class="admin-media-title">@(string.IsNullOrEmpty(entry.MediaAsset.Title) ? entry.MediaAsset.OriginalFileName ?? "Sin título" : entry.MediaAsset.Title)</p>
-                            @if (!string.IsNullOrEmpty(entry.MediaAsset.ExternalUrl))
-                            {
-                                <p class="admin-media-url">@entry.MediaAsset.ExternalUrl</p>
-                            }
-                        </div>
-                        <div class="admin-media-actions-row">
-                            @if (entry.MediaAsset.MediaType == MediaType.Image)
-                            {
-                                <button class="btn btn-ghost btn-small" @onclick="() => MarkCoverAsync(entry)">⭐ Portada</button>
-                            }
-                            <button class="btn btn-ghost btn-small btn-danger-text" @onclick="() => RemoveMediaAsync(entry)">Quitar</button>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
-
-        <div class="admin-form-actions">
-            <a href="/tecnicas/@_technique.Id" class="btn btn-outline btn-block">Ver en Biblioteca</a>
-        </div>
-    </div>
-}
 
 @code {
     [Parameter]
@@ -135,6 +139,34 @@ else
 
         _isCheckingRole = false;
         await LoadData();
+
+        // Confirmación del guardado previo en el formulario de técnicas.
+        _message = ReadQueryValue(Navigation.Uri, "guardado") switch
+        {
+            "creada" => "Técnica creada correctamente.",
+            "actualizada" => "Técnica actualizada correctamente.",
+            _ => _message
+        };
+        StateHasChanged();
+    }
+
+    private static string? ReadQueryValue(string uri, string key)
+    {
+        var queryIndex = uri.IndexOf('?', StringComparison.Ordinal);
+        if (queryIndex < 0 || queryIndex == uri.Length - 1)
+            return null;
+
+        foreach (var part in uri[(queryIndex + 1)..].Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var separator = part.IndexOf('=', StringComparison.Ordinal);
+            if (separator <= 0)
+                continue;
+
+            if (string.Equals(part[..separator], key, StringComparison.OrdinalIgnoreCase))
+                return Uri.UnescapeDataString(part[(separator + 1)..]);
+        }
+
+        return null;
     }
 
     private async Task LoadData()
@@ -199,29 +231,13 @@ else
                 return;
             }
 
-            var userId = await SessionService.GetCurrentUserIdAsync();
-            if (!userId.HasValue)
-                return;
-
-            var localPath = await MediaStorageService.SaveFileAsync(
-                stream, fileName, mediaType, MediaSourceType.PackagedResource, userId.Value, Id);
-
-            var mediaAsset = new MediaAsset
-            {
-                UploadedByUserId = userId.Value,
-                MediaType = mediaType,
-                SourceType = MediaSourceType.PackagedResource,
-                LocalPath = localPath,
-                OriginalFileName = fileName,
-                MimeType = validation.MimeType,
-                FileSizeBytes = validation.FileSizeBytes,
-                Title = fileName,
-                SyncStatus = SyncStatus.LocalOnly
-            };
-
-            await MediaService.CreateAsync(mediaAsset);
             var isCover = mediaType == MediaType.Image && !_mediaEntries.Any(m => m.IsCover);
-            await MediaService.AddOfficialMediaAsync(Id, mediaAsset.Id, isCover, _mediaEntries.Count + 1);
+
+            // Autorización, archivo, recurso, vínculo y UNA auditoría en una
+            // sola transacción: si la base falla, el archivo se retira solo
+            // (sin huérfanos) y nada queda a medias.
+            await MediaService.AddOfficialMediaFromFileAsync(
+                Id, stream, fileName, mediaType, isCover, _mediaEntries.Count + 1);
 
             _message = mediaType switch
             {
@@ -231,6 +247,10 @@ else
             };
 
             await LoadData();
+        }
+        catch (UnauthorizedAccessException)
+        {
+            _errorMessage = "No tenés permisos de administrador para realizar esta operación.";
         }
         catch
         {
@@ -257,13 +277,8 @@ else
 
         try
         {
-            var userId = await SessionService.GetCurrentUserIdAsync();
-            if (!userId.HasValue)
-                return;
-
             var mediaAsset = new MediaAsset
             {
-                UploadedByUserId = userId.Value,
                 MediaType = MediaType.Video,
                 SourceType = MediaSourceType.ExternalLink,
                 ExternalUrl = parsed.OriginalUrl,
@@ -273,13 +288,17 @@ else
                 SyncStatus = SyncStatus.LocalOnly
             };
 
-            await MediaService.CreateAsync(mediaAsset);
-            await MediaService.AddOfficialMediaAsync(Id, mediaAsset.Id, false, _mediaEntries.Count + 1);
+            // Alta atómica: recurso + vínculo + auditoría en una sola transacción.
+            await MediaService.AddOfficialMediaFromAssetAsync(mediaAsset, Id, false, _mediaEntries.Count + 1);
 
             _linkUrl = string.Empty;
             _showLinkForm = false;
             _message = "Enlace agregado correctamente.";
             await LoadData();
+        }
+        catch (UnauthorizedAccessException)
+        {
+            _errorMessage = "No tenés permisos de administrador para realizar esta operación.";
         }
         catch
         {
@@ -295,14 +314,17 @@ else
     {
         try
         {
+            // Baja atómica: desvincula, elimina lógicamente solo si no queda
+            // en otras técnicas/usuarios, audita UNA vez y recién después del
+            // commit elimina el archivo físico si quedó sin referencias.
             await MediaService.RemoveOfficialMediaAsync(Id, entry.MediaAssetId);
-            await MediaService.SoftDeleteAsync(entry.MediaAssetId);
-
-            if (!string.IsNullOrEmpty(entry.MediaAsset.LocalPath))
-                await MediaStorageService.DeleteFileAsync(entry.MediaAsset.LocalPath);
 
             _message = "Contenido eliminado.";
             await LoadData();
+        }
+        catch (UnauthorizedAccessException)
+        {
+            _errorMessage = "No tenés permisos de administrador para realizar esta operación.";
         }
         catch
         {
@@ -325,6 +347,10 @@ else
             _message = "Portada actualizada.";
             await LoadData();
         }
+        catch (UnauthorizedAccessException)
+        {
+            _errorMessage = "No tenés permisos de administrador para realizar esta operación.";
+        }
         catch
         {
             _errorMessage = "No se pudo actualizar la portada.";
@@ -333,6 +359,14 @@ else
         {
             StateHasChanged();
         }
+    }
+
+    private void OpenTechniqueDetail()
+    {
+        if (_technique == null)
+            return;
+
+        Navigation.NavigateTo($"/tecnicas/{_technique.Id}");
     }
 
     private string GetMediaTypeLabel(MediaAsset media) => media.MediaType switch

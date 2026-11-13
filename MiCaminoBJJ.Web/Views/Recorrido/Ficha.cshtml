@@ -1,0 +1,227 @@
+@model FichaDetalleViewModel
+@{
+    ViewData["Title"] = $"{Model.Nombre} — {L["Recorrido.CinturonBlanco"]}";
+}
+
+<link rel="stylesheet" href="~/css/recorrido.css" asp-append-version="true" />
+
+<section class="mccj-page-header mccjrc-hero">
+    <div class="container py-4 py-md-5">
+        <a class="mccj-back-link" href="@Model.RutaModulo">@L["Recorrido.VolverModulo", Model.ModuloId]</a>
+        <span class="mccj-eyebrow mt-3">@L["Recorrido.FichaModulo", Model.ModuloId, Model.ModuloTitulo]</span>
+        <h1 class="mccj-hero-title">@Model.Nombre</h1>
+        <div class="d-flex flex-wrap gap-2 mt-2">
+            <span class="mccj-badge">@Model.TipoContenido</span>
+            @if (Model.CinturonSinAsignar)
+            {
+                <span class="mccj-badge mccjrc-badge-pend">@L["Recorrido.CinturonPrincipalSinAsignar"]</span>
+            }
+            else
+            {
+                <span class="mccj-badge">@L["Recorrido.CinturonPrincipal", Model.CinturonPrincipalTexto]</span>
+            }
+            @if (Model.MaterialComplementario)
+            {
+                <span class="mccj-badge mccjrc-badge-comp">@L["Recorrido.MaterialComplementario"]</span>
+            }
+            @if (Model.TieneVideo)
+            {
+                <span class="mccj-badge mccjrc-badge-ok">@L["Recorrido.ConVideo"]</span>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="container mt-4">
+    @if (Model.RequiereRevisionInstructor)
+    {
+        <div class="mccjrc-alerta" role="alert">
+            <strong>@L["Recorrido.ContenidoRevision"]</strong>
+        </div>
+    }
+
+    @if (Model.MaterialComplementario)
+    {
+        <p class="mccjrc-nota mb-4">@Model.NotaMaterialComplementario</p>
+    }
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-8">
+            <article>
+                @if (Model.Video is not null)
+                {
+                    <div class="mccj-card mb-4">
+                        <h2 class="mccj-card-heading">@L["Recorrido.VideoDemostrativo"]</h2>
+                        <div class="mccjrc-video" data-mccjrc-video data-embed="@Model.Video.EmbedUrl"
+                             data-title="@Model.Video.Titulo">
+                            <div class="mccjrc-video-frame">
+                                <img class="mccjrc-video-poster" src="@Model.Video.MiniaturaUrl"
+                                     alt="@L["Tecnicas.Detalle.VistaPrevia", Model.Video.Titulo]" loading="lazy" width="480"
+                                     height="360" />
+                                <button type="button" class="mccjrc-video-play" data-mccjrc-play
+                                        aria-label="@L["Tecnicas.Detalle.ReproducirVideo", Model.Video.Titulo]">
+                                    <span class="mccjrc-video-play-icon" aria-hidden="true">▶</span>
+                                    <span>@L["Common.Rejecutar"]</span>
+                                </button>
+                            </div>
+                            <div class="mccjrc-video-bar">
+                                <a href="@Model.Video.WatchUrl" target="_blank" rel="noopener noreferrer">
+                                    @L["Tecnicas.Detalle.AbrirYouTube"]
+                                </a>
+                                <span class="mccjrc-video-nota">@Model.Video.Nota</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="mccj-card mb-4">
+                        <h2 class="mccj-card-heading">@L["Recorrido.VideoDemostrativo"]</h2>
+                        <p class="mccjrc-video-pendiente mb-0">
+                            <span aria-hidden="true">🎬</span> @L["Recorrido.VideoPendiente"]
+                        </p>
+                    </div>
+                }
+
+                <div class="mccj-card mb-4">
+                    <h2 class="mccj-card-heading">@L["Recorrido.Introduccion"]</h2>
+                    <p class="mccj-card-text mb-0">@Model.Introduccion</p>
+                </div>
+
+                <div class="mccj-card mb-4">
+                    <h2 class="mccj-card-heading">@L["Recorrido.PasoAPaso"]</h2>
+                    <ol class="mccj-list">
+                        @foreach (var paso in Model.Pasos)
+                        {
+                            <li>@paso</li>
+                        }
+                    </ol>
+                </div>
+
+                <div class="mccj-card mb-4">
+                    <h2 class="mccj-card-heading">@L["Recorrido.PrincipiosTecnicos"]</h2>
+                    <ul class="mccj-list mb-0">
+                        @foreach (var principio in Model.Principios)
+                        {
+                            <li>@principio</li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="mccj-card mb-4">
+                    <h2 class="mccj-card-heading">@L["Recorrido.ErroresFrecuentes"]</h2>
+                    <ul class="mccj-list mb-0">
+                        @foreach (var error in Model.ErroresFrecuentes)
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="mccj-card">
+                    <h2 class="mccj-card-heading">@L["Recorrido.Precauciones"]</h2>
+                    <ul class="mccj-list mb-0">
+                        @foreach (var precaucion in Model.Precauciones)
+                        {
+                            <li>@precaucion</li>
+                        }
+                    </ul>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <aside>
+                <div class="mccj-card mb-4">
+                    <h2 class="mccj-card-heading">@L["Recorrido.PosicionInicial"]</h2>
+                    <p class="mccj-card-text mb-0">@Model.PosicionInicial</p>
+                </div>
+
+                <div class="mccj-card mb-4">
+                    <h2 class="mccj-card-heading">@L["Recorrido.Objetivo"]</h2>
+                    <p class="mccj-card-text mb-0">@Model.Objetivo</p>
+                </div>
+
+                <div class="mccj-card mb-4">
+                    <h2 class="mccj-card-heading">@L["Recorrido.TecnicaBiblioteca"]</h2>
+                    @if (Model.TecnicaRelacionadaNombre is null)
+                    {
+                        <p class="mccj-card-text mb-0">
+                            @L["Recorrido.SinEquivalente"]
+                        </p>
+                    }
+                    else if (Model.TecnicaRelacionadaUrl is not null)
+                    {
+                        <p class="mccj-card-text">
+                            @L["Recorrido.FichaCompleta", Model.TecnicaRelacionadaNombre, Model.TecnicaRelacionadaCinturon
+                        ?? L["Recorrido.SinDatos"]]
+                        </p>
+                        <a class="mccjrc-enlace" href="@Model.TecnicaRelacionadaUrl">@L["Recorrido.VerEnBiblioteca"]</a>
+                    }
+                    else if (Model.TecnicaRelacionadaOculta)
+                    {
+                        <p class="mccj-card-text mb-0">
+                            @L["Recorrido.Oculta", Model.TecnicaRelacionadaNombre]
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="mccj-card-text mb-0">
+                            @L["Recorrido.NoEnlazada", Model.TecnicaRelacionadaNombre]
+                        </p>
+                    }
+                </div>
+
+                <div class="mccj-card mb-4">
+                    <h2 class="mccj-card-heading">@L["Recorrido.EstadoRevision"]</h2>
+                    <p class="mccjrc-revision">@Model.EstadoRevision</p>
+                    <p class="mccj-card-text mb-0"><strong>@L["Recorrido.Referencia"]</strong>
+                        @Model.ReferenciaBibliografica</p>
+                    </div>
+
+                    <div class="mccj-card">
+                        <h2 class="mccj-card-heading">@L["Recorrido.MasEnRecorrido"]</h2>
+                        <ul class="mccj-list mb-0">
+                            <li><a href="@Model.RutaIndice">@L["Recorrido.IndiceCinturon"]</a></li>
+                            <li><a href="@Model.RutaModulo">@L["Recorrido.FichaModulo", Model.ModuloId,
+                                                                Model.ModuloTitulo]</a></li>
+                                @if (Model.TieneAnterior)
+                                {
+                                    <li><a href="@Model.RutaAnterior">← @Model.NombreAnterior</a></li>
+                                }
+                                @if (Model.TieneSiguiente)
+                                {
+                                    <li><a href="@Model.RutaSiguiente">@Model.NombreSiguiente →</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            <nav class="mccjrc-nav mt-4" aria-label="@L["Recorrido.NavegacionFichas"]">
+                @if (Model.TieneAnterior)
+                {
+                    <a class="mccjrc-nav-btn" href="@Model.RutaAnterior">@L["Recorrido.FichaAnterior", Model.NombreAnterior ??
+                                ""]</a>
+                    }
+            else
+                    {
+                        <span></span>
+                    }
+                    <a class="mccjrc-nav-btn mccjrc-nav-btn-centro" href="@Model.RutaIndice">@L["Recorrido.Indice"]</a>
+                    @if (Model.TieneSiguiente)
+                    {
+                        <a class="mccjrc-nav-btn mccjrc-nav-btn-der" href="@Model.RutaSiguiente">@L["Recorrido.FichaSiguiente",
+                                        Model.NombreSiguiente ?? ""]</a>
+                        }
+        else
+                        {
+                            <span></span>
+                        }
+                    </nav>
+                </section>
+
+                @section Scripts {
+                    <script src="~/js/recorrido-video.js" asp-append-version="true"></script>
+                }
