@@ -282,4 +282,35 @@ public sealed class LocalizacionCatalogoTests
 
         throw new InvalidOperationException("No se encontró la raíz del proyecto MiCaminoBJJ.Web.");
     }
+
+    // ── 5) Los recursos estáticos NO consultan la preferencia ─────────────
+
+    /// <summary>
+    /// El middleware de idioma solo consulta la base para páginas HTML: los
+    /// archivos estáticos (css, js, imágenes, fuentes) se sirven sin tocar la
+    /// base, para no sumar una consulta por cada archivo descargado.
+    /// </summary>
+    [Theory]
+    [InlineData("/css/site.css")]
+    [InlineData("/js/site.js")]
+    [InlineData("/img/LogoMiCaminoBJJ.png")]
+    [InlineData("/images/belts/blanco.png")]
+    [InlineData("/lib/bootstrap/dist/css/bootstrap.min.css")]
+    [InlineData("/css/site.css?v=123")]
+    public void LosRecursosEstaticosSeReconocen(string ruta)
+    {
+        RecursosEstaticos.EsEstatico(ruta).Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData("/")]
+    [InlineData("/Cuenta/Configuracion")]
+    [InlineData("/Tecnicas/Details/423")]
+    [InlineData("/Ayuda")]
+    [InlineData("")]
+    [InlineData(null)]
+    public void LasPaginasNoSeConfundenConRecursosEstaticos(string? ruta)
+    {
+        RecursosEstaticos.EsEstatico(ruta).Should().BeFalse();
+    }
 }
